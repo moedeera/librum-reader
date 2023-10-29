@@ -17,7 +17,7 @@ export const Landing = () => {
         {" "}
         <div className="landing-header-text">
           <div className="landing-header-main">
-            Read, write, and Critique <br />
+            Read, write, and critique <br />
             short stories.
           </div>
         </div>
