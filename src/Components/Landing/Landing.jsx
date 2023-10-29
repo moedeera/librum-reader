@@ -2,7 +2,7 @@ import "./Landing.css";
 import { Link } from "react-router-dom";
 export const Landing = () => {
   const squares = Array(120).fill({ id: 1 });
-  console.log(squares);
+
   return (
     <div className="landing-container">
       <div className="landing-background">
@@ -29,7 +29,7 @@ export const Landing = () => {
           individuals.
         </p>
         <Link to={"/"} className="btn btn-primary">
-          Start Reading Today
+          DISCOVER GREAT STORIES
         </Link>
       </div>
     </div>

@@ -10,7 +10,7 @@ export const Navbar = () => {
     <div className="navbar-container">
       <div className="navbar">
         <div className="navbar-header">
-          Librum<span>Reader</span>
+          Librum<span className="header-span">Reader</span>.
         </div>
         <div className="navbar-menu-main">
           {menuItemsMD.map((item) => (

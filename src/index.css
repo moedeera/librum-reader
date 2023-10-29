@@ -28,7 +28,7 @@ a:hover {
 
 body {
   background-color: var(--primary-color-bg);
-  width: 100%;
+  /* width: 100%; */
 }
 
 h1 {
