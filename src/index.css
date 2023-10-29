@@ -16,24 +16,20 @@
   --primary-color-bg: #f6f3ef;
   --primary-button: #ffcd6d;
 }
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+* {
+  margin: 0;
+  padding: 0;
 }
-a:hover {
-  color: #535bf2;
+a,
+a:visited {
+  font-weight: 500;
+  color: black;
+  text-decoration: inherit;
 }
 
 body {
   background-color: var(--primary-color-bg);
   /* width: 100%; */
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 button {
@@ -63,6 +59,7 @@ button:focus-visible {
   transition: all 0.5s ease-in-out;
   font-size: medium;
   text-transform: uppercase;
+  width: max-content;
 }
 
 .container {
