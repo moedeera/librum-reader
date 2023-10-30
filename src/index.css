@@ -92,6 +92,7 @@ button:focus-visible {
   margin: 0 auto;
   border-right: 1px solid grey;
   border-left: 1px solid grey;
+  transition: all 0.5s ease-in-out;
 }
 
 @media (prefers-color-scheme: light) {

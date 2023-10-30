@@ -5,6 +5,7 @@ import { Navbar } from "./Components/Navbar/Navbar";
 import { AboutPage } from "./Pages/AboutPage/AboutPage";
 import { SiteContextProvider } from "./Context/Context";
 import { Footer } from "./Components/Footer/Footer";
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 
 function App() {
   return (
@@ -12,11 +13,13 @@ function App() {
       <div className="App">
         <Router>
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/about" element={<AboutPage />} />
-          </Routes>
+          <ScrollToTop>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/about" element={<AboutPage />} />
+            </Routes>
+          </ScrollToTop>
           <Footer />
         </Router>
       </div>
