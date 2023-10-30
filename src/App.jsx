@@ -4,6 +4,7 @@ import { Homepage } from "./Pages/Homepage/Homepage";
 import { Navbar } from "./Components/Navbar/Navbar";
 import { AboutPage } from "./Pages/AboutPage/AboutPage";
 import { SiteContextProvider } from "./Context/Context";
+import { Footer } from "./Components/Footer/Footer";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
+          <Footer />
         </Router>
       </div>
     </SiteContextProvider>

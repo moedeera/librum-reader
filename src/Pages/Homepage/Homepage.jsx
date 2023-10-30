@@ -1,3 +1,4 @@
+import { Block0 } from "../../Components/Block0/Block0";
 import { Block1 } from "../../Components/Block1/Block1";
 import { CounterBlock } from "../../Components/CounterBlock/CounterBlock";
 import { Landing } from "../../Components/Landing/Landing";
@@ -7,8 +8,10 @@ export const Homepage = () => {
   return (
     <div className="container">
       <Landing />
-      <Block1 />
       <CounterBlock />
+      <Block0 />
+
+      <Block1 />
     </div>
   );
 };

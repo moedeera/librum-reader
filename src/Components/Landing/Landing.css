@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: top;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: 55vh;
 }
 
 .landing-background {
@@ -64,10 +64,9 @@
   align-items: center;
 }
 .landing-header-main {
-  font-size: xx-large;
   margin: 0 auto;
   text-align: center;
-  font-weight: 500;
+
   width: 95%;
   max-width: 1400px;
 }

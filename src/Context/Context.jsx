@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { findImageSet, imagesSorted } from "../assets/images/images";
 
 export const SiteContext = createContext({});
 
@@ -20,7 +21,9 @@ export const SiteContextProvider = ({ children }) => {
   ];
 
   return (
-    <SiteContext.Provider value={{ menuItemsMD, menuItemsLG }}>
+    <SiteContext.Provider
+      value={{ menuItemsMD, menuItemsLG, imagesSorted, findImageSet }}
+    >
       {children}
     </SiteContext.Provider>
   );
