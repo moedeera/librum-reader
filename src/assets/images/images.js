@@ -1,6 +1,6 @@
-import librum1 from "./librum-r-1.jpg";
+import librum1 from "./fantasy.jpg";
 import librum2 from "./librum-r-3.jpg";
-import librum3 from "./librum-r-2.jpg";
+import librum3 from "./librum-r-1.jpg";
 
 const images = [librum1, librum2, librum3];
 const imagesSorted = [
