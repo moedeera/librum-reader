@@ -1,11 +1,13 @@
 import librum1 from "./fantasy.jpg";
 import librum2 from "./librum-r-3.jpg";
 import librum3 from "./librum-r-1.jpg";
+import library from "./library.jpg";
 
-const images = [librum1, librum2, librum3];
+const images = [librum1, librum2, librum3, library];
 const imagesSorted = [
   { id: "all", images: images },
-  { id: "librum-trending", images: [librum1, librum2, librum3] },
+  { id: "librum-trending", images: [librum1, librum2, librum3, library] },
+  { id: "library", images: library },
 ];
 
 function findImageSet(ref, imagesSorted) {

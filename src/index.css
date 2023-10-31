@@ -94,6 +94,36 @@ button:focus-visible {
   border-left: 1px solid grey;
   transition: all 0.5s ease-in-out;
 }
+.title-span {
+  color: goldenrod;
+}
+input {
+  padding: 15px;
+  width: 90%;
+  border: none;
+  border-radius: 5px;
+  max-width: 30rem;
+}
+textarea {
+  padding: 15px;
+  width: 90%;
+  max-width: 30rem;
+  border: none;
+}
+
+.white-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.75;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -112,6 +142,9 @@ button:focus-visible {
   }
   h1 {
     font-size: 52px;
+  }
+  .container {
+    padding-top: 50px;
   }
 }
 

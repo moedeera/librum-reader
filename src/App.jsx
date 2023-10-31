@@ -6,6 +6,7 @@ import { AboutPage } from "./Pages/AboutPage/AboutPage";
 import { SiteContextProvider } from "./Context/Context";
 import { Footer } from "./Components/Footer/Footer";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
+import { LoginPage } from "./Pages/LoginPage/LoginPage";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Homepage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/about" element={<AboutPage />} />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </ScrollToTop>
           <Footer />

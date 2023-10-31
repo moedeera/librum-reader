@@ -9,9 +9,9 @@ export const Navbar = () => {
   return (
     <div className="navbar-container">
       <div className="navbar">
-        <div className="navbar-header">
+        <Link className="navbar-header" to={"/"}>
           Librum<span className="header-span">Reader</span>.
-        </div>
+        </Link>
         <div className="navbar-menu-main">
           {menuItemsMD.map((item) => (
             <Link to={item.link} key={item.id}>
@@ -23,7 +23,7 @@ export const Navbar = () => {
           {/* <div className="bar bar-large bar-upper"></div>
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div> */}
-          <Link className="btn btn-primary" to={"/"}>
+          <Link className="btn btn-primary" to={"/login"}>
             Login
           </Link>
         </div>
