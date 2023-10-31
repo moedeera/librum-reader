@@ -1,0 +1,44 @@
+.text-editor-page {
+  padding-top: 100px;
+  width: 95%;
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+}
+
+.text-editor {
+}
+
+.text-editor .ql-editor {
+  border: 1px solid rgba(128, 128, 128, 0.15);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  min-height: 50vh;
+  background-color: aliceblue;
+  margin-bottom: 40px;
+  margin-top: 0;
+}
+.text-editor > button {
+  margin: 0 auto;
+  border: 1px solid green;
+}
+
+.text-editor .ql-container.ql-snow {
+  border: none;
+}
+
+.text-editor .ql-toolbar.ql-snow {
+  display: flex;
+  justify-content: center;
+
+  padding-top: 20px;
+  margin-top: 20px;
+}
+.editor-button-container {
+  display: flex;
+  gap: 20px;
+}
+@media only screen and (min-width: 600px) {
+}
+
+@media only screen and (min-width: 1100px) {
+}

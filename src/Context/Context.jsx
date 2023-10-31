@@ -7,7 +7,7 @@ export const SiteContextProvider = ({ children }) => {
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Stories", link: "/stories" },
-    { id: 3, name: "Write", link: "/about" },
+    { id: 3, name: "Write", link: "/write" },
     { id: 4, name: "Trending", link: "/contact" },
     { id: 5, name: "About", link: "/about" },
   ];

@@ -7,6 +7,7 @@ import { SiteContextProvider } from "./Context/Context";
 import { Footer } from "./Components/Footer/Footer";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
+import { PostStory } from "./Pages/PostStory/PostStory";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Homepage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/write" element={<PostStory />} />
               <Route path="/login" element={<LoginPage />} />
             </Routes>
           </ScrollToTop>

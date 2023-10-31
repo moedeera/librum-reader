@@ -84,6 +84,10 @@ button:focus-visible {
   width: max-content;
 }
 
+.btn-green {
+  background-color: rgb(96, 151, 96);
+  color: white;
+}
 .container {
   min-height: 100vh;
   /* padding-top: 100px; */
@@ -98,16 +102,16 @@ button:focus-visible {
   color: goldenrod;
 }
 input {
-  padding: 15px;
+  padding: 20px 15px;
   width: 90%;
   border: none;
   border-radius: 5px;
-  max-width: 30rem;
+  max-width: 40rem;
 }
 textarea {
   padding: 15px;
   width: 90%;
-  max-width: 30rem;
+  max-width: 40rem;
   border: none;
 }
 
