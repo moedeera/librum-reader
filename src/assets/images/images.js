@@ -2,12 +2,18 @@ import librum1 from "./fantasy.jpg";
 import librum2 from "./librum-r-3.jpg";
 import librum3 from "./librum-r-1.jpg";
 import library from "./library.jpg";
+import fantasy2 from "./fantasy2.jpg";
+import dystopia from "./dystopia1.jpg";
 
 const images = [librum1, librum2, librum3, library];
 const imagesSorted = [
   { id: "all", images: images },
-  { id: "librum-trending", images: [librum1, librum2, librum3, library] },
-  { id: "library", images: library },
+  {
+    id: "librum-trending",
+    images: [librum1, librum2, librum3, library, fantasy2, dystopia],
+  },
+  { id: "library", images: [library] },
+  { id: "fantasy", images: [librum1, fantasy2] },
 ];
 
 function findImageSet(ref, imagesSorted) {
