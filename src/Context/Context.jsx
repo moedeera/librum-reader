@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import { findImageSet, imagesSorted } from "../assets/images/images";
+import { storiesInfo } from "./Content";
 
 export const SiteContext = createContext({});
 
@@ -8,18 +9,24 @@ export const SiteContextProvider = ({ children }) => {
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Stories", link: "/stories" },
     { id: 3, name: "Write", link: "/write" },
-    { id: 4, name: "Trending", link: "/contact" },
+    { id: 4, name: "Contact", link: "/contact" },
     { id: 5, name: "About", link: "/about" },
   ];
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },
-    { id: 2, name: "Login", link: "/" },
+    { id: 2, name: "Login", link: "/login" },
     { id: 3, name: "Your Stories", link: "/" },
-    { id: 4, name: "FAQ", link: "/" },
-    { id: 5, name: "Trending", link: "/" },
-    { id: 6, name: "Popular", link: "/" },
+    { id: 4, name: "Write", link: "/write" },
+    { id: 5, name: "FAQ", link: "/" },
+    { id: 6, name: "Contact", link: "/contact" },
+    { id: 7, name: "Popular", link: "/" },
   ];
 
+  const menuAlt = [
+    { id: 1, name: "Terms of Use", link: "/" },
+    { id: 2, name: "Privacy Policy", link: "/" },
+    { id: 3, name: "Copyright Policy", link: "/" },
+  ];
   function parseHTMLContent(html) {
     const container = document.createElement("div");
     container.innerHTML = html;
@@ -129,8 +136,9 @@ export const SiteContextProvider = ({ children }) => {
         menuItemsLG,
         imagesSorted,
         findImageSet,
-
+        menuAlt,
         parseHtmlToQuillDelta,
+        storiesInfo,
       }}
     >
       {children}

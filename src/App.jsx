@@ -8,6 +8,10 @@ import { Footer } from "./Components/Footer/Footer";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { PostStory } from "./Pages/PostStory/PostStory";
+import { AllComponents } from "./Pages/AllComponents/AllComponents";
+import { Stories } from "./Pages/Stories/Stories";
+import { Contact } from "./Components/Contact/Contact";
+import { ContactPage } from "./Pages/ContactPage/ContactPage";
 
 function App() {
   return (
@@ -21,6 +25,9 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/write" element={<PostStory />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/stories" element={<Stories />} />
+              <Route path="/all" element={<AllComponents />} />
+              <Route path="/contact" element={<ContactPage />} />
             </Routes>
           </ScrollToTop>
           <Footer />

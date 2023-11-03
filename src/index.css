@@ -16,6 +16,9 @@
   --primary-color-bg: #f6f3ef;
   --primary-button: #ffcd6d;
   --max-width-main: 1340px;
+  --padding-top-sm: 80px;
+  --padding-top-md: 100px;
+  --padding-top-lg: 120px;
 }
 * {
   margin: 0;
@@ -34,12 +37,21 @@ h3 {
   font-weight: 500;
   letter-spacing: -0.1px;
   line-height: 130%;
+  margin-bottom: 20px;
 }
 
 h4 {
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 0;
+}
+
+p {
+  font-size: medium;
+  line-height: 1.8em;
+
+  width: 95%;
+  max-width: 600px;
 }
 
 a,
@@ -51,6 +63,7 @@ a:visited {
 
 body {
   background-color: var(--primary-color-bg);
+  overflow-x: hidden;
   /* width: 100%; */
 }
 
@@ -94,8 +107,8 @@ button:focus-visible {
   background-color: transparent;
   width: 95%;
   margin: 0 auto;
-  border-right: 1px solid grey;
-  border-left: 1px solid grey;
+  border-right: 1px solid rgba(128, 128, 128, 0.3);
+  border-left: 1px solid rgba(128, 128, 128, 0.3);
   transition: all 0.5s ease-in-out;
 }
 .title-span {
@@ -179,3 +192,6 @@ textarea {
     scale: 1;
   }
 }
+
+/* @media only screen and (min-width: 600px) {}
+@media only screen and (min-width: 1100px) {} */

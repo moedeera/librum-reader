@@ -1,0 +1,37 @@
+.block-2-container {
+  min-height: 30vh;
+  width: 100%;
+  max-width: var(--max-width-main);
+  margin: 50px auto;
+  padding: 30px 0px;
+}
+
+.block-2-segments-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.block-2-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+  .block-2-container {
+    margin-top: 50px;
+    padding: 50px 0px;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .block-2-container {
+    margin-top: 80px;
+  }
+  .block-2-segments-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -1,0 +1,22 @@
+.stories-page {
+  padding-top: 50px;
+  width: 95%;
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  padding: var(--padding-top-sm) 0;
+}
+
+.stories-page h3 {
+  text-align: center;
+}
+
+@media only screen and (min-width: 600px) {
+  .stories-page {
+    padding-top: var(--padding-top-md);
+  }
+}
+@media only screen and (min-width: 1100px) {
+  .stories-page {
+    padding-top: var(--padding-top-lg);
+  }
+}

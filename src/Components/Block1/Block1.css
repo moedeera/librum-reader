@@ -1,4 +1,4 @@
-.block-1 {
+.block-1-container {
   width: 95%;
   max-width: var(--max-width-main);
   padding: 0 5px;
@@ -63,7 +63,7 @@
 }
 
 @media only screen and (min-width: 600px) {
-  .block-1 {
+  .block-1-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding-bottom: 60px;
@@ -71,7 +71,7 @@
 }
 
 @media only screen and (min-width: 900px) {
-  .block-1 {
+  .block-1-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

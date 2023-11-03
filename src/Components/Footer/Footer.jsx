@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { SiteContext } from "../../Context/Context";
 
 export const Footer = () => {
-  const { menuItemsLG } = useContext(SiteContext);
+  const { menuItemsLG, menuAlt } = useContext(SiteContext);
   return (
     <div className="container footer">
       <div className="footer-container">
@@ -36,8 +36,8 @@ export const Footer = () => {
               ))}
             </div>
             <div className="link-set">
-              <h4>Links</h4>
-              {menuItemsLG.map((item) => (
+              <h4>More</h4>
+              {menuAlt.map((item) => (
                 <Link key={item.id} to={item.link}>
                   {item.name}
                 </Link>

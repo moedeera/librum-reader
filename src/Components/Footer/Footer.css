@@ -8,11 +8,13 @@
 .footer-container {
   width: 95%;
   margin: 0 auto;
-  border-right: 1px solid grey;
-  border-left: 1px solid grey;
+
+  border-right: 1px solid rgba(128, 128, 128, 0.3);
+  border-left: 1px solid rgba(128, 128, 128, 0.3);
 }
 .footer {
   background-color: rgb(47, 47, 47);
+
   position: static;
   bottom: 0;
   z-index: 3;
@@ -20,12 +22,12 @@
 
 .footer-upper {
   width: 95%;
+  max-width: var(--max-width-main);
+
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  padding: 5px;
   padding: 50px 10px;
 }
 .footer-about {
@@ -63,5 +65,8 @@
   .footer-links {
     flex-direction: row;
     width: 30%;
+  }
+  .footer-upper {
+    padding-top: 150px;
   }
 }

@@ -1,43 +1,23 @@
 import { useContext, useState } from "react";
-import "./Block1.css";
+import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 
-export const Block1 = () => {
-  const info = [
-    {
-      id: 1,
-      cat: "Fantasy 600",
-      title: "Greenwood Castle",
-      info: "Witch versus Vampires ",
-      link: "/",
-    },
-    {
-      id: 2,
-      cat: "Education 800",
-      title: "Patents: A Short History",
-      info: "A quick summary of Patents in the US",
-      link: "/",
-    },
-    {
-      id: 3,
-      cat: "Sci-fi 600",
-      title: "Protocol Odyssey",
-      info: "High space fantasy",
-      link: "/",
-    },
-  ];
-  const { imagesSorted, findImageSet } = useContext(SiteContext);
-
+export const Block4 = () => {
+  const { storiesInfo, imagesSorted, findImageSet } = useContext(SiteContext);
   const [hover, setHover] = useState([
     { id: 1, state: false },
     { id: 2, state: false },
     { id: 3, state: false },
+    { id: 4, state: false },
+    { id: 5, state: false },
+    { id: 6, state: false },
   ]);
 
   return (
-    <div className="block-1-container">
-      {info.map((item, index) => (
+    <div className="block-4-container">
+      {" "}
+      {storiesInfo.map((item, index) => (
         <Link
           // onMouseEnter={(item) => {
           onMouseEnter={() => {
@@ -63,7 +43,7 @@ export const Block1 = () => {
             });
           }}
           to={item.link}
-          className="block-1-segment"
+          className="block-4-segment"
           key={item.id}
         >
           <div className="block-1-segment-overlay"></div>
