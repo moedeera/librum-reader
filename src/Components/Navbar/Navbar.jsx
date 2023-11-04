@@ -20,10 +20,10 @@ export const Navbar = () => {
           ))}
         </div>
         <div className="menu-icon">
-          {/* <div className="bar bar-large bar-upper"></div>
+          <div className="bar bar-large bar-upper"></div>
           <div className="bar bar-large bar-lower"></div>
-          <div className="bar bar-small"></div> */}
-          <Link className="btn btn-primary" to={"/login"}>
+          <div className="bar bar-small"></div>
+          <Link className="btn btn-primary btn-login" to={"/login"}>
             Login
           </Link>
         </div>
