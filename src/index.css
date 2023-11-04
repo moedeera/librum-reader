@@ -16,6 +16,7 @@
   --padding-top-sm: 80px;
   --padding-top-md: 100px;
   --padding-top-lg: 120px;
+  --dark-font: #213547;
 }
 * {
   margin: 0;
@@ -35,7 +36,7 @@ h3 {
   letter-spacing: -0.1px;
   line-height: 130%;
   margin-bottom: 20px;
-  color: #213547;
+  color: var(--dark-font);
 }
 
 h4 {
@@ -47,16 +48,16 @@ h4 {
 p {
   font-size: medium;
   line-height: 1.8em;
-
   width: 95%;
   max-width: 600px;
+  color: var(--dark-font);
 }
 
 a,
 a:visited {
   font-weight: 500;
   color: black;
-  /* text-decoration: inherit; */
+  text-decoration: none;
 }
 
 body {
@@ -105,8 +106,7 @@ button:focus-visible {
   background-color: transparent;
   width: 95%;
   margin: 0 auto;
-  border-right: 1px solid rgba(128, 128, 128, 0.3);
-  border-left: 1px solid rgba(128, 128, 128, 0.3);
+
   transition: all 0.5s ease-in-out;
 }
 .title-span {
@@ -118,6 +118,7 @@ input {
   border: none;
   border-radius: 5px;
   max-width: 40rem;
+  background-color: white;
 }
 textarea {
   padding: 15px;
@@ -160,6 +161,8 @@ textarea {
   }
   .container {
     padding-top: 50px;
+    border-right: 1px solid rgba(128, 128, 128, 0.3);
+    border-left: 1px solid rgba(128, 128, 128, 0.3);
   }
 }
 

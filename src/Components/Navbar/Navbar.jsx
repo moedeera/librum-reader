@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 
 export const Navbar = () => {
-  const { menuItemsMD, menuItemsLG } = useContext(SiteContext);
+  const { menuItemsMD } = useContext(SiteContext);
 
   return (
     <div className="navbar-container">
