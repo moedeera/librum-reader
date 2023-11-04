@@ -54,7 +54,9 @@
 .link-set a:visited {
   color: var(--primary-button);
 }
-
+.footer-about p {
+  color: white;
+}
 @media only screen and (min-width: 600px) {
   .footer-upper {
     flex-direction: row;
