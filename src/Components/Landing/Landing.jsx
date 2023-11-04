@@ -1,15 +1,15 @@
 import "./Landing.css";
 import { Link } from "react-router-dom";
 export const Landing = () => {
-  const squares = Array(120).fill({ id: 1 });
+  // const squares = Array(120).fill({ id: 1 });
 
   return (
     <div className="landing-container">
       <div className="landing-background">
         <div className="grid-container">
-          {squares.map((square, index) => (
+          {/* {squares.map((square, index) => (
             <div key={index} className="square"></div>
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="landing-background-overlay"></div>

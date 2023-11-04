@@ -9,26 +9,6 @@ export const CounterBlock = () => {
     { id: 4, name: "Communities", count: 50 },
   ];
 
-  function logNumbersInOrder() {
-    let currentNumber = 1;
-    const maxNumber = 10;
-
-    const intervalId = setInterval(() => {
-      if (currentNumber <= maxNumber) {
-        console.log(currentNumber);
-        currentNumber++;
-      } else {
-        clearInterval(intervalId); // Stop the interval when all numbers have been logged
-      }
-    }, 1000); // Log every second (1000 milliseconds)
-  }
-
-  logNumbersInOrder();
-
-  useEffect(() => {
-    logNumbersInOrder();
-  }, []);
-
   return (
     <div className="counter-segment">
       {items.map((item) => (

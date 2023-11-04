@@ -17,9 +17,10 @@ export const SiteContextProvider = ({ children }) => {
     { id: 2, name: "Login", link: "/login" },
     { id: 3, name: "Your Stories", link: "/" },
     { id: 4, name: "Write", link: "/write" },
-    { id: 5, name: "FAQ", link: "/" },
-    { id: 6, name: "Contact", link: "/contact" },
-    { id: 7, name: "Popular", link: "/" },
+    { id: 5, name: "About", link: "/about" },
+    { id: 6, name: "FAQ", link: "/" },
+    { id: 7, name: "Contact", link: "/contact" },
+    { id: 8, name: "Popular", link: "/" },
   ];
 
   const menuAlt = [

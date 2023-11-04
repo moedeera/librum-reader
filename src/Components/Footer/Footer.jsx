@@ -5,6 +5,7 @@ import { SiteContext } from "../../Context/Context";
 
 export const Footer = () => {
   const { menuItemsLG, menuAlt } = useContext(SiteContext);
+
   return (
     <div className="container footer">
       <div className="footer-container">

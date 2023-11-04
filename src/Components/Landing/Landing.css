@@ -11,35 +11,23 @@
 .landing-background {
   position: absolute;
   display: none;
-  height: 50%;
+  height: 100%;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 1;
+  /* background-image: url("../../assets/images/fantasy2.jpg"); */
 }
 .landing-background-overlay {
   position: absolute;
 
-  height: 50%;
+  height: 100%;
   width: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    rgba(255, 255, 255, 1) 75%,
+  background: white;
+  opacity: 0.05;
 
-    rgba(246, 243, 239, 1) 100%
-  );
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(246, 243, 239, 0.35) 30%,
-    rgba(246, 243, 239, 0.75) 40%,
-    rgba(246, 243, 239, 1) 50%,
-    rgba(246, 243, 239, 1) 100%
-  );
   z-index: 2;
 }
 

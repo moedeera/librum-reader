@@ -21,7 +21,6 @@ export const Block4 = () => {
         <Link
           // onMouseEnter={(item) => {
           onMouseEnter={() => {
-            console.log(item);
             setHover((prevHover) => {
               return prevHover.map((hookItem) => {
                 if (hookItem.id === item.id) {
@@ -32,7 +31,6 @@ export const Block4 = () => {
             });
           }}
           onMouseLeave={() => {
-            console.log(item);
             setHover((prevHover) => {
               return prevHover.map((hookItem) => {
                 if (hookItem.id === item.id) {

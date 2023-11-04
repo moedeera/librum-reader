@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
+import { FullPageNav } from "./FullPageNav/FullPageNav.jsx";
 import { SiteContext } from "../../Context/Context";
 
 export const Navbar = () => {
   const { menuItemsMD } = useContext(SiteContext);
+  const [fullMenu, showFullMenu] = useState(false);
 
   return (
     <div className="navbar-container">
@@ -19,7 +21,12 @@ export const Navbar = () => {
             </Link>
           ))}
         </div>
-        <div className="menu-icon">
+        <div
+          className="menu-icon"
+          onClick={() => {
+            showFullMenu(true);
+          }}
+        >
           <div className="bar bar-large bar-upper"></div>
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div>
@@ -28,7 +35,8 @@ export const Navbar = () => {
           </Link>
         </div>
       </div>
-      {/* {fullMenu && <FullPageNav showFullMenu={showFullMenu} />} */}
+
+      {fullMenu && <FullPageNav showFullMenu={showFullMenu} />}
     </div>
   );
 };
