@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { findImageSet, imagesSorted } from "../assets/images/images";
 import { storiesInfo } from "./Content";
 
@@ -15,7 +15,7 @@ export const SiteContextProvider = ({ children }) => {
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Login", link: "/login" },
-    { id: 3, name: "Your Stories", link: "/" },
+    { id: 3, name: "Stories", link: "/stories" },
     { id: 4, name: "Write", link: "/write" },
     { id: 5, name: "About", link: "/about" },
     { id: 6, name: "FAQ", link: "/" },
@@ -28,6 +28,9 @@ export const SiteContextProvider = ({ children }) => {
     { id: 2, name: "Privacy Policy", link: "/" },
     { id: 3, name: "Copyright Policy", link: "/" },
   ];
+
+  const [story, setStory] = useState("Your Story");
+
   function parseHTMLContent(html) {
     const container = document.createElement("div");
     container.innerHTML = html;
@@ -140,6 +143,8 @@ export const SiteContextProvider = ({ children }) => {
         menuAlt,
         parseHtmlToQuillDelta,
         storiesInfo,
+        story,
+        setStory,
       }}
     >
       {children}

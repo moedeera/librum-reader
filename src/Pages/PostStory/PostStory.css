@@ -1,5 +1,5 @@
 .text-editor-page {
-  padding-top: 100px;
+  padding-top: var(--padding-top-md);
   width: 95%;
   max-width: var(--max-width-main);
   margin: 0 auto;

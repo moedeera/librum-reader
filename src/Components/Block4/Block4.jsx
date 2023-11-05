@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 
 export const Block4 = () => {
-  const { storiesInfo, imagesSorted, findImageSet } = useContext(SiteContext);
+  const { storiesInfo, imagesSorted, findImageSet, setStory } =
+    useContext(SiteContext);
   const [hover, setHover] = useState([
     { id: 1, state: false },
     { id: 2, state: false },
@@ -41,6 +42,10 @@ export const Block4 = () => {
             });
           }}
           to={item.link}
+          onClick={() => {
+            setStory(item.name);
+            console.log("set");
+          }}
           className="block-4-segment"
           key={item.id}
         >

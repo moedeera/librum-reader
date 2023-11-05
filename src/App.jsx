@@ -11,6 +11,7 @@ import { PostStory } from "./Pages/PostStory/PostStory";
 import { AllComponents } from "./Pages/AllComponents/AllComponents";
 import { Stories } from "./Pages/Stories/Stories";
 import { ContactPage } from "./Pages/ContactPage/ContactPage";
+import { StoryPage } from "./Pages/StoryPage/StoryPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/stories" element={<Stories />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/story" element={<StoryPage />} />
             </Routes>
           </ScrollToTop>
           <Footer />

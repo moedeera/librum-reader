@@ -1,10 +1,20 @@
+import "quill/dist/quill.snow.css";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
-import { useCallback, useContext, useState } from "react";
-import "./PostStory.css";
+import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
 
-export const PostStory = () => {
+export const StoryPage = () => {
   const [postData, setPostData] = useState("");
+  const { story } = useContext(SiteContext);
+  let info = { title: "Your Story" };
+
+  useEffect(() => {
+    if (story) {
+      info.title = story;
+      console.log(story);
+    }
+  }, [story]);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper === null) return;
@@ -17,6 +27,10 @@ export const PostStory = () => {
     // Initialize Quill on the editor
     const quill = new Quill(editor, {
       theme: "snow",
+      readOnly: true,
+      modules: {
+        toolbar: false, // Disable the toolbar
+      },
     });
     const savedData = localStorage.getItem("savedData");
     if (savedData && savedData !== null) {
@@ -25,18 +39,6 @@ export const PostStory = () => {
     } else {
       quill.setText("Hello\n");
     }
-
-    const button = document.getElementById("save-button");
-
-    button.addEventListener("click", () => {
-      //   const content = quill.root.innerHTML;
-      //   const data = parseHtmlToQuillDelta(content);
-
-      //   console.log(data);
-      var delte = quill.getContents();
-      console.log("content:", ":", delte.ops);
-      localStorage.setItem("savedData", JSON.stringify(delte.ops));
-    });
 
     // Log new characters when the user edits the content
     quill.on("text-change", (delta, oldDelta, source) => {
@@ -53,22 +55,14 @@ export const PostStory = () => {
       wrapper.innerHTML = "";
     };
   }, []);
-
   return (
     <div className="container">
-      <div className="text-editor-page">
-        <h3>Your Story</h3>
-        <div
-          className="text-editor"
-          ref={wrapperRef}
-          id="quill-container"
-        ></div>
-        <div className="editor-button-container">
-          <button className="btn btn-primary" onChangeCapture={() => {}}>
-            Preview
-          </button>
-          <button id="save-button" className="btn btn-primary btn-green">
-            Save
+      <div className="story-page">
+        <h3>{info.title}</h3>
+        <div className="story-page" ref={wrapperRef} id="quill-container"></div>
+        <div className="story-button-container">
+          <button id="edit-button" className="btn btn-primary btn-green">
+            Edit
           </button>
         </div>
       </div>

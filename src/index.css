@@ -53,6 +53,10 @@ p {
   color: var(--dark-font);
 }
 
+small {
+  color: var(--dark-font);
+}
+
 a,
 a:visited {
   font-weight: 500;
@@ -89,7 +93,7 @@ button:focus-visible {
   background-color: var(--primary-button);
   border-radius: 6px;
   padding: 10px 20px;
-  color: black;
+  color: var(--dark-font);
   transition: all 0.5s ease-in-out;
   font-size: medium;
   text-transform: uppercase;
