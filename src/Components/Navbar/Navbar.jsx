@@ -21,13 +21,13 @@ export const Navbar = () => {
             </Link>
           ))}
         </div>
-        <div
-          className="menu-icon"
-          onClick={() => {
-            showFullMenu(true);
-          }}
-        >
-          <div className="bar bar-large bar-upper"></div>
+        <div className="menu-icon">
+          <div
+            onClick={() => {
+              showFullMenu(true);
+            }}
+            className="bar bar-large bar-upper"
+          ></div>
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div>
           <Link className="btn btn-primary btn-login" to={"/login"}>

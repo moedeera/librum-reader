@@ -8,15 +8,21 @@
   align-items: center;
   min-height: 15vh;
   grid-gap: 5px;
-  padding: 20px 0 50px;
+  padding: var(--padding-top-md) 0 50px;
 }
 .count {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  border: 1px solid rgba(128, 128, 128, 0.5);
+  border: 1px solid rgba(128, 128, 128, 0.15);
   border-radius: 5px;
   padding: 10px 5px;
+}
+.count h3 {
+  margin-bottom: 10px;
+  color: goldenrod;
+  font-weight: 400;
 }
 
 @media only screen and (min-width: 600px) {

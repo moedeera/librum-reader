@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "./CounterBlock.css";
 
 export const CounterBlock = () => {
