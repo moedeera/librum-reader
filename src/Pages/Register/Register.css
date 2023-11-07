@@ -1,5 +1,5 @@
 .register-container {
-  padding-top: 150px;
+  padding-top: var(--padding-top-lg);
   width: 95%;
   max-width: var(--max-width-main);
   margin: 0 auto;

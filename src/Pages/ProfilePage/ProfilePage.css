@@ -1,0 +1,39 @@
+.profile-page-container {
+  padding-top: var(--padding-top-lg);
+  width: 95%;
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+.profile-page-segment {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+
+  flex-direction: column;
+  min-height: 300px;
+}
+.basic-info-segment {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bio-segment {
+  display: flex;
+  flex-direction: column;
+}
+.bio-text {
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  padding: 10px 0px;
+  min-height: 50px;
+}
+
+@media only screen and (min-width: 1100px) {
+  .profile-page-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}

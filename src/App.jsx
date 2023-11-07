@@ -13,6 +13,7 @@ import { Stories } from "./Pages/Stories/Stories";
 import { ContactPage } from "./Pages/ContactPage/ContactPage";
 import { StoryPage } from "./Pages/StoryPage/StoryPage";
 import { Register } from "./Pages/Register/Register";
+import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -27,10 +28,11 @@ function App() {
               <Route path="/write" element={<PostStory />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/stories" element={<Stories />} />
+              <Route path="/profile" element={<ProfilePage />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/story" element={<StoryPage />} />
+              <Route path="/stories" element={<Stories />} />
             </Routes>
           </ScrollToTop>
           <Footer />
