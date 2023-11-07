@@ -8,6 +8,7 @@ export const ProfilePage = () => {
         <div className="profile-page-segment">
           <h4>Messages</h4>
           <div className="latest">
+            <p></p>
             <button className="btn btn-primary">Read Latest</button>
           </div>
           <div className="all">
