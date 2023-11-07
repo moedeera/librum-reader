@@ -12,6 +12,7 @@ import { AllComponents } from "./Pages/AllComponents/AllComponents";
 import { Stories } from "./Pages/Stories/Stories";
 import { ContactPage } from "./Pages/ContactPage/ContactPage";
 import { StoryPage } from "./Pages/StoryPage/StoryPage";
+import { Register } from "./Pages/Register/Register";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/write" element={<PostStory />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
