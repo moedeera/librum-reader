@@ -23,6 +23,8 @@ const provider = new GoogleAuthProvider();
 
 const signInWithGoogle = () => {
   signInWithPopup(auth, provider);
+
+  
 };
 
 export { app, db };
