@@ -11,7 +11,9 @@ export const Block2 = ({ data }) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data);
       info = data;
+      console.log(info);
     }
   }, []);
 
