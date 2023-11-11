@@ -1,6 +1,7 @@
 import "./ProfilePage.css";
 import { Link } from "react-router-dom";
 import { BasicInfo } from "./ProfilePageComp/BasicInfo";
+import { PasswordReset } from "./ProfilePageComp/PasswordReset";
 export const ProfilePage = () => {
   return (
     <div className="container">
@@ -17,16 +18,7 @@ export const ProfilePage = () => {
             </Link>
           </div>
         </div>
-        <div className="profile-page-segment">
-          <h4>Reset Password</h4>
-          <p>Current Password</p>
-          <input type="text" placeholder="Enter current password" />
-          <p>New Password </p>
-          <input type="password" placeholder="Enter current password" />
-          <p>Re-enter New Password</p>
-          <input type="text" placeholder="Enter current password" />
-          <button className="btn btn-primary">Reset</button>
-        </div>
+        <PasswordReset />
 
         <BasicInfo />
 
