@@ -14,6 +14,7 @@ import { ContactPage } from "./Pages/ContactPage/ContactPage";
 import { StoryPage } from "./Pages/StoryPage/StoryPage";
 import { Register } from "./Pages/Register/Register";
 import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
+import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/story" element={<StoryPage />} />
               <Route path="/stories" element={<Stories />} />
+              <Route path="/messages" element={<MessagesPage />} />
             </Routes>
           </ScrollToTop>
           <Footer />

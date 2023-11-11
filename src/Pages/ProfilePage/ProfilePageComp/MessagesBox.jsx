@@ -15,7 +15,7 @@ export const MessagesBox = () => {
         </p>
       </div>
       <div className="all">
-        <Link to={"/"} className="btn btn-primary">
+        <Link to={"/messages"} className="btn btn-primary">
           See All
         </Link>
       </div>
