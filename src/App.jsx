@@ -15,6 +15,7 @@ import { StoryPage } from "./Pages/StoryPage/StoryPage";
 import { Register } from "./Pages/Register/Register";
 import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
 import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
+import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Navbar />
           <ScrollToTop>
             <Routes>
+              <Route path="/*" element={<ErrorPage />} />
               <Route path="/" element={<Homepage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/write" element={<PostStory />} />
