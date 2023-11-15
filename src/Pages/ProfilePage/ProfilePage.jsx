@@ -5,6 +5,7 @@ import { DeleteProfile } from "./ProfilePageComp/DeleteProfile";
 import { MessagesBox } from "./ProfilePageComp/MessagesBox";
 import { PasswordReset } from "./ProfilePageComp/PasswordReset";
 export const ProfilePage = () => {
+  //
   return (
     <div className="container">
       <div className="profile-page-container">
@@ -12,7 +13,6 @@ export const ProfilePage = () => {
         <PasswordReset />
         <BasicInfo />
         <DeleteProfile />
-        <div className="profile-page-view"></div>
       </div>
     </div>
   );

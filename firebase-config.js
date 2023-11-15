@@ -21,10 +21,29 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-const signInWithGoogle = () => {
-  signInWithPopup(auth, provider);
+const signInWithGoogle = async () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      const user = result.user;
+      const displayName = user.displayName;
+      const photoURL = user.photoURL;
+      const email = user.email;
 
-  
+      // Get the ID token using getIdToken
+
+      const info = {
+        name: displayName,
+        pic: photoURL,
+        email,
+      };
+
+      localStorage.setItem("user", JSON.stringify(info));
+
+      console.log(info);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-export { app, db };
+export { app, db, signInWithGoogle };

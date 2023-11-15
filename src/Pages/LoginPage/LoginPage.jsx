@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import "./LoginPage.css";
 import { useContext } from "react";
 import { SiteContext } from "../../Context/Context";
+import googleIcon from "./google.svg";
+import { signInWithGoogle } from "../../../firebase-config";
 
 export const LoginPage = () => {
   const { imagesSorted, findImageSet } = useContext(SiteContext);
@@ -10,6 +12,17 @@ export const LoginPage = () => {
       <div className="login-container">
         <div className="login-form">
           <h3>Login </h3>
+          <button
+            onClick={signInWithGoogle}
+            className="btn btn-white btn-google"
+          >
+            {" "}
+            <p>
+              <img className="icon-image" src={googleIcon} alt="googleIcon" />
+              Login with Google{" "}
+            </p>
+          </button>
+          <h4>Or</h4>
           <small>
             Don't have an account?{" "}
             <Link className="b" to={"/register"}>

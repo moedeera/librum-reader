@@ -13,7 +13,8 @@ export const Footer = () => {
           <div className="footer-about">
             {" "}
             <h1>
-              Get started with Librum<span className="header-span">Reader</span>
+              <span className="alt-span">Expand</span> your mind with Librum
+              <span className="title-span">Reader</span>
             </h1>
             <p>
               A unique platform for writers of all levels to enhance their

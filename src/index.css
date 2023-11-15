@@ -12,11 +12,16 @@
   -webkit-text-size-adjust: 100%;
   --primary-color-bg: #f6f3ef;
   --primary-button: #ffcd6d;
+  --alternate-button: #f9f9f9;
   --max-width-main: 1340px;
   --padding-top-sm: 80px;
   --padding-top-md: 100px;
   --padding-top-lg: 120px;
+
   --dark-font: #213547;
+  --light-font: white;
+  --primary-font: var(--dark-font);
+  --alt-font: cadetblue;
 }
 button {
   border-color: transparent;
@@ -53,17 +58,17 @@ p {
   line-height: 1.8em;
   width: 95%;
   max-width: 600px;
-  color: var(--dark-font);
+  color: var(--primary-font);
 }
 
 small {
-  color: var(--dark-font);
+  color: var(--primary-font);
 }
 
 a,
 a:visited {
   font-weight: 500;
-  color: black;
+  color: var(--primary-font);
   text-decoration: none;
 }
 
@@ -84,12 +89,32 @@ body {
   font-size: medium;
   text-transform: uppercase;
   width: max-content;
+  cursor: pointer;
 }
 
 .btn-green {
   background-color: rgb(96, 151, 96);
   color: white;
 }
+
+.btn-white {
+  background-color: var(--alternate-button);
+  border: 1px solid rgba(128, 128, 128, 0.5);
+}
+.btn-google {
+  width: 47%;
+
+  text-align: center;
+  text-transform: none;
+}
+.btn-google p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  letter-spacing: 1px;
+}
+
 .container {
   min-height: 100vh;
   background-color: transparent;
@@ -99,6 +124,9 @@ body {
 }
 .title-span {
   color: goldenrod;
+}
+.alt-span {
+  color: cadetblue;
 }
 input {
   padding: 20px 15px;
