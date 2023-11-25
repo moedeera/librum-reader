@@ -7,24 +7,31 @@ export const Block1 = () => {
   const info = [
     {
       id: 1,
-      cat: "Fantasy 600",
-      title: "Greenwood Castle",
-      info: "Witch versus Vampires ",
-      link: "/",
+      cat: "Fiction",
+      title: "The Enigmatic Chronicles",
+      info: "In a forgotten library, a curious librarian stumbles upon a book with blank pages. As she delves into its mystery, she finds herself transported to different realms, uncovering the enigmatic stories within the empty pages.",
+      link: "/enigmatic-chronicles",
+      tag: ["fantasy", "mystery", "adventure"],
+      pic: "https://images.pexels.com/photos/1.jpg",
     },
+
     {
       id: 2,
-      cat: "Education 800",
-      title: "Patents: A Short History",
-      info: "A quick summary of Patents in the US",
-      link: "/",
+      cat: "Non-fiction",
+      title: "Journey to the Abyss",
+      info: "A marine biologist recounts her deep-sea expedition to explore the mysteries of the ocean's abyss. From undiscovered creatures to ancient shipwrecks, her journey unveils the secrets hidden in the depths of the unexplored ocean.",
+      link: "/journey-to-abyss",
+      tag: ["science", "exploration", "marine biology"],
+      pic: "https://images.pexels.com/photos/2.jpg",
     },
     {
       id: 3,
-      cat: "Sci-fi 600",
-      title: "Protocol Odyssey",
-      info: "High space fantasy",
-      link: "/",
+      cat: "Fiction",
+      title: "Echoes of Eternity",
+      info: "In a dystopian future, a musician discovers a forbidden instrument that echoes the emotions of the past. As he plays, the melodies unravel a hidden truth about the society's oppressive regime and ignite a rebellion fueled by music.",
+      link: "/echoes-of-eternity",
+      tag: ["dystopia", "music", "rebellion"],
+      pic: "https://images.pexels.com/photos/3.jpg",
     },
   ];
   const { imagesSorted, findImageSet } = useContext(SiteContext);
@@ -92,6 +99,16 @@ export const Block1 = () => {
             <h4>{item.title}</h4>
             <p>{item.info}</p>
             <div className="btn">Read More</div>
+            <p>
+              Tags:
+              {item.tag.map((tagItem, index) => (
+                <span key={index}>
+                  {" "}
+                  {index > 0 && ", "}
+                  {tagItem}
+                </span>
+              ))}
+            </p>
           </div>
         </Link>
       ))}

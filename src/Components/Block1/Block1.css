@@ -34,6 +34,9 @@
   gap: 5px;
   z-index: 1;
 }
+.block-1-segment-text p {
+  font-size: small;
+}
 .block-1-segment-overlay {
   position: absolute;
   top: 0;
