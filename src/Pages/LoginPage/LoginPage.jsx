@@ -11,7 +11,7 @@ export const LoginPage = () => {
     <div className="container">
       <div className="login-container">
         <div className="login-form">
-          <h3>Login </h3>
+          <h3>Sign in </h3>
           <button
             onClick={signInWithGoogle}
             className="btn btn-white btn-google"
@@ -33,7 +33,7 @@ export const LoginPage = () => {
           <input type="text" placeholder="Enter your email" />
           <p>Password</p>
           <input type="password" placeholder="Enter Your password" />
-          <button className="btn btn-primary">Login</button>
+          <button className="btn btn-primary btn-form">Login</button>
         </div>
         <div
           className="login-form-image"
