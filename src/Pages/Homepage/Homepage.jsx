@@ -5,6 +5,7 @@ import { Contact } from "../../Components/Contact/Contact";
 import { CounterBlock } from "../../Components/CounterBlock/CounterBlock";
 import { Landing } from "../../Components/Landing/Landing";
 import "./Homepage.css";
+import { b3content } from "../../Context/Content";
 
 export const Homepage = () => {
   return (
@@ -13,7 +14,7 @@ export const Homepage = () => {
       <CounterBlock />
       <Block0 />
       <Block1 />
-      <Block3 />
+      <Block3 data={b3content} />
       <Contact />
     </div>
   );

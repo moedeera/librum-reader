@@ -7,16 +7,18 @@ export const SiteContext = createContext({});
 export const SiteContextProvider = ({ children }) => {
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/" },
-    { id: 2, name: "Stories", link: "/stories" },
-    { id: 3, name: "Write", link: "/write" },
+    // { id: 2, name: "Stories", link: "/stories" },
+    // { id: 3, name: "Write", link: "/write" },
+    { id: 2, name: "Browse", link: "/stories" },
     { id: 4, name: "Contact", link: "/contact" },
     { id: 5, name: "About", link: "/about" },
   ];
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Login", link: "/login" },
-    { id: 3, name: "Stories", link: "/stories" },
-    { id: 4, name: "Write", link: "/write" },
+    { id: 3, name: "Browse", link: "/stories" },
+    // { id: 3, name: "Stories", link: "/stories" },
+    // { id: 4, name: "Write", link: "/write" },
     { id: 5, name: "About", link: "/about" },
     { id: 6, name: "FAQ", link: "/" },
     { id: 7, name: "Contact", link: "/contact" },
@@ -30,45 +32,6 @@ export const SiteContextProvider = ({ children }) => {
   ];
 
   const [story, setStory] = useState("Your Story");
-
-  function parseHTMLContent(html) {
-    const container = document.createElement("div");
-    container.innerHTML = html;
-
-    const result = [];
-
-    function traverse(node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node.textContent.trim();
-        if (text) {
-          result.push({ tag: "p", type: "regular", content: text });
-        }
-      } else if (node.nodeType === Node.ELEMENT_NODE) {
-        const tag = node.tagName.toLowerCase();
-        const type =
-          node.tagName === "B"
-            ? "bold"
-            : node.tagName === "I"
-            ? "italic"
-            : "regular";
-        const content = node.textContent.trim();
-
-        result.push({ tag, type, content });
-      }
-
-      if (node.childNodes) {
-        for (const child of node.childNodes) {
-          traverse(child);
-        }
-      }
-    }
-
-    for (const element of container.childNodes) {
-      traverse(element);
-    }
-
-    return result;
-  }
 
   function parseHtmlToQuillDelta(html) {
     const parser = new DOMParser();

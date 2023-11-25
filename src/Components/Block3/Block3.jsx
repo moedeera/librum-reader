@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import "./Block3.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Block3 = ({ data }) => {
-  const info = useRef({
+  const [info, setInfo] = useState({
     title: "Sed ut perspiciatis unde omnis iste natus",
     text: `
          Error sit voluptatem
@@ -24,18 +24,18 @@ export const Block3 = ({ data }) => {
 
   useEffect(() => {
     if (data) {
-      info.current = data;
+      setInfo(data);
     }
   }, [data]);
 
   return (
     <div className="block-3-container">
-      <h3>{info.current.title}</h3>
+      <h3>{info.title}</h3>
       <div className="block-3-segment">
-        <p>{info.current.text}</p>
-        {info.current.button && (
-          <Link className="btn btn-primary" to={info.current.button.link}>
-            {info.current.button.text}
+        <p>{info.text}</p>
+        {info.button && (
+          <Link className="btn btn-primary" to={info.button.link}>
+            {info.button.text}
           </Link>
         )}
       </div>

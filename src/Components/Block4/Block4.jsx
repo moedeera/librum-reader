@@ -6,14 +6,9 @@ import { SiteContext } from "../../Context/Context";
 export const Block4 = () => {
   const { storiesInfo, imagesSorted, findImageSet, setStory } =
     useContext(SiteContext);
-  const [hover, setHover] = useState([
-    { id: 1, state: false },
-    { id: 2, state: false },
-    { id: 3, state: false },
-    { id: 4, state: false },
-    { id: 5, state: false },
-    { id: 6, state: false },
-  ]);
+  const [hover, setHover] = useState(
+    new Array(storiesInfo.length).fill({ id: storiesInfo.id, state: false })
+  );
 
   return (
     <div className="block-4-container">
@@ -70,11 +65,21 @@ export const Block4 = () => {
                   }
             }
           ></div>
-          <div className="block-1-segment-text">
+          <div className="block-4-segment-text">
             <small>{item.cat}</small>
             <h4>{item.title}</h4>
             <p>{item.info}</p>
             <div className="btn">Read More</div>
+            <p>
+              Tags:
+              {item.tag.map((tagItem, index) => (
+                <span key={index}>
+                  {" "}
+                  {index > 0 && ", "}
+                  {tagItem}
+                </span>
+              ))}
+            </p>
           </div>
         </Link>
       ))}
