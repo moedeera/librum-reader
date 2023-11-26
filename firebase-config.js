@@ -7,13 +7,13 @@ import { getStorage, ref } from "firebase/storage";
 // import { } from 'firebase/<service>';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCH49nJNK0-SinR4VT6V0a-_FZsapLgtJ8",
-  authDomain: "portfolio-33f0f.firebaseapp.com",
-  projectId: "portfolio-33f0f",
-  storageBucket: "portfolio-33f0f.appspot.com",
-  messagingSenderId: "170316975789",
-  appId: "1:170316975789:web:f8c5aaff8e7199f7920024",
-  measurementId: "G-M0ZQL4395P",
+  apiKey: "AIzaSyBEOTv1kNZ_mjFEKQK2rt8hrNuP5-D5CIo",
+  authDomain: "librum-bb036.firebaseapp.com",
+  projectId: "librum-bb036",
+  storageBucket: "librum-bb036.appspot.com",
+  messagingSenderId: "739289538496",
+  appId: "1:739289538496:web:ac09942d1266644fc9f225",
+  measurementId: "G-JL5FYV0XWL",
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -21,29 +21,55 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+// const signInWithGoogle = async () => {
+//   signInWithPopup(auth, provider)
+//     .then((result) => {
+//       const user = result.user;
+//       const displayName = user.displayName;
+//       const photoURL = user.photoURL;
+//       const email = user.email;
+
+//       // Get the ID token using getIdToken
+
+//       const info = {
+//         name: displayName,
+//         pic: photoURL,
+//         email,
+//       };
+
+//       localStorage.setItem("user", JSON.stringify(info));
+
+//       console.log(info);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 const signInWithGoogle = async () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      const displayName = user.displayName;
-      const photoURL = user.photoURL;
-      const email = user.email;
+  try {
+    const result = await signInWithPopup(auth, provider);
 
-      // Get the ID token using getIdToken
+    const user = result.user;
+    const idToken = await user.getIdToken();
 
-      const info = {
-        name: displayName,
-        pic: photoURL,
-        email,
-      };
+    const displayName = user.displayName;
+    const photoURL = user.photoURL;
+    const email = user.email;
 
-      localStorage.setItem("user", JSON.stringify(info));
+    const info = {
+      name: displayName,
+      pic: photoURL,
+      email,
+      idToken,
+    };
 
-      console.log(info);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    localStorage.setItem("user", JSON.stringify(info));
+    console.log(info);
+    return info;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 export { app, db, signInWithGoogle };

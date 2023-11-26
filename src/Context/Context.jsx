@@ -1,10 +1,28 @@
 import { createContext, useContext, useState } from "react";
 import { findImageSet, imagesSorted } from "../assets/images/images";
 import { storiesInfo } from "./Content";
+import { signInWithGoogle } from "../../firebase-config";
+import {
+  signInWithEmailAndPassword,
+  getAuth,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { app, db } from "../../firebase-config";
+
+function getUserFromLocalStorage() {
+  // Check if "user" exists in local storage
+  const storedUser = localStorage.getItem("librum-user");
+  console.log(storedUser);
+  return storedUser ? JSON.parse(storedUser) : null;
+  // Return the user if it exists, otherwise return null
+}
 
 export const SiteContext = createContext({});
 
 export const SiteContextProvider = ({ children }) => {
+  const userInfo = getUserFromLocalStorage();
+  const auth = getAuth(app);
+
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/" },
     // { id: 2, name: "Stories", link: "/stories" },
@@ -32,7 +50,7 @@ export const SiteContextProvider = ({ children }) => {
   ];
 
   const [story, setStory] = useState("Your Story");
-
+  const [user, setUser] = useState(userInfo);
   function parseHtmlToQuillDelta(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
@@ -92,6 +110,54 @@ export const SiteContextProvider = ({ children }) => {
     return quillDelta;
   }
 
+  const registerWithEmailAndPassword = async (newUser) => {
+    createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
+      .then(() => {
+        // Signed in
+        console.log("success");
+        // ...
+      })
+      .catch((error) => {
+        console.log(error);
+        // ..
+      });
+  };
+
+  const loginWithEmailAndPassword = async (userInfo, redirection, link) => {
+    console.log(
+      "on log called",
+      "user info:",
+      userInfo.email,
+      userInfo.password
+    );
+
+    signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
+      .then((userCredential) => {
+        // Signed in
+        console.log(userCredential.user);
+        setUser(userCredential.user);
+        localStorage.setItem("librum-user", user);
+        redirection(link);
+        // ...
+      })
+      .catch((error) => {
+        console.log("error code:", error.code, "error message:", error.message);
+      });
+  };
+
+  const signInWithGoogleFunction = async () => {
+    const userInfo = await signInWithGoogle();
+
+    setUser(userInfo);
+  };
+
+  const isEmailValid = (email) => {
+    // Regular expression for a simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  console.log(isEmailValid("jj@gmail.com"));
   // const htmlContent = "<b>Hello </b><strong>World!</strong><br>";
   // const quillDelta = parseHtmlToQuillDelta(htmlContent);
   // console.log(JSON.stringify(quillDelta, null, 2));
@@ -108,6 +174,12 @@ export const SiteContextProvider = ({ children }) => {
         storiesInfo,
         story,
         setStory,
+        user,
+        setUser,
+        signInWithGoogleFunction,
+        loginWithEmailAndPassword,
+        registerWithEmailAndPassword,
+        isEmailValid,
       }}
     >
       {children}

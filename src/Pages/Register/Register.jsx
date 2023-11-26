@@ -1,6 +1,66 @@
 import { Link } from "react-router-dom";
 import "./Register.css";
+import { useContext, useState } from "react";
+import { SiteContext } from "../../Context/Context";
 export const Register = () => {
+  const { registerWithEmailAndPassword, isEmailValid } =
+    useContext(SiteContext);
+
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordRepeat: "",
+  });
+
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const onChangeHandler = (e, type, userInfo, setUserInfo) => {
+    if (type === "name") {
+      setUserInfo({ ...userInfo, name: e.target.value });
+    } else if (type === "email") {
+      setUserInfo({ ...userInfo, email: e.target.value });
+    } else if (type === "password") {
+      setUserInfo({ ...userInfo, password: e.target.value });
+    } else if (type === "repeat-password") {
+      const newPasswordRepeat = e.target.value;
+      setUserInfo({ ...userInfo, passwordRepeat: newPasswordRepeat });
+
+      if (userInfo.password === newPasswordRepeat) {
+        setPasswordsMatch(true);
+      } else {
+        setPasswordsMatch(false);
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    const checkEmail = isEmailValid(newUser.email);
+
+    console.log(newUser.email);
+    if (!checkEmail) {
+      alert("invalid email");
+      return;
+    }
+    if (newUser.name === "") {
+      alert("Please Enter a Name");
+      return;
+    }
+    if (
+      !passwordsMatch ||
+      newUser.password === "" ||
+      newUser.password.length > 6
+    ) {
+      alert(
+        "Please make sure passwords match and are at least 6 characters in lenght"
+      );
+      return;
+    }
+
+    registerWithEmailAndPassword(newUser);
+  };
+
   return (
     <div className="container">
       <div className="register-container">
@@ -13,14 +73,58 @@ export const Register = () => {
             </Link>
           </small>
           <p>Email</p>
-          <input type="text" placeholder="Enter your email" />
+          <input
+            name="name"
+            type="email"
+            value={newUser.email}
+            onChange={(e) => {
+              onChangeHandler(e, "email", newUser, setNewUser);
+            }}
+            placeholder="Enter your Name"
+          />
           <p>Name</p>
-          <input type="text" placeholder="Enter your Name" />
+          <input
+            name="name"
+            type="text"
+            value={newUser.name}
+            onChange={(e) => {
+              onChangeHandler(e, "name", newUser, setNewUser);
+            }}
+            placeholder="Enter your email"
+          />
+
           <p>Password</p>
-          <input type="password" placeholder="Enter a password" />
+          <input
+            name="password"
+            type={showPassword ? "text" : "password"}
+            value={newUser.password}
+            onChange={(e) => {
+              onChangeHandler(e, "password", newUser, setNewUser);
+            }}
+            placeholder="Enter a password"
+          />
           <p>Re-enter your Password</p>
-          <input type="password" placeholder="Enter a password" />
-          <button className="btn btn-primary">register</button>
+          <input
+            name="passwordRepeat"
+            type={showPassword ? "text" : "password"}
+            value={newUser.passwordRepeat}
+            onChange={(e) => {
+              onChangeHandler(e, "repeat-password", newUser, setNewUser);
+            }}
+            placeholder="Enter a password"
+          />
+          {passwordsMatch ? "" : <small>Passwords don't match</small>}
+          <small
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+          >
+            {showPassword ? "Hide" : "Show Password"}
+          </small>
+          <button onClick={handleSubmit} className="btn btn-primary btn-form">
+            register
+          </button>
         </div>
         {/* <div className="register-form-image">
       <div className="white-overlay">
