@@ -16,6 +16,7 @@ import { Register } from "./Pages/Register/Register";
 import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
 import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
+import { AccountPage } from "./Pages/AccountPage/AccountPage";
 
 function App() {
   return (
@@ -32,9 +33,11 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/account" element={<AccountPage />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/story" element={<StoryPage />} />
+              <Route path="/stories/:storyid" element={<StoryPage />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/messages" element={<MessagesPage />} />
             </Routes>

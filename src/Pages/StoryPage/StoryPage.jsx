@@ -58,7 +58,7 @@ export const StoryPage = () => {
   return (
     <div className="container">
       <div className="story-page">
-        <h3>{info.title}</h3>
+        <h3 className="story-page-header">{info.title}</h3>
         <div className="story-page" ref={wrapperRef} id="quill-container"></div>
         <div className="story-button-container">
           <button id="edit-button" className="btn btn-primary btn-green">

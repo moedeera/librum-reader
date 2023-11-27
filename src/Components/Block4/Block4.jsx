@@ -36,7 +36,7 @@ export const Block4 = () => {
               });
             });
           }}
-          to={item.link}
+          to={`/stories${item.link}`}
           onClick={() => {
             setStory(item.name);
             console.log("set");

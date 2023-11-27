@@ -16,8 +16,11 @@
   border-color: transparent;
 }
 
-.story-page h3 {
+.story-page-header {
   text-align: center;
+}
+.story-page h3 {
+  margin: 10px 0;
 }
 
 .story-page .ql-toolbar.ql-snow {

@@ -113,6 +113,7 @@ body {
   justify-content: center;
   gap: 10px;
   letter-spacing: 1px;
+  font-size: small;
 }
 
 .container {
@@ -199,6 +200,9 @@ textarea {
   }
   h4 {
     font-size: 28px;
+  }
+  .btn-google p {
+    font-size: medium;
   }
 }
 

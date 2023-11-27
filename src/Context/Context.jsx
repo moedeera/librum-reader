@@ -147,7 +147,7 @@ export const SiteContextProvider = ({ children }) => {
 
   const signInWithGoogleFunction = async () => {
     const userInfo = await signInWithGoogle();
-
+    console.log;
     setUser(userInfo);
   };
 

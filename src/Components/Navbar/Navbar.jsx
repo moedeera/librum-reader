@@ -8,6 +8,10 @@ export const Navbar = () => {
   const { menuItemsMD } = useContext(SiteContext);
   const [fullMenu, showFullMenu] = useState(false);
 
+  const { user } = useContext(SiteContext);
+
+  console.log(user);
+
   return (
     <div className="navbar-container">
       <div className="navbar">
@@ -20,6 +24,7 @@ export const Navbar = () => {
               {item.name}
             </Link>
           ))}
+          {user && <Link to={"/write"}>Write</Link>}
         </div>
         <div className="menu-icon">
           <div
@@ -30,8 +35,31 @@ export const Navbar = () => {
           ></div>
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div>
-          <Link className="btn btn-primary btn-login" to={"/login"}>
-            Login
+          <Link
+            className="btn btn-primary btn-login"
+            style={
+              user && {
+                height: "50px",
+                width: "50px",
+                borderRadius: "50%",
+
+                padding: "0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }
+            }
+            to={user ? "/login" : "/profile"}
+          >
+            {user ? (
+              <img
+                style={{ width: "100%", borderRadius: "50%" }}
+                src="https://www.w3schools.com/howto/img_avatar.png"
+                alt=""
+              />
+            ) : (
+              "Login"
+            )}
           </Link>
         </div>
       </div>
