@@ -31,11 +31,26 @@ export const Footer = () => {
             <div className="link-set">
               {" "}
               <h4>Directory</h4>
-              {menuItemsLG.map((item) => (
-                <Link key={item.id} to={item.link}>
-                  {item.name}
-                </Link>
-              ))}
+              {menuItemsLG.map(
+                (item, index) =>
+                  index < 4 && (
+                    <Link key={item.id} to={item.link}>
+                      {item.name}
+                    </Link>
+                  )
+              )}
+            </div>
+            <div className="link-set">
+              {" "}
+              <h4>Resources</h4>
+              {menuItemsLG.map(
+                (item, index) =>
+                  index > 3 && (
+                    <Link key={item.id} to={item.link}>
+                      {item.name}
+                    </Link>
+                  )
+              )}
             </div>
             <div className="link-set">
               <h4>More</h4>

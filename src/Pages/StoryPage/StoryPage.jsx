@@ -59,11 +59,24 @@ export const StoryPage = () => {
     <div className="container">
       <div className="story-page">
         <h3 className="story-page-header">{info.title}</h3>
-        <div className="story-page" ref={wrapperRef} id="quill-container"></div>
+        <div className="story-container">
+          <div
+            className="story-page"
+            ref={wrapperRef}
+            id="quill-container"
+          ></div>
+          <div className="test-block">
+            <div className="test-block-upper">
+              <p>Similar Stories</p>
+            </div>
+            <div className="test-block-lower"></div>
+          </div>
+        </div>
+
         <div className="story-button-container">
-          <button id="edit-button" className="btn btn-primary btn-green">
+          {/* <button id="edit-button" className="btn btn-primary btn-green">
             Edit
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
