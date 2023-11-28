@@ -4,8 +4,35 @@ import Quill from "quill";
 import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
 import { loremIpsum } from "../../Context/Content";
+import { db } from "../../../firebase-config";
+import { addDoc, collection } from "firebase/firestore";
 
 export const StoryPage = () => {
+  const storyData = collection(db, "stories");
+  const submitStory = async () => {
+    const data = loremIpsum;
+
+    if (localStorage.getItem("submitted")) {
+      return;
+    }
+
+    try {
+      await addDoc(storyData, {
+        ref: "dummy",
+        author: "admin",
+        tags: ["general", "fiction"],
+        title: "Life of Lorem Ipsum",
+        story: loremIpsum,
+        date: "Sept 23 2023",
+      });
+
+      localStorage.setItem("submitted", true);
+      console.log("success");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const [postData, setPostData] = useState("");
   const { story } = useContext(SiteContext);
   let info = { title: "Your Story" };
