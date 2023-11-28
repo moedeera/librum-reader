@@ -3,6 +3,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
 import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
+import { loremIpsum } from "../../Context/Content";
 
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
@@ -37,7 +38,8 @@ export const StoryPage = () => {
       console.log(JSON.parse(savedData));
       quill.setContents(JSON.parse(savedData));
     } else {
-      quill.setText("Hello\n");
+      // quill.setText("Hello\n");
+      quill.setContents(loremIpsum);
     }
 
     // Log new characters when the user edits the content
