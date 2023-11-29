@@ -3,12 +3,32 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
 import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
-import { loremIpsum } from "../../Context/Content";
+import { loremIpsum, storiesInfo } from "../../Context/Content";
 import { db } from "../../../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 
 export const StoryPage = () => {
   const storyData = collection(db, "stories");
+  const storySummaries = collection(db, "summaries");
+
+  const submitStorySummaries = async () => {
+    const summaries = storiesInfo;
+    if (localStorage.getItem("summaries-submitted")) {
+      return;
+    }
+
+    try {
+      for (var j = 0; j < summaries.length; j++) {
+        console.log(summaries[j]);
+        await addDoc(storySummaries, summaries[j]);
+      }
+
+      localStorage.setItem("summaries-submitted", true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const submitStory = async () => {
     const data = loremIpsum;
 

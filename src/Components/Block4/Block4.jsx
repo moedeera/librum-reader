@@ -1,19 +1,56 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../../firebase-config";
 
 export const Block4 = () => {
+  const [summaries, setSummaries] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const summariesData = collection(db, "summaries");
+
+  const fetchSummariesData = async () => {
+    try {
+      const data = await getDocs(summariesData);
+      const summariesInfo = data.docs.map((doc) => ({
+        ...doc.data(),
+        storyId: doc.id,
+      }));
+      console.log(summariesInfo);
+      setSummaries(summariesInfo);
+      setLoading(false);
+    } catch (error) {
+      console.log("error:", error);
+
+      return error;
+    }
+  };
+
+  useEffect(() => {
+    fetchSummariesData();
+  }, []);
+
   const { storiesInfo, imagesSorted, findImageSet, setStory } =
     useContext(SiteContext);
   const [hover, setHover] = useState(
-    new Array(storiesInfo.length).fill({ id: storiesInfo.id, state: false })
+    new Array(summaries.length).fill({ id: storiesInfo.id, state: false })
   );
+
+  if (loading) {
+    return <>Loading</>;
+  }
 
   return (
     <div className="block-4-container">
       {" "}
-      {storiesInfo.map((item, index) => (
+      {summaries.map((item, index) => (
         <Link
           // onMouseEnter={(item) => {
           onMouseEnter={() => {
@@ -48,7 +85,7 @@ export const Block4 = () => {
           <div
             className="overlay-image"
             style={
-              hover[index].state
+              hover[index]?.state
                 ? {
                     backgroundImage: `url(${
                       findImageSet("librum-trending", imagesSorted)[index]
@@ -72,7 +109,7 @@ export const Block4 = () => {
             <div className="btn">Read More</div>
             <p>
               Tags:
-              {item.tag.map((tagItem, index) => (
+              {item?.tag?.map((tagItem, index) => (
                 <span key={index}>
                   {" "}
                   {index > 0 && ", "}
