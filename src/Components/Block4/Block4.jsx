@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
+import { Loading } from "../Loading/Loading";
 import {
   collection,
   doc,
@@ -37,14 +38,13 @@ export const Block4 = () => {
     fetchSummariesData();
   }, []);
 
-  const { storiesInfo, imagesSorted, findImageSet, setStory } =
-    useContext(SiteContext);
+  const { imagesSorted, findImageSet, setStory } = useContext(SiteContext);
   const [hover, setHover] = useState(
-    new Array(summaries.length).fill({ id: storiesInfo.id, state: false })
+    new Array(summaries.length).fill({ id: summaries.id, state: false })
   );
 
   if (loading) {
-    return <>Loading</>;
+    return <Loading />;
   }
 
   return (
