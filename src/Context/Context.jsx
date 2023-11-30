@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { app, db } from "../../firebase-config";
+import { addDoc, collection } from "firebase/firestore";
 
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage
@@ -51,6 +52,7 @@ export const SiteContextProvider = ({ children }) => {
 
   const [story, setStory] = useState("Your Story");
   const [user, setUser] = useState(userInfo);
+  const fbProfile = collection(db, "profile");
   function parseHtmlToQuillDelta(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
@@ -112,13 +114,34 @@ export const SiteContextProvider = ({ children }) => {
 
   const registerWithEmailAndPassword = async (newUser) => {
     createUserWithEmailAndPassword(auth, newUser.email, newUser.password)
-      .then(() => {
+      .then(async () => {
         // Signed in
+        const randomNumber =
+          Math.floor(Math.random() * (19999 - 10000 + 1)) + 10000;
+        const randomNumber2 = Math.floor(Math.random() * (199 - 100 + 1)) + 100;
+
+        await addDoc(fbProfile, {
+          email: newUser.email,
+          name: newUser.name,
+          profileName: `user-${randomNumber}-${randomNumber2}`,
+          avatar: "https://www.w3schools.com/howto/img_avatar.png",
+          stories: [],
+          gender: null,
+          dob: null,
+          bio: "Enter your Bio",
+          status: "public",
+        });
+        setUser({
+          email: newUser.email,
+          name: newUser.name,
+        });
         console.log("success");
+        return true;
         // ...
       })
       .catch((error) => {
         console.log(error);
+        return false;
         // ..
       });
   };

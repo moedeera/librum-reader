@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Register.css";
 import { useContext, useState } from "react";
 import { SiteContext } from "../../Context/Context";
+import { Loading } from "../../Components/Loading/Loading";
 export const Register = () => {
-  const { registerWithEmailAndPassword, isEmailValid } =
+  const { registerWithEmailAndPassword, isEmailValid, setUser } =
     useContext(SiteContext);
 
   const [newUser, setNewUser] = useState({
@@ -12,6 +13,8 @@ export const Register = () => {
     password: "",
     passwordRepeat: "",
   });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -58,8 +61,20 @@ export const Register = () => {
       return;
     }
 
-    registerWithEmailAndPassword(newUser);
+    const response = registerWithEmailAndPassword(newUser);
+
+    setLoading(true);
+    if (response) {
+      setLoading(false);
+      setUser({
+        email: newUser.email,
+        name: newUser.name,
+      });
+      navigate("/profile");
+    }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="container">
