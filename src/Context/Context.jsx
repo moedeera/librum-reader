@@ -131,10 +131,7 @@ export const SiteContextProvider = ({ children }) => {
           bio: "Enter your Bio",
           status: "public",
         });
-        setUser({
-          email: newUser.email,
-          name: newUser.name,
-        });
+
         console.log("success");
         return true;
         // ...
