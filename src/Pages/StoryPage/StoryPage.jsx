@@ -35,27 +35,89 @@ export const StoryPage = () => {
     const data = [
       {
         attributes: {
-          color: "var(--text-primary)",
           bold: true,
         },
-        insert: "Whispers in the Wind: The Enigma Unveiled",
+        insert: "Introduction",
       },
       {
         insert:
-          "\n\nNestled between rolling hills and meandering streams, the quaint town of Everwood had long been a haven of tranquility. Life unfolded at a leisurely pace, and the townspeople found solace in the routine of their close-knit community. However, an unexpected shift occurred when an eerie phenomenon descended upon the town, shattering the tranquility that once defined Everwood.\n\nIt all began with a gentle breeze, carrying whispers that seemed to emanate from the very fabric of the wind. At first, the townspeople dismissed these murmurs as figments of their imagination, a consequence of living in a town where everyone knew everyone else's business. Yet, as the whispers persisted, growing more insistent with each passing day, a sense of unease settled over Everwood.\n\nThe whispers, carried by the wind like cryptic messengers, soon became a topic of hushed conversations among the townspeople. What were these mysterious voices trying to convey? Were they a harbinger of good fortune or an omen of impending doom? The once familiar faces now bore expressions of apprehension, and a collective anxiety lingered in the air.\n\nWord spread through Everwood like wildfire, and a town meeting was convened at the old community hall. The mayor, a venerable figure known for his steady demeanor, addressed the gathering. He spoke of the whispers in the wind and the need for unity in the face of the unknown. The townspeople, though apprehensive, rallied together, determined to decipher the enigmatic messages that surrounded them.\n\nAs dusk settled over Everwood, a group of curious individuals gathered in the town square, their faces illuminated by the glow of lanterns. Among them was Clara, a librarian with a penchant for unraveling mysteries, and Samuel, a weathered farmer with an uncanny connection to the land. Together, they formed an unlikely alliance, bound by a shared determination to understand the whispers and protect their town from an unseen threat.\n\nThe townspeople began to document the patterns of the wind, noting the subtle shifts that coincided with the whispers. Clara, armed with a collection of ancient books on folklore and mysticism, delved into the town's archives in search of clues. Samuel, attuned to the rhythms of nature, spent hours observing the wind's dance through the rustling leaves and swaying branches.\n\nAs they pieced together fragments of information, a chilling revelation emerged – the whispers were foretelling the future. Cryptic messages, veiled in metaphor and symbolism, hinted at events yet to unfold. The townspeople recoiled at the realization that their once-predictable lives were now subject to the whims of an unseen force.\n\nThe whispers grew more urgent, signaling an impending disaster that loomed on the horizon. A sense of urgency gripped Everwood, and the townspeople intensified their efforts to interpret the messages. Late into the night, they convened in the community hall, poring over maps and diagrams, attempting to decipher the cryptic language carried by the wind.\n\nClara, fueled by a relentless curiosity, uncovered an ancient legend that spoke of a celestial alignment known as the \"Whispering Convergence.\" According to the legend, when the stars aligned in a specific configuration, the wind would carry messages foretelling events of great significance. The townspeople, though skeptical, realized that they were on the precipice of a momentous event tied to the cosmic forces that governed their existence.\n\nWith newfound determination, the townspeople set out to prepare for the impending disaster. They reinforced buildings, stocked up on supplies, and established an emergency response team. Everwood, once a haven of serenity, now echoed with the sounds of hammering and the voices of people strategizing to defy fate.\nAs the final days before the Whispering Convergence approached, the whispers in the wind grew louder, their urgency reaching a fevered pitch. The townspeople, fueled by a mix of trepidation and resilience, gathered in the town square for a communal vigil. The night sky, adorned with stars, seemed to mirror the uncertainty that hung over Everwood.\n\nIn the next chapter of Everwood's tale, the Whispering Convergence would unfold, revealing the destiny written in the stars and whispered by the wind. The townspeople, bound by a shared purpose, stood united against the mysterious forces that sought to challenge their way of life. The journey into the unknown had only just begun, and Everwood braced itself for the revelation that awaited on the horizon.\n",
+          "\n\nThe realms of quantum physics and the human mind have long been subjects of fascination and exploration in their respective domains. Yet, the intersection of these two enigmatic domains raises intriguing questions about the nature of consciousness itself. Can the principles of quantum mechanics shed light on the mysteries of the human mind? In this essay, we delve into the captivating exploration of quantum consciousness, as physicists venture into the frontiers of science to unravel the enigmatic connection between quantum physics and human consciousness.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Quantum Mechanics: The Foundation",
+      },
+      {
+        insert:
+          "\nTo understand the connection between quantum mechanics and consciousness, we must first comprehend the fundamental principles of quantum physics. Quantum mechanics, developed in the early 20th century, provides a framework to describe the behavior of particles on the smallest scales, where classical physics breaks down. Key features of quantum mechanics, such as superposition and entanglement, have challenged our classical understanding of reality.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "The Mystery of Consciousness",
+      },
+      {
+        insert:
+          "\nConsciousness, on the other hand, remains one of the most elusive and profound phenomena in human existence. While science has made great strides in understanding the brain's neural processes, the subjective experience of consciousness itself continues to defy a complete explanation. It is this very mystery that has driven physicists and researchers to explore whether the strange and counterintuitive principles of quantum mechanics might hold clues to understanding consciousness.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Quantum Consciousness Theories",
+      },
+      {
+        insert:
+          "\nSeveral theories have emerged at the intersection of quantum physics and consciousness. One prominent theory is the Orch-OR (Orchestrated Objective Reduction) theory proposed by physicist Sir Roger Penrose and anesthesiologist Stuart Hameroff. This theory posits that quantum processes within microtubules in brain neurons may play a role in generating consciousness. According to Orch-OR, the collapse of quantum superpositions within these structures contributes to conscious experiences.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "The Role of Quantum Entanglement",
+      },
+      {
+        insert:
+          "\nQuantum entanglement, the phenomenon where particles become correlated in such a way that the state of one instantaneously affects the state of the other, has intrigued physicists for decades. Some theorists speculate that entanglement could play a role in linking the consciousness of individuals or even connecting all living beings through a quantum network. While these ideas remain highly speculative, they highlight the potential significance of quantum phenomena in understanding consciousness.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Challenges and Controversies",
+      },
+      {
+        insert:
+          "\nIt is essential to acknowledge that the exploration of quantum consciousness remains highly controversial within the scientific community. Critics argue that the brain's warm and noisy environment may not be suitable for preserving the delicate quantum states required for consciousness-related processes. Moreover, the lack of empirical evidence linking quantum mechanics directly to consciousness leaves room for skepticism.\n\n",
+      },
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Conclusion",
+      },
+      {
+        insert:
+          "\nThe quest to unravel the mysteries of consciousness through the lens of quantum mechanics is a captivating journey into the unknown. While the intersection of quantum physics and the human mind raises thought-provoking questions and opens new avenues for exploration, it is crucial to approach this topic with scientific rigor and skepticism. Whether or not quantum mechanics can provide a comprehensive explanation for consciousness remains an open question, but the pursuit of knowledge at this intriguing frontier continues to inspire scientists and philosophers alike. As we continue to explore the enigmatic connection between quantum physics and consciousness, we may one day unlock the secrets of the universe's most profound phenomenon: the human mind.\n",
       },
     ];
 
-    if (localStorage.getItem("item-8Ho4RkYMaN8IYfEkJ9S4")) {
+    if (localStorage.getItem("item-GsimZYIq7ba0lZNMZQNo")) {
       return;
     }
 
     try {
       await addDoc(storyData, {
-        ref: "8Ho4RkYMaN8IYfEkJ9S4",
+        ref: "GsimZYIq7ba0lZNMZQNo",
         author: "admin",
-        tags: ["mystery", "supernatural", "small town"],
-        title: "Whispers in the Wind: The Enigma Unveiled",
+        likes: 3,
+        views: 5,
+        comments: 1,
+        tags: ["science", "quantum physics", "mind"],
+        title: "The Quantum Mind",
         story: data,
         date: "Nov 30 2023",
         pic: "https://images.pexels.com/photos/12180254/pexels-photo-12180254.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -78,6 +140,10 @@ export const StoryPage = () => {
       console.log(story);
     }
   }, [story]);
+
+  // useEffect(() => {
+  //   submitStory();
+  // }, []);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper === null) return;
@@ -124,6 +190,7 @@ export const StoryPage = () => {
       <div className="story-page">
         <div className="story-header-container">
           {" "}
+          <small className="story-category-small">Fiction</small>
           <h3 className="story-page-header">{info.title}</h3>
           <small>by John Smith</small>
         </div>
@@ -162,10 +229,25 @@ export const StoryPage = () => {
             ref={wrapperRef}
             id="quill-container"
           ></div>
-          <div className="test-block">
-            <div className="test-block-upper">
-              <p>Similar Stories</p>
+          <div className="story-side-info">
+            <div className="story-info-summary">
+              <p>Synopsis:</p>
+              <small>
+                Astronomers recount their experiences in deciphering signals
+                from distant galaxies. These cosmic messages, once decoded,
+                reveal the voices of civilizations far beyond our own, sparking
+                reflections on the vastness of the universe....
+              </small>
+              <p>Tags:</p>
+              {"[science, space, physics]"}
+              <br />
+              <p>670 words</p>
+              <small>Last Edited : November 23 2023</small>
             </div>
+            <div className="story-info-summary">
+              <p>Similiar stories:</p>
+            </div>
+
             <div className="test-block-lower"></div>
           </div>
         </div>
