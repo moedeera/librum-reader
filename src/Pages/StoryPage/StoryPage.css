@@ -86,16 +86,17 @@
 @media only screen and (min-width: 1100px) {
   .story-container {
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr;
+    grid-template-columns: 0.5fr 1.75fr 1fr;
   }
   .story-side-info {
     display: block;
-
+    width: 100%;
+    max-width: 350px;
     height: 100%;
     max-height: 800px;
   }
   .story-info-summary {
-    border: 1px solid rgba(85, 58, 58, 0.35);
+    border: 1px solid rgba(85, 58, 58, 0.15);
     min-height: 200px;
     border-radius: 10px;
     padding: 10px;

@@ -246,6 +246,13 @@ export const StoryPage = () => {
             </div>
             <div className="story-info-summary">
               <p>Similiar stories:</p>
+              <div className="similar-stories-container">
+                <div className="similar-story">
+                  <div className="ss-image"></div>
+                  <div className="ss-story-title"></div>
+                  <div className="ss-story-author"></div>
+                </div>
+              </div>
             </div>
 
             <div className="test-block-lower"></div>
