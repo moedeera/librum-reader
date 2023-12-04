@@ -6,6 +6,7 @@
   align-items: top;
   overflow: hidden;
   min-height: 55vh;
+  animation: fadeIn 600ms ease-in-out;
 }
 
 .landing-background {
@@ -50,6 +51,7 @@
   justify-content: top;
   gap: 10px;
   align-items: center;
+  animation: fadeUp 750ms ease-in-out;
 }
 .landing-header-main {
   margin: 0 auto;

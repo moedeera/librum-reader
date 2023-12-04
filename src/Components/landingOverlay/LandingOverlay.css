@@ -1,0 +1,28 @@
+.landing-overlay-container {
+  height: 100%;
+
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.lo-images-container {
+  position: relative;
+
+  display: flex;
+  justify-content: space-between;
+  background-image: url("./aismall.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.1;
+}
+
+@media only screen and (min-width: 1100px) {
+  .lo-images-container {
+    background-image: url("./ailarge.png");
+  }
+}

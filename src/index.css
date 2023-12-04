@@ -163,6 +163,10 @@ textarea {
   text-align: center;
 }
 
+.App {
+  position: relative;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -206,6 +210,15 @@ textarea {
   }
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
@@ -216,6 +229,30 @@ textarea {
     opacity: 1;
     transform: translateX(0%);
     scale: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes fadeInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
   }
 }
 

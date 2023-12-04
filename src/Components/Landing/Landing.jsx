@@ -1,3 +1,4 @@
+import { LandingOverlay } from "../landingOverlay/LandingOverlay";
 import "./Landing.css";
 import { Link } from "react-router-dom";
 export const Landing = () => {
@@ -5,6 +6,7 @@ export const Landing = () => {
 
   return (
     <div className="landing-container">
+      <LandingOverlay />
       <div className="landing-background">
         <div className="grid-container">
           {/* {squares.map((square, index) => (
