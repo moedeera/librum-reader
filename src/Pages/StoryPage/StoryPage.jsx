@@ -6,6 +6,7 @@ import { SiteContext } from "../../Context/Context";
 import { loremIpsum, storiesInfo } from "../../Context/Content";
 import { db } from "../../../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
+import { findImageSet, imagesSorted } from "../../assets/images/images";
 
 export const StoryPage = () => {
   const storyData = collection(db, "stories");
@@ -69,7 +70,7 @@ export const StoryPage = () => {
 
   const [postData, setPostData] = useState("");
   const { story } = useContext(SiteContext);
-  let info = { title: "Your Story" };
+  let info = { title: "Legend of the Lurkers" };
 
   useEffect(() => {
     if (story) {
@@ -121,8 +122,41 @@ export const StoryPage = () => {
   return (
     <div className="container">
       <div className="story-page">
-        <h3 className="story-page-header">{info.title}</h3>
+        <div className="story-header-container">
+          {" "}
+          <h3 className="story-page-header">{info.title}</h3>
+          <small>by John Smith</small>
+        </div>
+
         <div className="story-container">
+          <div className="story-stats">
+            <div className="story-user">
+              <div
+                style={{
+                  backgroundImage: `url("${
+                    findImageSet("fantasy", imagesSorted)[1]
+                  }")`,
+                }}
+                className="story-user-image"
+              ></div>
+              <p>John Smith</p>
+            </div>
+            <div className="story-stats-container">
+              <div className="single-story-stat">
+                {"100"}{" "}
+                <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
+              </div>
+              <div className="single-story-stat">
+                {"33"}{" "}
+                <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
+              </div>
+              <div className="single-story-stat">
+                {"8"}{" "}
+                <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
+              </div>
+            </div>
+          </div>
+
           <div
             className="story-page"
             ref={wrapperRef}
