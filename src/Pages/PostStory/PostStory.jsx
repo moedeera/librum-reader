@@ -63,12 +63,30 @@ export const PostStory = () => {
           ref={wrapperRef}
           id="quill-container"
         ></div>
+        <div className="info-section-container">
+          <div className="info-section-input">
+            <p>Select a category</p>
+            <select name="" id="">
+              <option value="fiction">Fiction</option>
+              <option value="bio">Biography</option>
+            </select>
+          </div>
+          <div className="info-section-input">
+            <p>Tags</p>
+            <input value="" type="text" />
+          </div>
+          <div className="info-section-input">
+            <p>Synopsis</p>
+            <textarea type="text" rows="20" />
+          </div>
+          <div className="info-section-input"></div>
+        </div>
         <div className="editor-button-container">
           <button className="btn btn-primary" onChangeCapture={() => {}}>
-            Preview
+            Save Story
           </button>
           <button id="save-button" className="btn btn-primary btn-green">
-            Save
+            Publish
           </button>
         </div>
       </div>
