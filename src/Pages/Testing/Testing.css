@@ -1,0 +1,27 @@
+.testing-page {
+  margin-top: 100px;
+  border: 1px solid red;
+  padding-top: var(--padding-top-sm);
+  min-height: 50vh;
+  text-align: center;
+}
+
+.testing-page > div > div {
+  border: 1px solid grey;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+@media only screen and (min-width: 1100px) {
+  .testing-page {
+    padding-top: var(--padding-top-lg);
+  }
+}

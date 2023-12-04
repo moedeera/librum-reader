@@ -17,6 +17,7 @@ import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
 import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
+import { Testing } from "./Pages/Testing/Testing";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
               <Route path="/stories/:storyid" element={<StoryPage />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/testing" element={<Testing />} />
             </Routes>
           </ScrollToTop>
           <Footer />
