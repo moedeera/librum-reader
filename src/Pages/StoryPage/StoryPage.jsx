@@ -7,10 +7,13 @@ import { loremIpsum, storiesInfo } from "../../Context/Content";
 import { db } from "../../../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
+import { useParams } from "react-router-dom";
 
 export const StoryPage = () => {
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
+
+  const { id } = useParams();
 
   const submitStorySummaries = async () => {
     const summaries = storiesInfo;

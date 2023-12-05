@@ -18,6 +18,8 @@ import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
 import { Testing } from "./Pages/Testing/Testing";
+import { WritePage } from "./Pages/WritePage/WritePage";
+import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
 
 function App() {
   return (
@@ -30,7 +32,9 @@ function App() {
               <Route path="/*" element={<ErrorPage />} />
               <Route path="/" element={<Homepage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/write" element={<PostStory />} />
+              <Route path="/write" element={<WritePage />} />
+              <Route path="/storyinfo" element={<StoryInfo />} />
+              <Route path="mystory/:id" element={<PostStory />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />

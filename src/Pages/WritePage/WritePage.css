@@ -1,0 +1,9 @@
+.write-page-container {
+  padding-top: var(--padding-top-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 50px;
+}

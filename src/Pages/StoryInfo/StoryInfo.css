@@ -1,0 +1,46 @@
+.story-info-page {
+  margin-top: var(--padding-top-lg);
+  text-align: left;
+  padding-bottom: 100px;
+}
+.story-info-page h1 {
+  text-align: center;
+}
+
+.story-info-container {
+  margin: 10px auto;
+  width: 90%;
+  max-width: var(--max-width-main);
+}
+.story-info-picture {
+  height: 300px;
+  width: 90%;
+  max-width: 300px;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  background-image: url("https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon.png");
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
+
+.story-info-details {
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  padding: 20px 20px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 900px;
+}
+
+@media only screen and (min-width: 1100px) {
+  .story-info-container {
+    display: grid;
+    grid-template-columns: 2fr 9fr;
+  }
+}

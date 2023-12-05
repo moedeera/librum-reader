@@ -4,6 +4,9 @@ import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
 
 export const PostStory = () => {
+  const { user } = useContext(SiteContext);
+  console.log(user);
+
   const [postData, setPostData] = useState("");
 
   const wrapperRef = useCallback((wrapper) => {
@@ -63,24 +66,7 @@ export const PostStory = () => {
           ref={wrapperRef}
           id="quill-container"
         ></div>
-        <div className="info-section-container">
-          <div className="info-section-input">
-            <p>Select a category</p>
-            <select name="" id="">
-              <option value="fiction">Fiction</option>
-              <option value="bio">Biography</option>
-            </select>
-          </div>
-          <div className="info-section-input">
-            <p>Tags</p>
-            <input value="" type="text" />
-          </div>
-          <div className="info-section-input">
-            <p>Synopsis</p>
-            <textarea type="text" rows="20" />
-          </div>
-          <div className="info-section-input"></div>
-        </div>
+
         <div className="editor-button-container">
           <button className="btn btn-primary" onChangeCapture={() => {}}>
             Save Story

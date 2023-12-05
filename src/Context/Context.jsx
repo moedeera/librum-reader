@@ -156,7 +156,7 @@ export const SiteContextProvider = ({ children }) => {
         // Signed in
         console.log(userCredential.user);
         setUser(userCredential.user);
-        localStorage.setItem("librum-user", user);
+        localStorage.setItem("librum-user", userInfo);
         redirection(link);
         // ...
       })
@@ -167,7 +167,8 @@ export const SiteContextProvider = ({ children }) => {
 
   const signInWithGoogleFunction = async () => {
     const userInfo = await signInWithGoogle();
-    console.log;
+    console.log(userInfo);
+    localStorage.setItem("librum-user", JSON.stringify(userInfo));
     setUser(userInfo);
   };
 
@@ -177,7 +178,6 @@ export const SiteContextProvider = ({ children }) => {
     return emailRegex.test(email);
   };
 
-  console.log(isEmailValid("jj@gmail.com"));
   // const htmlContent = "<b>Hello </b><strong>World!</strong><br>";
   // const quillDelta = parseHtmlToQuillDelta(htmlContent);
   // console.log(JSON.stringify(quillDelta, null, 2));
