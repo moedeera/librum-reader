@@ -1,0 +1,38 @@
+.drop-down-container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  transition: all 0.5s ease-in-out;
+  height: 150px;
+  overflow: visible;
+}
+.drop-down-container h3 {
+  text-align: left;
+}
+
+.drop-down-list {
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.drop-down-item {
+  height: 50px;
+  border: 1px solid rgba(128, 128, 128, 0.5);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  min-width: 275px;
+  max-width: 400px;
+  background-color: aliceblue;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+@media only screen and (min-width: 1100px) {
+  .drop-down-item:hover:hover {
+    background-color: rgba(128, 128, 128, 1);
+  }
+}

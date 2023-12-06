@@ -2,6 +2,7 @@
   padding-top: var(--padding-top-lg);
   text-align: left;
   padding-bottom: 100px;
+  transition: all 0.5s ease-in-out;
 }
 .story-info-page h3 {
   text-align: center;
@@ -48,8 +49,12 @@
   display: flex;
   flex-direction: column;
 }
+
+.story-info-tags {
+  margin-top: 20px;
+}
 .story-info-input small {
-  margin-top: 10px;
+  margin-right: 10px;
   border: 1px solid grey;
   width: max-content;
   padding: 5px 15px;

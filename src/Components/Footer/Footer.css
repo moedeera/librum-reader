@@ -19,7 +19,10 @@
   bottom: 0;
   z-index: 3;
 }
-
+.footer-about h3 {
+  color: white;
+  margin-bottom: 0;
+}
 .footer-upper {
   width: 95%;
   max-width: var(--max-width-main);

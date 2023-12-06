@@ -12,10 +12,11 @@ export const Footer = () => {
         <div className="footer-upper">
           <div className="footer-about">
             {" "}
-            <h1>
-              <span className="alt-span">Expand</span> your mind with Librum
+            <h3>
+              <span className="title-span">Expand</span> your mind with{" "}
+              <span className="alt-span">Librum</span>
               <span className="title-span">Reader</span>
-            </h1>
+            </h3>
             <p>
               A unique platform for writers of all levels to enhance their
               craft. Dive into a world of creativity where you can read, write,
