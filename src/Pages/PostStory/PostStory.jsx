@@ -4,8 +4,8 @@ import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
 
 export const PostStory = () => {
-  const { user } = useContext(SiteContext);
-  console.log(user);
+  const { user, story } = useContext(SiteContext);
+  console.log(user, story);
 
   const [postData, setPostData] = useState("");
 

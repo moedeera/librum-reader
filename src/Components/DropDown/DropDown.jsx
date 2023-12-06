@@ -40,7 +40,7 @@ export const DropDown = ({ selections, setValue, storyInfo }) => {
             onClick={() => {
               showDropDown(false);
               setSelected(value);
-              setValue({ ...storyInfo, categories: value });
+              setValue({ ...storyInfo, category: value });
               console.log(storyInfo);
             }}
           >

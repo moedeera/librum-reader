@@ -21,6 +21,7 @@ export const StoryInfo = () => {
     category: "",
   });
 
+  const [error, setError] = useState("");
   const onChangeHandler = (e, type) => {
     if (type === "title") {
       setNewStoryInfo({ ...newStoryInfo, title: e.target.value });
@@ -56,9 +57,12 @@ export const StoryInfo = () => {
 
     setStory({
       ...story,
+      id: newstoryId,
       author: user.name,
       title: newStoryInfo.title,
       summary: newStoryInfo.summary,
+      tags: newStoryInfo.tags,
+      category: newStoryInfo.category,
     });
 
     navigate(`/mystory/${newstoryId}`);

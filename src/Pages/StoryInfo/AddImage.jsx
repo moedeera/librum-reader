@@ -12,6 +12,7 @@ const ImageUploader = () => {
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -35,7 +36,7 @@ const ImageUploader = () => {
         setStory({ ...story, picture: url });
         setButtonLabel("Select Image"); // Reset button label after upload
         setFile(null); // Clear the file
-        alert(`Image uploaded : ${url}`);
+        setSuccess(true);
         console.log(story);
       } catch (error) {
         console.log(error);
@@ -71,14 +72,20 @@ const ImageUploader = () => {
         style={{ display: "none" }}
       />
       <small> {file && file.name}</small>
-      <button
-        className="btn"
-        onClick={() => {
-          handleButtonClick(false);
-        }}
-      >
-        {buttonLabel}
-      </button>
+
+      {success ? (
+        `Image Successfully uploaded`
+      ) : (
+        <button
+          className="btn"
+          onClick={() => {
+            handleButtonClick(false);
+          }}
+        >
+          {buttonLabel}
+        </button>
+      )}
+
       {file && (
         <button
           className="btn"
