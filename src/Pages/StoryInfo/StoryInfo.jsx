@@ -6,13 +6,14 @@ import ImageUploader from "./AddImage";
 
 export const StoryInfo = () => {
   const navigate = useNavigate();
-  const { story, setStory } = useContext(SiteContext);
+  const { story, setStory, user } = useContext(SiteContext);
+  console.log("user:", user.name);
   const [newStoryInfo, setNewStoryInfo] = useState({
     author: "",
     id: "",
     ref: "",
-    title: "Your Story",
-    summary: "",
+    title: "",
+    summary: "Enter A Brief Summary",
     public: true,
     picture: "",
     tags: [],
@@ -37,8 +38,21 @@ export const StoryInfo = () => {
   const handleContinue = () => {
     const newstoryId = Math.floor(Math.random() * (2000 - 1100) + 1100);
 
+    setStory({
+      ...story,
+      author: user.name,
+
+      title: newStoryInfo.title,
+      summary: newStoryInfo.summary,
+    });
+
     navigate(`/mystory/${newstoryId}`);
   };
+
+  if (user === null || !user) {
+    navigate("/login");
+    return;
+  }
 
   return (
     <div className="container">
@@ -53,11 +67,28 @@ export const StoryInfo = () => {
             {" "}
             <div className="story-info-input">
               <h4>Title</h4>
-              <input type="text" />
+              <input
+                name="title"
+                type="text"
+                value={newStoryInfo.title}
+                onChange={(e) => {
+                  onChangeHandler(e, "title");
+                }}
+              />
             </div>
             <div className="story-info-input">
               <h4>Description</h4>
-              <textarea name="" id="" cols="30" rows="10"></textarea>
+              <textarea
+                name="title"
+                type="text"
+                value={newStoryInfo.summary}
+                onChange={(e) => {
+                  onChangeHandler(e, "summary");
+                }}
+                id=""
+                cols="30"
+                rows="10"
+              />
             </div>
             <div className="story-info-input">
               <h4>Tags</h4>

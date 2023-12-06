@@ -35,32 +35,36 @@ export const Navbar = () => {
           ></div>
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div>
-          <Link
-            className="btn btn-primary btn-login"
-            style={
-              user && {
-                height: "50px",
-                width: "50px",
-                borderRadius: "50%",
+          <div className="user-login-image">
+            {" "}
+            <Link
+              className="btn btn-primary btn-login "
+              style={
+                user && {
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50%",
 
-                padding: "0",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                  padding: "0",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }
               }
-            }
-            to={user ? "/login" : "/profile"}
-          >
-            {user ? (
-              <img
-                style={{ width: "100%", borderRadius: "50%" }}
-                src="https://www.w3schools.com/howto/img_avatar.png"
-                alt=""
-              />
-            ) : (
-              "Login"
-            )}
-          </Link>
+              to={user ? "/login" : "/profile"}
+            >
+              {user ? (
+                <img
+                  className="user-image"
+                  style={{ width: "100%", borderRadius: "50%" }}
+                  src={user.pic}
+                  alt=""
+                />
+              ) : (
+                "Login"
+              )}
+            </Link>
+          </div>
         </div>
       </div>
 
