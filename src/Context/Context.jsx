@@ -59,6 +59,7 @@ export const SiteContextProvider = ({ children }) => {
     public: true,
     picture: "",
     tags: [],
+    category: "",
   });
   const [user, setUser] = useState(userInfo);
   const fbProfile = collection(db, "profile");

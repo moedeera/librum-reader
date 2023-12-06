@@ -41,7 +41,6 @@ export const StoryInfo = () => {
     setStory({
       ...story,
       author: user.name,
-
       title: newStoryInfo.title,
       summary: newStoryInfo.summary,
     });
