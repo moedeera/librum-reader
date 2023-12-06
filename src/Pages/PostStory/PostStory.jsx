@@ -93,14 +93,7 @@ export const PostStory = () => {
       const updatedStories = [...currentStories, story.id];
 
       // Update User Profile to include the stories
-      matchProfile
-        .update({ stories: updatedStories })
-        .then(() => {
-          console.log("Document successfully updated with the new story.");
-        })
-        .catch((error) => {
-          console.error("Error updating document:", error);
-        });
+      // await updateDoc(matchProfile, newCount);
 
       console.log("success, story and summary was saved on data-base");
     } catch (error) {
