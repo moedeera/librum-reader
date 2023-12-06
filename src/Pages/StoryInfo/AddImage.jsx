@@ -43,8 +43,12 @@ const ImageUploader = () => {
     });
   };
 
-  const handleButtonClick = () => {
-    if (!file) {
+  const handleButtonClick = (reselect) => {
+    console.log(reselect);
+    if (reselect) {
+      fileInputRef.current.click();
+      return;
+    } else if (!file) {
       // If no file is selected, open file input
       fileInputRef.current.click();
     } else {
@@ -67,9 +71,25 @@ const ImageUploader = () => {
         style={{ display: "none" }}
       />
       <small> {file && file.name}</small>
-      <button className="btn" onClick={handleButtonClick}>
+      <button
+        className="btn"
+        onClick={() => {
+          handleButtonClick(false);
+        }}
+      >
         {buttonLabel}
       </button>
+      {file && (
+        <button
+          className="btn"
+          onClick={() => {
+            handleButtonClick(true);
+          }}
+        >
+          Different image
+        </button>
+      )}
+
       <br />
       {uploadProgress > 0 && <div>Upload is {uploadProgress}% complete</div>}
     </div>
