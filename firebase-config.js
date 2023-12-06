@@ -45,6 +45,9 @@ const provider = new GoogleAuthProvider();
 //       console.log(error);
 //     });
 // };
+
+const storage = getStorage(app);
+
 const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -72,4 +75,4 @@ const signInWithGoogle = async () => {
   }
 };
 
-export { app, db, signInWithGoogle };
+export { app, db, signInWithGoogle, storage };

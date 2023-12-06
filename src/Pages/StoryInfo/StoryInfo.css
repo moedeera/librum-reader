@@ -3,7 +3,7 @@
   text-align: left;
   padding-bottom: 100px;
 }
-.story-info-page h1 {
+.story-info-page h3 {
   text-align: center;
 }
 
@@ -15,16 +15,23 @@
 .story-info-picture {
   height: 300px;
   width: 90%;
-  max-width: 300px;
-  border: 1px solid rgba(128, 128, 128, 0.5);
+  max-width: 350px;
+  border: 1px solid rgba(128, 128, 128, 0.35);
   background-image: url("https://endlessicons.com/wp-content/uploads/2012/11/image-holder-icon.png");
   background-position: center;
   background-size: cover;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   padding: 10px 0;
   margin-bottom: 20px;
+  gap: 10px;
+}
+
+.story-info-picture input {
+  max-width: 200px;
+  border: 1px solid red;
 }
 
 .story-info-details {
@@ -38,9 +45,23 @@
   max-width: 900px;
 }
 
+.story-info-input {
+  display: flex;
+  flex-direction: column;
+}
+.story-info-input small {
+  margin-top: 10px;
+  border: 1px solid grey;
+  width: max-content;
+  padding: 5px 15px;
+  border-radius: 5px;
+  background-color: steelblue;
+  color: white;
+}
+
 @media only screen and (min-width: 1100px) {
   .story-info-container {
     display: grid;
-    grid-template-columns: 2fr 9fr;
+    grid-template-columns: 2fr 7fr;
   }
 }

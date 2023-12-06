@@ -50,7 +50,16 @@ export const SiteContextProvider = ({ children }) => {
     { id: 3, name: "Copyright Policy", link: "/" },
   ];
 
-  const [story, setStory] = useState("Your Story");
+  const [story, setStory] = useState({
+    author: "",
+    id: "",
+    ref: "",
+    title: "Your Story",
+    summary: "",
+    public: true,
+    picture: "",
+    tags: [],
+  });
   const [user, setUser] = useState(userInfo);
   const fbProfile = collection(db, "profile");
   function parseHtmlToQuillDelta(html) {
