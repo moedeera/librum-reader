@@ -2,10 +2,15 @@ import Quill from "quill";
 import { useCallback, useContext, useState } from "react";
 import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../firebase-config";
 
 export const PostStory = () => {
   const { user, story } = useContext(SiteContext);
-  console.log(user, story);
+
+  const storyData = collection(db, "stories");
+  const storySummaries = collection(db, "summaries");
+  const profilesRef = collection(db, "profiles");
 
   const [postData, setPostData] = useState("");
 
@@ -57,6 +62,52 @@ export const PostStory = () => {
     };
   }, []);
 
+  const saveStory = async () => {};
+
+  const PublishStory = async () => {
+    try {
+      await addDoc(storyData, {
+        ref: "",
+        id: story.id,
+        author: story.author,
+        likes: 0,
+        views: 0,
+        comments: 0,
+        tags: story.tags,
+        title: story.title,
+        story: postData,
+        date: new Date(),
+        pic: story.pic,
+      });
+
+      await addDoc(storySummaries, {
+        id: story.id,
+        cat: story.category,
+        title: story.title,
+        summary: story.summary,
+        tag: story.tags,
+        pic: story.pic,
+      });
+      const matchProfile = profilesRef.where("email", "==", user.email);
+      const currentStories = matchProfile.stories; // Default to an empty array if 'stories' doesn't exist
+      const updatedStories = [...currentStories, story.id];
+
+      // Update User Profile to include the stories
+      matchProfile
+        .update({ stories: updatedStories })
+        .then(() => {
+          console.log("Document successfully updated with the new story.");
+        })
+        .catch((error) => {
+          console.error("Error updating document:", error);
+        });
+
+      console.log("success, story and summary was saved on data-base");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="text-editor-page">
@@ -68,10 +119,19 @@ export const PostStory = () => {
         ></div>
 
         <div className="editor-button-container">
-          <button className="btn btn-primary" onChangeCapture={() => {}}>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              PublishStory();
+            }}
+          >
             Save Story
           </button>
-          <button id="save-button" className="btn btn-primary btn-green">
+          <button
+            onClick={() => {}}
+            id="save-button"
+            className="btn btn-primary btn-green"
+          >
             Publish
           </button>
         </div>
