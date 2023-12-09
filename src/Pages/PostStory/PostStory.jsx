@@ -2,7 +2,7 @@ import Quill from "quill";
 import { useCallback, useContext, useState } from "react";
 import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, query } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export const PostStory = () => {
@@ -73,11 +73,11 @@ export const PostStory = () => {
         likes: 0,
         views: 0,
         comments: 0,
-        tags: story.tags,
+        tags: [...story.tags],
         title: story.title,
         story: postData,
         date: new Date(),
-        pic: story.pic,
+        pic: "https://firebasestorage.googleapis.com/v0/b/librum-bb036.appspot.com/o/images%2Ficons8-school-80.png?alt=media&token=8aa40b76-c69a-49d0-a728-49f61cba4ce8",
       });
 
       await addDoc(storySummaries, {
@@ -85,12 +85,13 @@ export const PostStory = () => {
         cat: story.category,
         title: story.title,
         summary: story.summary,
-        tag: story.tags,
-        pic: story.pic,
+        tag: [...story.tags],
+        pic: "https://firebasestorage.googleapis.com/v0/b/librum-bb036.appspot.com/o/images%2Ficons8-school-80.png?alt=media&token=8aa40b76-c69a-49d0-a728-49f61cba4ce8",
       });
-      const matchProfile = profilesRef.where("email", "==", user.email);
-      const currentStories = matchProfile.stories; // Default to an empty array if 'stories' doesn't exist
-      const updatedStories = [...currentStories, story.id];
+      // const matchProfile = profilesRef.where("email", "==", user.email);
+      // const q = query(collection(db, "profile"), where("email", "==", user.email));
+      // const currentStories = q.stories; // Default to an empty array if 'stories' doesn't exist
+      // const updatedStories = [...currentStories, story.id];
 
       // Update User Profile to include the stories
       // await updateDoc(matchProfile, newCount);
