@@ -8,10 +8,15 @@ import { db } from "../../../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { useParams } from "react-router-dom";
-
+import { doc } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 export const StoryPage = () => {
+  const [postData, setPostData] = useState("");
+  const { storyId, story } = useContext(SiteContext);
+  let info = { title: "Legend of the Lurkers" };
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
+  const [storyFirebase, setStoryFirebase] = useState([]);
 
   const { id } = useParams();
 
@@ -38,73 +43,80 @@ export const StoryPage = () => {
     const data = [
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "Introduction",
+        insert: "The Spark of Innovation",
       },
       {
         insert:
-          "\n\nThe realms of quantum physics and the human mind have long been subjects of fascination and exploration in their respective domains. Yet, the intersection of these two enigmatic domains raises intriguing questions about the nature of consciousness itself. Can the principles of quantum mechanics shed light on the mysteries of the human mind? In this essay, we delve into the captivating exploration of quantum consciousness, as physicists venture into the frontiers of science to unravel the enigmatic connection between quantum physics and human consciousness.\n\n",
+          "\nIt all begins with a spark—a flicker of an idea that has the potential to change the world. This initial spark can be triggered by various sources: a pressing problem, a customer's unmet need, or simply a wild dream. The business mogul recounts how their own journey of innovation began with a moment of clarity. They were inspired by a desire to solve a prevalent issue in their industry, something that had eluded even the brightest minds for years.\nBut the spark of innovation is not enough; it's just the beginning. To transform that spark into a blazing fire of creativity, one must nurture it with knowledge, curiosity, and a relentless pursuit of excellence.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "Quantum Mechanics: The Foundation",
+        insert: "The Role of Research and Knowledge",
       },
       {
         insert:
-          "\nTo understand the connection between quantum mechanics and consciousness, we must first comprehend the fundamental principles of quantum physics. Quantum mechanics, developed in the early 20th century, provides a framework to describe the behavior of particles on the smallest scales, where classical physics breaks down. Key features of quantum mechanics, such as superposition and entanglement, have challenged our classical understanding of reality.\n\n",
+          "\nInnovation is not just about having a brilliant idea; it's about knowing how to execute it effectively. The business mogul emphasizes the significance of research and knowledge as the foundation of their creative journey. They believe that a deep understanding of their industry, its trends, and its pain points is crucial.\nTo gain this knowledge, they invested time in reading, attending conferences, and networking with experts. They understood that innovation is often the result of connecting seemingly unrelated dots, and the broader their knowledge base, the more dots they could connect. This continuous pursuit of knowledge became the cornerstone of their creative process.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "The Mystery of Consciousness",
+        insert: "Embracing Challenges as Catalysts",
       },
       {
         insert:
-          "\nConsciousness, on the other hand, remains one of the most elusive and profound phenomena in human existence. While science has made great strides in understanding the brain's neural processes, the subjective experience of consciousness itself continues to defy a complete explanation. It is this very mystery that has driven physicists and researchers to explore whether the strange and counterintuitive principles of quantum mechanics might hold clues to understanding consciousness.\n\n",
+          "\nThe road to innovation is rarely smooth; it's riddled with obstacles, doubts, and setbacks. The business mogul speaks candidly about the numerous challenges they faced along the way. These challenges were not roadblocks but rather catalysts that fueled their creativity.\nThey share stories of sleepless nights, failed prototypes, and skeptical investors. Each setback was a valuable lesson, an opportunity to refine their idea, and an invitation to think outside the box. The ability to embrace challenges as stepping stones to success became a defining characteristic of their creative journey.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "Quantum Consciousness Theories",
+        insert: "Collaboration and Teamwork",
       },
       {
         insert:
-          "\nSeveral theories have emerged at the intersection of quantum physics and consciousness. One prominent theory is the Orch-OR (Orchestrated Objective Reduction) theory proposed by physicist Sir Roger Penrose and anesthesiologist Stuart Hameroff. This theory posits that quantum processes within microtubules in brain neurons may play a role in generating consciousness. According to Orch-OR, the collapse of quantum superpositions within these structures contributes to conscious experiences.\n\n",
+          "\nInnovation is not a solitary endeavor. The business mogul acknowledges the pivotal role that collaboration and teamwork played in their journey. They surrounded themselves with a diverse team of talented individuals who shared their passion for the idea.\nThe power of diverse perspectives cannot be overstated. The mogul describes how brainstorming sessions often led to unexpected breakthroughs, as team members from different backgrounds brought fresh ideas and viewpoints to the table. It was through collaboration that their initial spark evolved into a fully-fledged innovation.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "The Role of Quantum Entanglement",
+        insert: "The Art of Iteration",
       },
       {
         insert:
-          "\nQuantum entanglement, the phenomenon where particles become correlated in such a way that the state of one instantaneously affects the state of the other, has intrigued physicists for decades. Some theorists speculate that entanglement could play a role in linking the consciousness of individuals or even connecting all living beings through a quantum network. While these ideas remain highly speculative, they highlight the potential significance of quantum phenomena in understanding consciousness.\n\n",
+          "\nCreating groundbreaking innovations is rarely a one-shot affair. The mogul stresses the importance of iteration in the creative process. They recount how they continuously refined their product, incorporating user feedback and staying attuned to evolving market demands.\nThe art of iteration is not just about making minor tweaks; it's about having the courage to pivot when necessary. Sometimes, the path to innovation requires changing course entirely, and the mogul shares their experiences of recognizing when to pivot and when to persevere.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "Challenges and Controversies",
+        insert: "Fostering a Culture of Creativity",
       },
       {
         insert:
-          "\nIt is essential to acknowledge that the exploration of quantum consciousness remains highly controversial within the scientific community. Critics argue that the brain's warm and noisy environment may not be suitable for preserving the delicate quantum states required for consciousness-related processes. Moreover, the lack of empirical evidence linking quantum mechanics directly to consciousness leaves room for skepticism.\n\n",
+          "\nAs their journey unfolded, the business mogul realized the significance of fostering a culture of creativity within their organization. They cultivated an environment where employees were encouraged to experiment, take risks, and think innovatively. This culture of creativity extended beyond the R&D department; it permeated every aspect of their company.\nThey also stressed the importance of celebrating failures as valuable learning experiences. In a culture that embraced both success and failure, employees felt empowered to push the boundaries of what was possible.\n\n",
       },
       {
         attributes: {
+          color: "var(--tw-prose-bold)",
           bold: true,
         },
-        insert: "Conclusion",
+        insert: "The Science of Execution",
       },
       {
         insert:
-          "\nThe quest to unravel the mysteries of consciousness through the lens of quantum mechanics is a captivating journey into the unknown. While the intersection of quantum physics and the human mind raises thought-provoking questions and opens new avenues for exploration, it is crucial to approach this topic with scientific rigor and skepticism. Whether or not quantum mechanics can provide a comprehensive explanation for consciousness remains an open question, but the pursuit of knowledge at this intriguing frontier continues to inspire scientists and philosophers alike. As we continue to explore the enigmatic connection between quantum physics and consciousness, we may one day unlock the secrets of the universe's most profound phenomenon: the human mind.\n",
+          "\nInnovation is not just about creativity; it's also about execution. The business mogul underscores the importance of having a robust strategy for bringing innovations to market. This involves careful planning, resource allocation, and a clear understanding of the competitive landscape.\nThey speak of the need to secure funding, build partnerships, and create a compelling narrative that resonates with customers and investors alike. The science of execution, they emphasize, is what transforms a brilliant idea into a successful product or service.\nIn conclusion, the journey of creating groundbreaking innovations is a complex, multifaceted odyssey. It begins with a spark of inspiration but requires the nurturing of creativity through research, resilience in the face of challenges, collaboration with diverse teams, and a commitment to continuous iteration. Fostering a culture of creativity and executing the innovation effectively are also crucial elements of this journey. The business mogul's reflections provide a roadmap for aspiring innovators, shedding light on the art and science of turning visionary ideas into reality.\n",
       },
     ];
 
@@ -114,38 +126,61 @@ export const StoryPage = () => {
 
     try {
       await addDoc(storyData, {
-        ref: "GsimZYIq7ba0lZNMZQNo",
+        ref: "mvQxqnjdhGzpVVQLXK1F",
         author: "admin",
-        likes: 3,
-        views: 5,
-        comments: 1,
-        tags: ["science", "quantum physics", "mind"],
-        title: "The Quantum Mind",
+        likes: 0,
+        views: 0,
+        comments: 0,
+        tags: ["business", "innovation", "creativity"],
+        title: "The Art of Innovation",
         story: data,
-        date: "Nov 30 2023",
+        date: "Dec 21 2023",
         pic: "https://images.pexels.com/photos/12180254/pexels-photo-12180254.jpeg?auto=compress&cs=tinysrgb&w=600",
       });
 
-      localStorage.setItem("item-8Ho4RkYMaN8IYfEkJ9S4", true);
+      localStorage.setItem("mvQxqnjdhGzpVVQLXK1", true);
       console.log("success");
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [postData, setPostData] = useState("");
-  const { story } = useContext(SiteContext);
-  let info = { title: "Legend of the Lurkers" };
-
   useEffect(() => {
     if (story) {
       info.title = story;
-      console.log(story);
+      // console.log(story);
     }
   }, [story]);
+  const [success, setSuccess] = useState(false);
+  const fetchStory = async (id) => {
+    console.log("id is :", id);
+    try {
+      const storyDoc = doc(db, "stories", id);
+      const docSnapshot = await getDoc(storyDoc);
+
+      if (docSnapshot.exists()) {
+        const summaryData = docSnapshot.data();
+        setStoryFirebase(summaryData);
+        console.log(summaryData);
+        setSuccess(true);
+
+        // setLoading(false);
+      } else {
+        console.log("Story not found.");
+        // setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStory(storyId);
+  }, []); // Fetch summary data wh
 
   // useEffect(() => {
   //   submitStory();
+  //   console.log("story submitted");
   // }, []);
 
   const wrapperRef = useCallback((wrapper) => {
@@ -165,14 +200,35 @@ export const StoryPage = () => {
       },
     });
     const savedData = localStorage.getItem("savedData");
-    if (savedData && savedData !== null) {
-      console.log(JSON.parse(savedData));
-      quill.setContents(JSON.parse(savedData));
-    } else {
-      // quill.setText("Hello\n");
-      quill.setContents(loremIpsum);
-    }
+    console.log(loremIpsum, storyFirebase?.story);
 
+    async function fetchAndSetStory() {
+      if (storyId && storyId !== null) {
+        console.log("condition 1 met");
+        try {
+          await fetchStory(storyId);
+          console.log("this is the story", storyFirebase.story);
+        } catch (error) {
+          console.error("Error fetching story:", error);
+          quill.setContents(savedData);
+          return;
+        }
+        if (success === true) {
+          quill.setContents(storyFirebase?.story);
+        } else {
+          quill.setContents(savedData);
+        }
+
+        // quill.setContents(storyFirebase.story);
+      } else if (savedData && savedData !== null) {
+        console.log(JSON.parse(savedData));
+        quill.setContents(JSON.parse(savedData));
+      } else {
+        // quill.setText("Hello\n");
+        quill.setContents(loremIpsum);
+      }
+    }
+    fetchAndSetStory();
     // Log new characters when the user edits the content
     quill.on("text-change", (delta, oldDelta, source) => {
       if (source === "user") {

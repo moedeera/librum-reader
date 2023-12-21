@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { findImageSet, imagesSorted } from "../assets/images/images";
 import { storiesInfo } from "./Content";
 import { signInWithGoogle } from "../../firebase-config";
@@ -13,8 +13,16 @@ import { addDoc, collection } from "firebase/firestore";
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage
   const storedUser = localStorage.getItem("librum-user");
-  console.log(storedUser);
+  // console.log(storedUser);
   return storedUser ? JSON.parse(storedUser) : null;
+  // Return the user if it exists, otherwise return null
+}
+
+function getStoryIdfromLocalStorage() {
+  // Check if "user" exists in local storage
+  const storedId = localStorage.getItem("storyId");
+  // console.log(storedUser);
+  return storedId ? JSON.parse(storedId) : null;
   // Return the user if it exists, otherwise return null
 }
 
@@ -61,7 +69,10 @@ export const SiteContextProvider = ({ children }) => {
     tags: [],
     category: "",
   });
+  const savedStoryId = getStoryIdfromLocalStorage();
+
   const [user, setUser] = useState(userInfo);
+  const [storyId, setStoryId] = useState(savedStoryId);
   const fbProfile = collection(db, "profile");
   function parseHtmlToQuillDelta(html) {
     const parser = new DOMParser();
@@ -188,6 +199,9 @@ export const SiteContextProvider = ({ children }) => {
     return emailRegex.test(email);
   };
 
+  // useEffect(() => {
+  //   localStorage.setItem("storyId", storyId);
+  // }, [storyId]);
   // const htmlContent = "<b>Hello </b><strong>World!</strong><br>";
   // const quillDelta = parseHtmlToQuillDelta(htmlContent);
   // console.log(JSON.stringify(quillDelta, null, 2));
@@ -210,6 +224,8 @@ export const SiteContextProvider = ({ children }) => {
         loginWithEmailAndPassword,
         registerWithEmailAndPassword,
         isEmailValid,
+        storyId,
+        setStoryId,
       }}
     >
       {children}

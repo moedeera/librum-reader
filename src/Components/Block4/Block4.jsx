@@ -3,13 +3,7 @@ import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 import { Loading } from "../Loading/Loading";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export const Block4 = () => {
@@ -24,7 +18,7 @@ export const Block4 = () => {
         ...doc.data(),
         storyId: doc.id,
       }));
-      console.log(summariesInfo);
+
       setSummaries(summariesInfo);
       setLoading(false);
     } catch (error) {
@@ -38,7 +32,8 @@ export const Block4 = () => {
     fetchSummariesData();
   }, []);
 
-  const { imagesSorted, findImageSet, setStory } = useContext(SiteContext);
+  const { imagesSorted, findImageSet, setStory, setStoryId } =
+    useContext(SiteContext);
   const [hover, setHover] = useState(
     new Array(summaries.length).fill({ id: summaries.id, state: false })
   );
@@ -75,7 +70,8 @@ export const Block4 = () => {
           }}
           to={`/stories${item.link}`}
           onClick={() => {
-            setStory(item.name);
+            setStoryId(item.ref);
+            localStorage.setItem("storyId", JSON.stringify(item.ref));
             console.log("set");
           }}
           className="block-4-segment"

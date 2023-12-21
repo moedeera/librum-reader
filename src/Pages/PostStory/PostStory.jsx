@@ -7,7 +7,7 @@ import { db } from "../../../firebase-config";
 
 export const PostStory = () => {
   const { user, story } = useContext(SiteContext);
-
+  const [storyArray, setStoryArray] = useState([]);
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
   const profilesRef = collection(db, "profiles");
@@ -52,6 +52,9 @@ export const PostStory = () => {
         // This logs the changes made by the user
         const content = quill.root.innerHTML;
         setPostData(content);
+        var delte = quill.getContents();
+
+        setStoryArray(delte.ops);
       }
     });
 
@@ -122,7 +125,9 @@ export const PostStory = () => {
             Save Story
           </button>
           <button
-            onClick={() => {}}
+            onClick={() => {
+              localStorage.setItem("savedData", JSON.stringify(storyArray));
+            }}
             id="save-button"
             className="btn btn-primary btn-green"
           >
