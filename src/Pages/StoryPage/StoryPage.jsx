@@ -203,33 +203,34 @@ export const StoryPage = () => {
     const savedData = localStorage.getItem("savedData");
     console.log(loremIpsum, storyFirebase?.story);
 
-    async function fetchAndSetStory() {
-      if (storyId && storyId !== null) {
-        console.log("condition 1 met");
-        try {
-          // await fetchStory(storyId);
-          console.log("this is the story", storyFirebase);
-        } catch (error) {
-          console.error("Error fetching story:", error);
-          quill.setContents(savedData);
-          return;
-        }
-        if (success === true) {
-          quill.setContents(storyFirebase?.story);
-        } else {
-          quill.setContents(savedData);
-        }
+    // async function fetchAndSetStory() {
+    //   if (storyId && storyId !== null) {
+    //     console.log("condition 1 met");
+    //     try {
+    //       // await fetchStory(storyId);
+    //       console.log("this is the story", storyFirebase);
+    //     } catch (error) {
+    //       console.error("Error fetching story:", error);
+    //       quill.setContents(savedData);
+    //       return;
+    //     }
+    //     if (success === true) {
+    //       quill.setContents(storyFirebase?.story);
+    //     } else {
+    //       quill.setContents(savedData);
+    //     }
 
-        // quill.setContents(storyFirebase.story);
-      } else if (savedData && savedData !== null) {
-        console.log(JSON.parse(savedData));
-        quill.setContents(JSON.parse(savedData));
-      } else {
-        // quill.setText("Hello\n");
-        quill.setContents(loremIpsum);
-      }
-    }
-    fetchAndSetStory();
+    //     // quill.setContents(storyFirebase.story);
+    //   } else if (savedData && savedData !== null) {
+    //     console.log(JSON.parse(savedData));
+    //     quill.setContents(JSON.parse(savedData));
+    //   } else {
+    //     // quill.setText("Hello\n");
+    //     quill.setContents(loremIpsum);
+    //   }
+    // }
+    quill.setContents(JSON.parse(savedData));
+    // fetchAndSetStory();
     // Log new characters when the user edits the content
     quill.on("text-change", (delta, oldDelta, source) => {
       if (source === "user") {
