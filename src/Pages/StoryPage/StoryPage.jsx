@@ -161,12 +161,13 @@ export const StoryPage = () => {
       if (docSnapshot.exists()) {
         const summaryData = docSnapshot.data();
         setStoryFirebase(summaryData);
-        console.log(summaryData);
+        console.log(storyFirebase);
         setSuccess(true);
 
         // setLoading(false);
       } else {
         console.log("Story not found.");
+        setStoryFirebase("error");
         // setLoading(false);
       }
     } catch (error) {
@@ -206,8 +207,8 @@ export const StoryPage = () => {
       if (storyId && storyId !== null) {
         console.log("condition 1 met");
         try {
-          await fetchStory(storyId);
-          console.log("this is the story", storyFirebase.story);
+          // await fetchStory(storyId);
+          console.log("this is the story", storyFirebase);
         } catch (error) {
           console.error("Error fetching story:", error);
           quill.setContents(savedData);
