@@ -14,7 +14,6 @@
 }
 .footer {
   background-color: rgb(47, 47, 47);
-
   position: static;
   bottom: 0;
   z-index: 3;
@@ -69,7 +68,7 @@
 @media only screen and (min-width: 1100px) {
   .footer-links {
     flex-direction: row;
-    width: 35%;
+    width: 55%;
   }
   .footer-upper {
     padding-top: 150px;

@@ -82,7 +82,7 @@ body {
 .btn a:visited {
   background-color: var(--primary-button);
   border-radius: 6px;
-  padding: 10px 20px;
+  padding: 10px 20px 7.5px;
   color: var(--dark-font);
   transition: all 0.5s ease-in-out;
   font-size: medium;
@@ -90,6 +90,7 @@ body {
   width: max-content;
   cursor: pointer;
   margin-top: 10px;
+  margin-bottom: 5px;
   min-width: 5rem;
   text-align: center;
 }
