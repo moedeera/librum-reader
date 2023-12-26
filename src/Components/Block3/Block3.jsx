@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Block3.css";
-import { useEffect, useRef, useState } from "react";
+import icon from "./icon1.svg";
+import { useEffect, useState } from "react";
 
 export const Block3 = ({ data }) => {
   const [info, setInfo] = useState({
@@ -30,14 +31,20 @@ export const Block3 = ({ data }) => {
 
   return (
     <div className="block-3-container">
-      <h3>{info.title}</h3>
-      <div className="block-3-segment">
-        <p>{info.text}</p>
-        {info.button && (
-          <Link className="btn btn-primary" to={info.button.link}>
-            {info.button.text}
-          </Link>
-        )}
+      <div className="block-3-text">
+        {" "}
+        <h3>{info.title}</h3>
+        <div className="block-3-segment">
+          <p>{info.text}</p>
+          {info.button && (
+            <Link className="btn btn-primary" to={info.button.link}>
+              {info.button.text}
+            </Link>
+          )}
+        </div>
+      </div>
+      <div className="block-3-image">
+        <img src={icon} alt="" />
       </div>
     </div>
   );

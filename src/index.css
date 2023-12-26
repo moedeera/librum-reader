@@ -89,6 +89,9 @@ body {
   text-transform: uppercase;
   width: max-content;
   cursor: pointer;
+  margin-top: 10px;
+  min-width: 5rem;
+  text-align: center;
 }
 
 .btn-green {

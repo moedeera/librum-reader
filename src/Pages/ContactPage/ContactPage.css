@@ -5,6 +5,10 @@
   margin: 0 auto;
 }
 
+.contact-page h1 {
+  margin-bottom: 0;
+}
+
 @media only screen and (min-width: 600px) {
   .contact-page {
     padding: var(--padding-top-md) 0;
