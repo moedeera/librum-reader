@@ -10,6 +10,7 @@ import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { useParams } from "react-router-dom";
 import { doc } from "firebase/firestore";
 import { getDoc } from "firebase/firestore";
+import { Loading } from "../../Components/Loading/Loading";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const { storyId, story } = useContext(SiteContext);
@@ -184,76 +185,78 @@ export const StoryPage = () => {
   //   console.log("story submitted");
   // }, []);
 
-  const wrapperRef = useCallback((wrapper) => {
-    if (wrapper === null) return;
+  const wrapperRef = useCallback(
+    (wrapper) => {
+      if (wrapper === null) return;
 
-    // Create a new Quill editor
-    const editor = document.createElement("div");
-    editor.setAttribute("id", "quill-editor");
-    wrapper.append(editor);
+      // Create a new Quill editor
+      const editor = document.createElement("div");
+      editor.setAttribute("id", "quill-editor");
+      wrapper.append(editor);
 
-    // Initialize Quill on the editor
-    const quill = new Quill(editor, {
-      theme: "snow",
-      readOnly: true,
-      modules: {
-        toolbar: false, // Disable the toolbar
-      },
-    });
-    const savedData = localStorage.getItem("savedData");
-    console.log(loremIpsum, storyFirebase?.story);
+      // Initialize Quill on the editor
+      const quill = new Quill(editor, {
+        theme: "snow",
+        readOnly: true,
+        modules: {
+          toolbar: false, // Disable the toolbar
+        },
+      });
+      // const savedData = localStorage.getItem("savedData");
+      // console.log(loremIpsum, storyFirebase?.story);
 
-    // async function fetchAndSetStory() {
-    //   if (storyId && storyId !== null) {
-    //     console.log("condition 1 met");
-    //     try {
-    //       // await fetchStory(storyId);
-    //       console.log("this is the story", storyFirebase);
-    //     } catch (error) {
-    //       console.error("Error fetching story:", error);
-    //       quill.setContents(savedData);
-    //       return;
-    //     }
-    //     if (success === true) {
-    //       quill.setContents(storyFirebase?.story);
-    //     } else {
-    //       quill.setContents(savedData);
-    //     }
+      // async function fetchAndSetStory() {
+      //   if (storyId && storyId !== null) {
+      //     console.log("condition 1 met");
+      //     try {
+      //       // await fetchStory(storyId);
+      //       console.log("this is the story", storyFirebase);
+      //     } catch (error) {
+      //       console.error("Error fetching story:", error);
+      //       quill.setContents(savedData);
+      //       return;
+      //     }
+      //     if (success === true) {
+      //       quill.setContents(storyFirebase?.story);
+      //     } else {
+      //       quill.setContents(savedData);
+      //     }
 
-    //     // quill.setContents(storyFirebase.story);
-    //   } else if (savedData && savedData !== null) {
-    //     console.log(JSON.parse(savedData));
-    //     quill.setContents(JSON.parse(savedData));
-    //   } else {
-    //     // quill.setText("Hello\n");
-    //     quill.setContents(loremIpsum);
-    //   }
-    // }
-    quill.setContents(JSON.parse(savedData));
-    // fetchAndSetStory();
-    // Log new characters when the user edits the content
-    quill.on("text-change", (delta, oldDelta, source) => {
-      if (source === "user") {
-        // This logs the changes made by the user
-        const content = quill.root.innerHTML;
-        setPostData(content);
-      }
-    });
+      //     // quill.setContents(storyFirebase.story);
+      //   } else if (savedData && savedData !== null) {
+      //     console.log(JSON.parse(savedData));
+      //     quill.setContents(JSON.parse(savedData));
+      //   } else {
+      //     // quill.setText("Hello\n");
+      //     quill.setContents(loremIpsum);
+      //   }
+      // }
+      console.log(storyFirebase);
+      quill.setContents(storyFirebase.story);
+      // fetchAndSetStory();
+      // Log new characters when the user edits the content
+      quill.on("text-change", (delta, oldDelta, source) => {
+        if (source === "user") {
+          // This logs the changes made by the user
+          const content = quill.root.innerHTML;
+          setPostData(content);
+        }
+      });
+    },
+    [storyFirebase]
+  );
 
-    // Cleanup function
-    return () => {
-      quill.off("text-change");
-      wrapper.innerHTML = "";
-    };
-  }, []);
+  if (!success) {
+    return <Loading />;
+  }
   return (
     <div className="container">
       <div className="story-page">
         <div className="story-header-container">
           {" "}
           <small className="story-category-small">Fiction</small>
-          <h3 className="story-page-header">{info.title}</h3>
-          <small>by John Smith</small>
+          <h3 className="story-page-header">{storyFirebase.title}</h3>
+          <small>by {storyFirebase.author}</small>
         </div>
 
         <div className="story-container">
