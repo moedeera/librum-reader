@@ -41,14 +41,15 @@ export const Navbar = () => {
               className="btn btn-primary btn-login "
               style={
                 user && {
-                  height: "50px",
-                  width: "50px",
+                  height: "40px",
+                  width: "40px",
+                  // border: "1px solid red",
                   borderRadius: "50%",
-
                   padding: "0",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  backgroundColor: "transparent",
                 }
               }
               to={user ? "/login" : "/profile"}
@@ -56,7 +57,11 @@ export const Navbar = () => {
               {user ? (
                 <img
                   className="user-image"
-                  style={{ width: "100%", borderRadius: "50%" }}
+                  style={{
+                    width: "100%",
+                    borderRadius: "50%",
+                    maxWidth: "45px",
+                  }}
                   src={user.pic}
                   alt=""
                 />
