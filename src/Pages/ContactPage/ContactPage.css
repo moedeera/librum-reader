@@ -1,11 +1,13 @@
 .contact-page {
   padding: var(--padding-top-sm) 0;
-  width: 100%;
+
   max-width: var(--max-width-main);
   margin: 0 auto;
 }
 
 .contact-page h1 {
+  text-align: center;
+  /* border: 1px solid red; */
   margin-bottom: 0;
 }
 
