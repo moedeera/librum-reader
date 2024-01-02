@@ -8,11 +8,12 @@ export const Block1 = () => {
     {
       id: 1,
       cat: "Fiction",
-      title: "The Enigmatic Chronicles",
-      info: "In a forgotten library, a curious librarian stumbles upon a book with blank pages. As she delves into its mystery, she finds herself transported to different realms, uncovering the enigmatic stories within the empty pages.",
-      link: "/enigmatic-chronicles",
-      tag: ["fantasy", "mystery", "adventure"],
+      title: "The Quantum Mind",
+      info: "The realms of quantum physics and the human mind have long been subjects of fascination and exploration in their respective domains. Yet, the intersection of these two enigmatic domains raises intriguing questions about the nature of consciousness itself.",
+      link: "quantum-mind",
+      tag: ["physics", "quantum", "mind"],
       pic: "https://images.pexels.com/photos/1.jpg",
+      ref: "feienFSFxS4tXfplMD9Q",
     },
 
     {
@@ -20,18 +21,20 @@ export const Block1 = () => {
       cat: "Non-fiction",
       title: "Journey to the Abyss",
       info: "A marine biologist recounts her deep-sea expedition to explore the mysteries of the ocean's abyss. From undiscovered creatures to ancient shipwrecks, her journey unveils the secrets hidden in the depths of the unexplored ocean.",
-      link: "/journey-to-abyss",
+      link: "journey-to-abyss",
       tag: ["science", "exploration", "marine biology"],
       pic: "https://images.pexels.com/photos/2.jpg",
+      ref: "4KnEXqgl773jT7wgvwtx",
     },
     {
       id: 3,
-      cat: "Fiction",
-      title: "Echoes of Eternity",
-      info: "In a dystopian future, a musician discovers a forbidden instrument that echoes the emotions of the past. As he plays, the melodies unravel a hidden truth about the society's oppressive regime and ignite a rebellion fueled by music.",
-      link: "/echoes-of-eternity",
-      tag: ["dystopia", "music", "rebellion"],
+      cat: "Non-Fiction",
+      title: "The Art of Innovation",
+      info: "A business mogul reflects on the journey of creating groundbreaking innovations. From the initial spark of an idea to navigating challenges, this narrative provides insights into the art and science of fostering creativity",
+      link: "art-of-innovation",
+      tag: ["business", "innovation", "economics"],
       pic: "https://images.pexels.com/photos/3.jpg",
+      ref: "mvQxqnjdhGzpVVQLXK1F",
     },
   ];
   const { imagesSorted, findImageSet } = useContext(SiteContext);
@@ -69,7 +72,7 @@ export const Block1 = () => {
               });
             });
           }}
-          to={item.link}
+          to={`stories/${item.link}`}
           className="block-1-segment"
           key={item.id}
         >

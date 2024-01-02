@@ -6,7 +6,7 @@ import { Loading } from "../Loading/Loading";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
-export const Block4 = () => {
+export const Block4 = ({ searchTerm }) => {
   const [summaries, setSummaries] = useState([]);
   const [loading, setLoading] = useState(true);
   const summariesData = collection(db, "summaries");
@@ -68,7 +68,7 @@ export const Block4 = () => {
               });
             });
           }}
-          to={`/stories${item.link}`}
+          to={`/story/${item.slug}`}
           onClick={() => {
             setStoryId(item.ref);
             localStorage.setItem("storyId", JSON.stringify(item.ref));
