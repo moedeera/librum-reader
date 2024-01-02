@@ -3,7 +3,7 @@ import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 import { Loading } from "../Loading/Loading";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export const Block4 = ({ searchTerm }) => {
@@ -26,6 +26,12 @@ export const Block4 = ({ searchTerm }) => {
 
       return error;
     }
+  };
+
+  const updateViews = async (id, count) => {
+    const story = doc(db, "stories", id);
+    const newCount = count + 1;
+    await updateDoc(story, { views: newCount });
   };
 
   useEffect(() => {
@@ -70,9 +76,7 @@ export const Block4 = ({ searchTerm }) => {
           }}
           to={`/story/${item.slug}`}
           onClick={() => {
-            setStoryId(item.ref);
-            localStorage.setItem("storyId", JSON.stringify(item.ref));
-            console.log("set");
+            updateViews(item.ref, item.views);
           }}
           className="block-4-segment"
           key={item.id}
