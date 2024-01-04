@@ -3,7 +3,13 @@ import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 import { Loading } from "../Loading/Loading";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export const Block4 = ({ searchTerm }) => {
@@ -30,6 +36,8 @@ export const Block4 = ({ searchTerm }) => {
 
   const updateViews = async (id, count) => {
     const story = doc(db, "stories", id);
+    let storyInfo = await getDoc(story);
+    console.log(storyInfo);
 
     const newCount = Number(count) + 1;
     await updateDoc(story, { views: Number(newCount) });

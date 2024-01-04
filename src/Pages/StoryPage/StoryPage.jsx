@@ -45,7 +45,7 @@ export const StoryPage = () => {
         return docSnap.data();
       } else {
         // No document found with the ID, proceed to assume slugOrId is a slug
-        console.log("No document found with ID. Trying as slug...");
+        // console.log("No document found with ID. Trying as slug...");
 
         // Query the stories collection for the document with the specified slug
         const q = query(storiesRef, where("slug", "==", slugOrId));
@@ -58,7 +58,7 @@ export const StoryPage = () => {
         } else {
           // Assuming slug is unique and you want only the first matching document
           const firstDoc = querySnapshot.docs[0];
-          console.log("Document found with slug:", slugOrId);
+          // console.log("Document found with slug:", slugOrId);
           return firstDoc.data();
         }
       }
@@ -71,8 +71,6 @@ export const StoryPage = () => {
     fetchStoryBySlugOrId(storyidorslug)
       .then((match) => {
         setValue(match); // This will log the actual document data or null
-
-        console.log(match, value);
 
         setStoryFirebase(match);
         setLoading(false);
@@ -108,7 +106,7 @@ export const StoryPage = () => {
       });
 
       // }
-      console.log(storyFirebase);
+
       quill.setContents(storyFirebase.story);
       // fetchAndSetStory();
       // Log new characters when the user edits the content
