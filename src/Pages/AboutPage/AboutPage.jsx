@@ -1,4 +1,6 @@
 import { Block2 } from "../../Components/Block2/Block2";
+import img1 from "./booklover.svg";
+import img2 from "./books.svg";
 
 export const AboutPage = () => {
   const data = {
