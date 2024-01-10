@@ -3,22 +3,20 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
 import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
-import { loremIpsum, storiesInfo } from "../../Context/Content";
+
 import { db } from "../../../firebase-config";
-import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { doc } from "firebase/firestore";
 import { getDoc } from "firebase/firestore";
 import { Loading } from "../../Components/Loading/Loading";
-import { ErrorPage } from "../ErrorPage/ErrorPage";
 
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const { storyId, story } = useContext(SiteContext);
   let info = { title: "Legend of the Lurkers" };
-  const storyData = collection(db, "stories");
-  const storySummaries = collection(db, "summaries");
+
   const [storyFirebase, setStoryFirebase] = useState([]);
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(null);
@@ -170,13 +168,6 @@ export const StoryPage = () => {
           ></div>
           <div className="story-side-info">
             <div className="story-info-summary">
-              {/* <p>Synopsis:</p>
-              <small>
-                Astronomers recount their experiences in deciphering signals
-                from distant galaxies. These cosmic messages, once decoded,
-                reveal the voices of civilizations far beyond our own, sparking
-                reflections on the vastness of the universe....
-              </small> */}
               <p>Tags:</p>
               {storyFirebase.tags.map((tag, index) => (
                 <Link key={index} to={`../stories/${tag}`}>
@@ -203,11 +194,7 @@ export const StoryPage = () => {
           </div>
         </div>
 
-        <div className="story-button-container">
-          {/* <button id="edit-button" className="btn btn-primary btn-green">
-            Edit
-          </button> */}
-        </div>
+        <div className="story-button-container"></div>
       </div>
     </div>
   );
