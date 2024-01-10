@@ -25,7 +25,6 @@ import { AccountPage } from "./Pages/AccountPage/AccountPage";
 import { Testing } from "./Pages/Testing/Testing";
 import { WritePage } from "./Pages/WritePage/WritePage";
 import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
-import { Redirection } from "./Components/Redirection/Redirection";
 
 function App() {
   return (

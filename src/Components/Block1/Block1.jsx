@@ -13,7 +13,7 @@ export const Block1 = () => {
       link: "quantum-mind",
       tag: ["physics", "quantum", "mind"],
       pic: "https://images.pexels.com/photos/1.jpg",
-      ref: "feienFSFxS4tXfplMD9Q",
+      ref: "feienFSFxS4tXfplMD9Q-quantum-mind",
     },
 
     {
@@ -24,7 +24,7 @@ export const Block1 = () => {
       link: "journey-to-abyss",
       tag: ["science", "exploration", "marine biology"],
       pic: "https://images.pexels.com/photos/2.jpg",
-      ref: "4KnEXqgl773jT7wgvwtx",
+      ref: "q7WeDCiGAh5zg1b2EIzF",
     },
     {
       id: 3,
@@ -34,7 +34,7 @@ export const Block1 = () => {
       link: "art-of-innovation",
       tag: ["business", "innovation", "economics"],
       pic: "https://images.pexels.com/photos/3.jpg",
-      ref: "mvQxqnjdhGzpVVQLXK1F",
+      ref: "3Zktmck8E77mUpxzVmRK",
     },
   ];
   const { imagesSorted, findImageSet } = useContext(SiteContext);
@@ -72,7 +72,7 @@ export const Block1 = () => {
               });
             });
           }}
-          to={`stories/${item.link}`}
+          to={`/story/${item.ref}`}
           className="block-1-segment"
           key={item.id}
         >

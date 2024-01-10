@@ -37,10 +37,11 @@ export const Block4 = ({ searchTerm }) => {
   const updateViews = async (id, count) => {
     const story = doc(db, "stories", id);
     let storyInfo = await getDoc(story);
-    console.log(storyInfo);
+    console.log(storyInfo.data());
+    let storyObject = storyInfo.data();
 
-    const newCount = Number(count) + 1;
-    await updateDoc(story, { views: Number(newCount) });
+    const newCount = Number(storyObject.views) + 1;
+    await updateDoc(story, { views: newCount });
   };
 
   useEffect(() => {
