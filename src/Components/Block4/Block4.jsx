@@ -34,7 +34,7 @@ export const Block4 = ({ searchTerm }) => {
     }
   };
 
-  const updateViews = async (id, count) => {
+  const updateViews = async (id) => {
     const story = doc(db, "stories", id);
     let storyInfo = await getDoc(story);
     console.log(storyInfo.data());

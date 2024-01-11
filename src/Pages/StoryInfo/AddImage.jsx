@@ -33,7 +33,9 @@ const ImageUploader = () => {
     uploadBytes(imageRef, image).then(async () => {
       try {
         const url = await getDownloadURL(imageRef);
+        console.log(url);
         setStory({ ...story, picture: url });
+        console.log(story);
         setButtonLabel("Select Image"); // Reset button label after upload
         setFile(null); // Clear the file
         setSuccess(true);

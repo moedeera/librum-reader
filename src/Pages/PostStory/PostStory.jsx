@@ -2,15 +2,14 @@ import Quill from "quill";
 import { useCallback, useContext, useState } from "react";
 import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
-import { addDoc, collection, query } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 export const PostStory = () => {
-  const { user, story } = useContext(SiteContext);
+  const { story, data } = useContext(SiteContext);
   const [storyArray, setStoryArray] = useState([]);
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
-  const profilesRef = collection(db, "profiles");
 
   const [postData, setPostData] = useState("");
 
@@ -26,21 +25,10 @@ export const PostStory = () => {
     const quill = new Quill(editor, {
       theme: "snow",
     });
-    const savedData = localStorage.getItem("savedData");
-    if (savedData && savedData !== null) {
-      console.log(JSON.parse(savedData));
-      quill.setContents(JSON.parse(savedData));
-    } else {
-      quill.setText("Hello\n");
-    }
 
     const button = document.getElementById("save-button");
 
     button.addEventListener("click", () => {
-      //   const content = quill.root.innerHTML;
-      //   const data = parseHtmlToQuillDelta(content);
-
-      //   console.log(data);
       var delte = quill.getContents();
       console.log("content:", ":", delte.ops);
       localStorage.setItem("savedData", JSON.stringify(delte.ops));
@@ -65,39 +53,48 @@ export const PostStory = () => {
     };
   }, []);
 
-  const saveStory = async () => {};
-
   const PublishStory = async () => {
+    console.log(story.tags[0]);
     try {
-      await addDoc(storyData, {
-        ref: "",
-        id: story.id,
+      const docRef = await addDoc(storyData, {
         author: story.author,
+        authorPic: story.authorPic,
+        id: story.id,
+        title: story.title,
+        summary: story.summary,
+        public: true,
+        picture: story.picture,
+        tags: story.tags[0],
+        category: story.category,
+        comments: [],
         likes: 0,
         views: 0,
-        comments: 0,
-        tags: [...story.tags],
-        title: story.title,
-        story: postData,
+        ref: "",
+        story: storyArray,
         date: new Date(),
-        pic: "https://firebasestorage.googleapis.com/v0/b/librum-bb036.appspot.com/o/images%2Ficons8-school-80.png?alt=media&token=8aa40b76-c69a-49d0-a728-49f61cba4ce8",
       });
+      const titleToLink = (title) => {
+        return title.trim().replace(/\s+/g, "-");
+      };
 
+      const link = titleToLink(story.title);
+
+      await updateDoc(docRef, {
+        id: docRef.id,
+        link: link,
+        slug: `${docRef.id}-${link}`,
+      });
+      const iD = docRef.id;
       await addDoc(storySummaries, {
         id: story.id,
+        ref: iD,
         cat: story.category,
         title: story.title,
         summary: story.summary,
-        tag: [...story.tags],
-        pic: "https://firebasestorage.googleapis.com/v0/b/librum-bb036.appspot.com/o/images%2Ficons8-school-80.png?alt=media&token=8aa40b76-c69a-49d0-a728-49f61cba4ce8",
+        tags: story.tags[0],
+        pic: story.picture,
+        author: story.author,
       });
-      // const matchProfile = profilesRef.where("email", "==", user.email);
-      // const q = query(collection(db, "profile"), where("email", "==", user.email));
-      // const currentStories = q.stories; // Default to an empty array if 'stories' doesn't exist
-      // const updatedStories = [...currentStories, story.id];
-
-      // Update User Profile to include the stories
-      // await updateDoc(matchProfile, newCount);
 
       console.log("success, story and summary was saved on data-base");
     } catch (error) {

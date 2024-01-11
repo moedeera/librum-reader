@@ -8,15 +8,32 @@ import { DropDown } from "../../Components/DropDown/DropDown";
 export const StoryInfo = () => {
   const navigate = useNavigate();
   const { story, setStory, user } = useContext(SiteContext);
-  console.log("user:", user.name);
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      // Cancel the event
+      e.preventDefault();
+      // Chrome requires returnValue to be set
+      e.returnValue = "";
+    };
+
+    // Add event listener for beforeunload
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   const [newStoryInfo, setNewStoryInfo] = useState({
-    author: "",
+    author: user.name,
     id: "",
     ref: "",
     title: "",
-    summary: "Enter A Brief Summary",
+    summary: "",
     public: true,
-    picture: "",
+    authorPic: user.pic,
     tags: [],
     category: "",
   });
@@ -53,19 +70,23 @@ export const StoryInfo = () => {
   }, [input]);
 
   const handleContinue = () => {
-    const newstoryId = Math.floor(Math.random() * (2000 - 1100) + 1100);
+    const newStoryId = Math.floor(Math.random() * (2000 - 1100) + 1100);
 
     setStory({
       ...story,
-      id: newstoryId,
-      author: user.name,
+      id: newStoryId,
       title: newStoryInfo.title,
+      author: user.name,
+      authorPic: user.pic,
+
       summary: newStoryInfo.summary,
       tags: newStoryInfo.tags,
-      category: newStoryInfo.category,
+      comments: [],
+      likes: 0,
+      views: 0,
     });
 
-    navigate(`/mystory/${newstoryId}`);
+    navigate(`/mystory/${newStoryId}`);
   };
 
   if (user === null || !user) {
@@ -122,7 +143,13 @@ export const StoryInfo = () => {
             </div>
             <div className="story-info-input">
               <DropDown
-                selections={["Fiction", "Sci-fi", "Fantasy"]}
+                selections={[
+                  "Fiction",
+                  "Sci-fi",
+                  "Fantasy",
+                  "Non-Fiction",
+                  "Fan-Fiction",
+                ]}
                 setValue={setNewStoryInfo}
                 storyInfo={newStoryInfo}
               />
@@ -134,6 +161,34 @@ export const StoryInfo = () => {
               }}
             >
               Continue
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                console.log(newStoryInfo);
+              }}
+            >
+              Preview
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                setStory({
+                  ...story,
+                  id: "preview",
+                  title: newStoryInfo.title,
+                  author: user.name,
+                  authorPic: user.pic,
+                  summary: newStoryInfo.summary,
+                  tags: newStoryInfo.tags,
+                  comments: [],
+                  likes: 0,
+                  views: 0,
+                });
+                console.log(story);
+              }}
+            >
+              Preview & Save
             </button>
           </div>
         </div>

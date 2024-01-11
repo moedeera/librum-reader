@@ -11,7 +11,6 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
 
 export const Stories = () => {
   const { search } = useParams();
@@ -124,21 +123,6 @@ export const Stories = () => {
     }
   };
 
-  // Usage Example
-  const [value, setValue] = useState(null);
-  useEffect(() => {
-    fetchStoryBySlugOrId("3Zktmck8E77mUpxzVmRK")
-      .then((match) => {
-        setValue(match); // This will log the actual document data or null
-
-        console.log(match, value);
-      })
-      .catch((error) => {
-        console.error("Failed to fetch story:", error);
-      });
-  }, []);
-
-  // updateStoriesWithSlug();
   return (
     <div className="container">
       <div className="stories-page">
