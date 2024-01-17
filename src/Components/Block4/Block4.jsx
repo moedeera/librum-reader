@@ -117,7 +117,7 @@ export const Block4 = ({ searchTerm }) => {
             <h4>{item.title}</h4>
             <p>{item.info}</p>
             <div className="btn">Read More</div>
-            <p>
+            <p className="block-4-tags">
               Tags:
               {item?.tag?.map((tagItem, index) => (
                 <span key={index}>
