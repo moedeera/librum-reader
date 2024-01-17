@@ -6,12 +6,14 @@ import { CounterBlock } from "../../Components/CounterBlock/CounterBlock";
 import { Landing } from "../../Components/Landing/Landing";
 import "./Homepage.css";
 import { b3content } from "../../Context/Content";
+import { Block6 } from "../../Components/Block6/Block6";
 
 export const Homepage = () => {
   return (
     <div className="container">
       <Landing />
       <CounterBlock />
+      <Block6 />
       <Block0 />
       <Block1 />
       <Block3 data={b3content} />
