@@ -9,7 +9,8 @@ import { SiteContext } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 export const ProfilePage = () => {
   //
-  const { user, setUser } = useContext(SiteContext);
+  const { user, setUser, profileInfo, setProfileInfo } =
+    useContext(SiteContext);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -21,10 +22,10 @@ export const ProfilePage = () => {
   return (
     <div className="container">
       <div className="profile-page-container">
-        <MessagesBox />
-        <PasswordReset />
-        <BasicInfo />
-        <DeleteProfile />
+        <MessagesBox profile={profileInfo} setProfile={setProfileInfo} />
+        <PasswordReset profile={profileInfo} setProfile={setProfileInfo} />
+        <BasicInfo profile={profileInfo} setProfile={setProfileInfo} />
+        <DeleteProfile profile={profileInfo} setProfile={setProfileInfo} />
         <button
           onClick={() => {
             localStorage.removeItem("librum-user");

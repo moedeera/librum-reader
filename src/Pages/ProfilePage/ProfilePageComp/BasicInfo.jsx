@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-export const BasicInfo = () => {
+// eslint-disable-next-line react/prop-types
+export const BasicInfo = ({ profile, setProfile }) => {
+  console.log(profile);
+
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("John Smith");
   const [tempName, setTempName] = useState(name);
@@ -61,8 +64,8 @@ export const BasicInfo = () => {
         </div>
       ) : (
         <div className="bio-segment">
-          <p>{name}</p>
-          <p className="bio-text">{bio}</p>
+          <p>{profile?.name}</p>
+          <p className="bio-text">{profile?.bio}</p>
 
           <p>Visibility: {isPublic ? "Public" : "Private"}</p>
 

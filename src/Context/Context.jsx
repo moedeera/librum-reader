@@ -255,7 +255,7 @@ export const SiteContextProvider = ({ children }) => {
           gender: null,
           dob: null,
           bio: "Enter your Bio",
-          status: "public",
+          public: false,
         });
 
         console.log("success");
