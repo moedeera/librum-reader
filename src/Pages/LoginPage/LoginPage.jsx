@@ -53,7 +53,7 @@ export const LoginPage = () => {
           </button>
           <h4>Or</h4>
           <small>
-            Don't have an account?{" "}
+            Do not have an account?{" "}
             <Link className="b" to={"/register"}>
               Create a new one
             </Link>
@@ -95,8 +95,8 @@ export const LoginPage = () => {
         >
           <div className="white-overlay">
             <h1>
-              Start <br /> Immersing yourself in a{" "}
-              <span className="title-span">Story</span>
+              Immerse <br /> in Amazing{" "}
+              <span className="title-span">Literature</span>
             </h1>
           </div>
         </div>

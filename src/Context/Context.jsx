@@ -8,13 +8,28 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { app, db } from "../../firebase-config";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage
   const storedUser = localStorage.getItem("librum-user");
   // console.log(storedUser);
   return storedUser ? JSON.parse(storedUser) : null;
+  // Return the user if it exists, otherwise return null
+}
+function getProfileFromLocalStorage() {
+  // Check if "user" exists in local storage
+  const storedProfile = localStorage.getItem("librum-profile");
+  // console.log(storedUser);
+  return storedProfile ? JSON.parse(storedProfile) : null;
   // Return the user if it exists, otherwise return null
 }
 
@@ -126,6 +141,7 @@ const data = [
 ];
 export const SiteContext = createContext({});
 
+// eslint-disable-next-line react/prop-types
 export const SiteContextProvider = ({ children }) => {
   const userInfo = getUserFromLocalStorage();
   const auth = getAuth(app);
@@ -154,7 +170,8 @@ export const SiteContextProvider = ({ children }) => {
     { id: 2, name: "Privacy Policy", link: "/" },
     { id: 3, name: "Copyright Policy", link: "/" },
   ];
-
+  const fetchedProfile = getProfileFromLocalStorage();
+  const [profileInfo, setProfileInfo] = useState(fetchedProfile);
   const [story, setStory] = useState(createdStory);
   const savedStoryId = getStoryIdfromLocalStorage();
 
@@ -234,6 +251,7 @@ export const SiteContextProvider = ({ children }) => {
           profileName: `user-${randomNumber}-${randomNumber2}`,
           avatar: "https://www.w3schools.com/howto/img_avatar.png",
           stories: [],
+          messageS: [],
           gender: null,
           dob: null,
           bio: "Enter your Bio",
@@ -260,11 +278,26 @@ export const SiteContextProvider = ({ children }) => {
     );
 
     signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
-        console.log(userCredential.user);
+        localStorage.setItem("librum-user", JSON.stringify(userInfo));
+        console.log(userCredential.user.email);
         setUser(userCredential.user);
-        localStorage.setItem("librum-user", userInfo);
+        const profileRef = collection(db, "profile");
+        const q = query(
+          profileRef,
+          where("email", "==", userCredential.user.email)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          console.log("no such profile");
+        } else {
+          let data = querySnapshot.docs[0].data();
+          setProfileInfo(data);
+          localStorage.setItem("librum-profile", JSON.stringify(data));
+        }
+
         redirection(link);
         // ...
       })
@@ -313,6 +346,8 @@ export const SiteContextProvider = ({ children }) => {
         storyId,
         setStoryId,
         data,
+        profileInfo,
+        setProfileInfo,
       }}
     >
       {children}
