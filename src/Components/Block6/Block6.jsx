@@ -21,11 +21,15 @@ export const Block6 = () => {
         {cards.map((card, index) => (
           <div key={index} className="block-6-segment">
             <img src={card.image} alt="" />
-            <h4>{card.name}</h4>
-            <p>
-              A unique platform for writers of all levels to enhance their
-              craft.
-            </p>
+            <div>
+              {" "}
+              <h4>{card.name}</h4>
+              <p>
+                A unique platform for writers of all levels to enhance their
+                craft.
+              </p>
+            </div>
+
             <Link className="btn" to={"/"}>
               Learn More
             </Link>
