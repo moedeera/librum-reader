@@ -251,7 +251,7 @@ export const SiteContextProvider = ({ children }) => {
           profileName: `user-${randomNumber}-${randomNumber2}`,
           avatar: "https://www.w3schools.com/howto/img_avatar.png",
           stories: [],
-          messageS: [],
+          messages: [],
           gender: null,
           dob: null,
           bio: "Enter your Bio",
@@ -309,6 +309,38 @@ export const SiteContextProvider = ({ children }) => {
   const signInWithGoogleFunction = async () => {
     const userInfo = await signInWithGoogle();
     console.log(userInfo);
+    const profileRef = collection(db, "profile");
+    const q = query(profileRef, where("email", "==", userInfo.email));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("no such profile, creating new profile.....");
+      try {
+        let newProfile = {
+          email: userInfo.email,
+          name: userInfo.name,
+          profileName: userInfo.name,
+          avatar: "https://www.w3schools.com/howto/img_avatar.png",
+          stories: [],
+          messages: [],
+          gender: null,
+          dob: null,
+          bio: "Enter your Bio",
+          public: false,
+        };
+        await addDoc(fbProfile, newProfile);
+        setProfileInfo(newProfile);
+      } catch (error) {
+        console.log(error);
+      }
+
+      console.log("success");
+    } else {
+      let data = querySnapshot.docs[0].data();
+      setProfileInfo(data);
+      localStorage.setItem("librum-profile", JSON.stringify(data));
+    }
+
     localStorage.setItem("librum-user", JSON.stringify(userInfo));
     setUser(userInfo);
   };
