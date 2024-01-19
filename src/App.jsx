@@ -40,6 +40,7 @@ function App() {
                 element={<ErrorPage story={true} />}
               />
               <Route path="/" element={<Homepage />} />
+              <Route path="/home" element={<Homepage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/write" element={<WritePage />} />
               <Route path="/storyinfo" element={<StoryInfo />} />
