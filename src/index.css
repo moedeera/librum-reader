@@ -100,6 +100,15 @@ body {
   color: white;
 }
 
+.btn-alt {
+  background-color: transparent;
+}
+.btn-alt span {
+  font-weight: bolder;
+  color: goldenrod;
+  font-stretch: extra-expanded;
+}
+
 .btn-white {
   background-color: var(--alternate-button);
   border: 1px solid rgba(128, 128, 128, 0.25);

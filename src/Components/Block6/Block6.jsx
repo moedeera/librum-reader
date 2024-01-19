@@ -17,22 +17,32 @@ export const Block6 = () => {
     <div className="block-6-container">
       <small>Learn more</small>
       <h3>Get Inspired</h3>
+      <p>
+        {" "}
+        A unique platform for writers of all levels to enhance their craft. A
+        unique platform for writers of all levels to enhance their craft. A
+        unique platform for writers of all levels to enhance their craft. A
+        unique platform for writers of all levels to enhance their craft.
+      </p>
       <div className="block-6-segments-container">
         {cards.map((card, index) => (
           <div key={index} className="block-6-segment">
-            <img src={card.image} alt="" />
+            <div>
+              {" "}
+              <img src={card.image} alt="" />
+            </div>
+
             <div>
               {" "}
               <h4>{card.name}</h4>
               <p>
                 A unique platform for writers of all levels to enhance their
                 craft.
-              </p>
+              </p>{" "}
+              <Link className="btn btn-alt" to={"/"}>
+                Learn More <span>{" > "}</span>
+              </Link>
             </div>
-
-            <Link className="btn" to={"/"}>
-              Learn More
-            </Link>
           </div>
         ))}
       </div>
