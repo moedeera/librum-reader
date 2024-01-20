@@ -37,12 +37,12 @@ export const BasicInfo = ({ profile, setProfile }) => {
         <div className="basic-info-segment">
           <input
             type="text"
-            value={tempName}
+            value={profile?.name}
             onChange={(e) => setTempName(e.target.value)}
             placeholder={name}
           />
           <textarea
-            value={tempBio}
+            value={profile?.bio}
             onChange={(e) => setTempBio(e.target.value)}
             placeholder={bio}
           />
@@ -67,7 +67,7 @@ export const BasicInfo = ({ profile, setProfile }) => {
           <p>{profile?.name}</p>
           <p className="bio-text">{profile?.bio}</p>
 
-          <p>Visibility: {isPublic ? "Public" : "Private"}</p>
+          <p>Visibility: {profile?.public ? "Public" : "Private"}</p>
 
           <button className="btn btn-primary" onClick={handleEditClick}>
             Edit
