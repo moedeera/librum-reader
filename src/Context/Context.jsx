@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { findImageSet, imagesSorted } from "../assets/images/images";
 import { storiesInfo } from "./Content";
 import { signInWithGoogle } from "../../firebase-config";
@@ -8,15 +8,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { app, db } from "../../firebase-config";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage

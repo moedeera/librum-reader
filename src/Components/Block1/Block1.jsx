@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Block1.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 
-export const Block1 = () => {
-  const info = [
+// eslint-disable-next-line react/prop-types
+export const Block1 = ({ input }) => {
+  const [info, setInfo] = useState([
     {
       id: 1,
       cat: "Fiction",
@@ -13,7 +14,7 @@ export const Block1 = () => {
       link: "quantum-mind",
       tag: ["physics", "quantum", "mind"],
       pic: "https://images.pexels.com/photos/1.jpg",
-      ref: "feienFSFxS4tXfplMD9Q-quantum-mind",
+      ref: "/story/feienFSFxS4tXfplMD9Q-quantum-mind",
     },
 
     {
@@ -24,7 +25,7 @@ export const Block1 = () => {
       link: "journey-to-abyss",
       tag: ["science", "exploration", "marine biology"],
       pic: "https://images.pexels.com/photos/2.jpg",
-      ref: "q7WeDCiGAh5zg1b2EIzF",
+      ref: "/story/q7WeDCiGAh5zg1b2EIzF",
     },
     {
       id: 3,
@@ -34,9 +35,16 @@ export const Block1 = () => {
       link: "art-of-innovation",
       tag: ["business", "innovation", "economics"],
       pic: "https://images.pexels.com/photos/3.jpg",
-      ref: "3Zktmck8E77mUpxzVmRK",
+      ref: "/story/3Zktmck8E77mUpxzVmRK",
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (input) {
+      setInfo(input);
+    }
+  }, []);
+
   const { imagesSorted, findImageSet } = useContext(SiteContext);
 
   const [hover, setHover] = useState([
@@ -72,7 +80,7 @@ export const Block1 = () => {
               });
             });
           }}
-          to={`/story/${item.ref}`}
+          to={`${item.ref}`}
           className="block-1-segment"
           key={item.id}
         >

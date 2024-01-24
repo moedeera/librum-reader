@@ -1,0 +1,14 @@
+.home-feed-page {
+  padding: 100px 10px !important;
+  width: 95%;
+  margin: 50px auto;
+  /* border: 2px solid red; */
+}
+.home-feed-page h3 {
+  text-align: center;
+}
+.home-feed-page h4 {
+  width: 95%;
+  /* border: 1px solid red; */
+  margin: 30px auto;
+}

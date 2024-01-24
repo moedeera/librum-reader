@@ -25,6 +25,7 @@ import { AccountPage } from "./Pages/AccountPage/AccountPage";
 import { Testing } from "./Pages/Testing/Testing";
 import { WritePage } from "./Pages/WritePage/WritePage";
 import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
+import { HomeFeed } from "./Pages/HomeFeed/HomeFeed";
 
 function App() {
   return (
@@ -40,7 +41,8 @@ function App() {
                 element={<ErrorPage story={true} />}
               />
               <Route path="/" element={<Homepage />} />
-              <Route path="/home" element={<Homepage />} />
+
+              <Route path="/home" element={<HomeFeed />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/write" element={<WritePage />} />
               <Route path="/storyinfo" element={<StoryInfo />} />

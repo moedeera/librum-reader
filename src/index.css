@@ -135,6 +135,10 @@ body {
   margin: 0 auto;
   transition: all 0.5s ease-in-out;
 }
+
+.page {
+  padding-top: 100px;
+}
 .title-span {
   color: goldenrod;
 }

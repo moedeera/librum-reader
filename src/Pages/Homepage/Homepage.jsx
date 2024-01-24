@@ -7,8 +7,20 @@ import { Landing } from "../../Components/Landing/Landing";
 import "./Homepage.css";
 import { b3content } from "../../Context/Content";
 import { Block6 } from "../../Components/Block6/Block6";
+import { useContext, useEffect } from "react";
+import { SiteContext } from "../../Context/Context";
+import { useNavigate } from "react-router-dom";
 
 export const Homepage = () => {
+  const { user } = useContext(SiteContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user && user !== null) {
+      navigate("/home");
+      return;
+    }
+  }, [navigate, user]);
+
   return (
     <div className="container">
       <Landing />
