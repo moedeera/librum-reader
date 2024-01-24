@@ -8,7 +8,15 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { app, db } from "../../firebase-config";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage
@@ -342,7 +350,18 @@ export const SiteContextProvider = ({ children }) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  const updateProfile = async (documentId, field, newValue) => {
+    try {
+      const profileRef = doc(db, "profile", documentId);
+      const updateObject = {};
+      updateObject[field] = newValue;
 
+      await updateDoc(profileRef, updateObject);
+      console.log(`Profile ${documentId} updated successfully.`);
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+    }
+  };
   // Update story
   useEffect(() => {
     console.log("updating value....");
@@ -372,6 +391,7 @@ export const SiteContextProvider = ({ children }) => {
         data,
         profileInfo,
         setProfileInfo,
+        updateProfile,
       }}
     >
       {children}

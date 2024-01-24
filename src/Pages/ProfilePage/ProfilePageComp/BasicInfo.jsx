@@ -1,26 +1,37 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { SiteContext } from "../../../Context/Context";
 
 // eslint-disable-next-line react/prop-types
 export const BasicInfo = ({ profile, setProfile }) => {
   console.log(profile);
 
+  const { updateProfile } = useContext(SiteContext);
+
   const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState("John Smith");
-  const [tempName, setTempName] = useState(name);
-  const [bio, setBio] = useState(
-    "John Smith was born in 1987 and is a Lawyer from Los Angeles"
-  );
-  const [tempBio, setTempBio] = useState(bio);
+  const [name, setName] = useState(profile.profileName);
+  const [tempName, setTempName] = useState(profile.profileName);
+  const [bio, setBio] = useState(profile.bio);
+  const [tempBio, setTempBio] = useState(profile.bio);
   const [isPublic, setIsPublic] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     setName(tempName);
     setBio(tempBio);
     setIsEditing(false);
+    // eslint-disable-next-line react/prop-types
+    if (profile.profileName !== tempName) {
+      // eslint-disable-next-line react/prop-types
+      await updateProfile(profile.profile_Id, "profileName", tempName);
+    }
+    // eslint-disable-next-line react/prop-types
+    if (profile.bio !== tempBio) {
+      // eslint-disable-next-line react/prop-types
+      await updateProfile(profile.profile_Id, "bio", tempBio);
+    }
   };
 
   const handleCancelClick = () => {
@@ -37,12 +48,12 @@ export const BasicInfo = ({ profile, setProfile }) => {
         <div className="basic-info-segment">
           <input
             type="text"
-            value={profile?.name}
+            value={tempName}
             onChange={(e) => setTempName(e.target.value)}
             placeholder={name}
           />
           <textarea
-            value={profile?.bio}
+            value={tempBio}
             onChange={(e) => setTempBio(e.target.value)}
             placeholder={bio}
           />
@@ -64,8 +75,8 @@ export const BasicInfo = ({ profile, setProfile }) => {
         </div>
       ) : (
         <div className="bio-segment">
-          <p>{profile?.name}</p>
-          <p className="bio-text">{profile?.bio}</p>
+          <p>{name}</p>
+          <p className="bio-text">{bio}</p>
 
           <p>Visibility: {profile?.public ? "Public" : "Private"}</p>
 
