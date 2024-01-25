@@ -14,7 +14,7 @@ export const ProfilePage = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (!user || user === null) {
+    if (!user || user === null || !profileInfo || profileInfo === null) {
       navigate("/login");
       return;
     }
