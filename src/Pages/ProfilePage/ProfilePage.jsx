@@ -16,7 +16,7 @@ export const ProfilePage = () => {
   useEffect(() => {
     if (!user || user === null) {
       navigate("/login");
-      // return;
+      return;
     }
   }, [user, navigate]);
   return (
