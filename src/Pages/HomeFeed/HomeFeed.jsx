@@ -1,13 +1,20 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./HomeFeed.css";
 import { SiteContext } from "../../Context/Context";
 import { Block1 } from "../../Components/Block1/Block1";
 import { Block6 } from "../../Components/Block6/Block6";
 import { block6HomeFeedContent } from "../../Context/Content";
+import { useNavigate } from "react-router-dom";
 
 export const HomeFeed = () => {
-  const { profileInfo } = useContext(SiteContext);
-  console.log(profileInfo);
+  const navigate = useNavigate();
+
+  const { profileInfo, user } = useContext(SiteContext);
+  useEffect(() => {
+    if (!user || user === null) {
+      navigate("/");
+    }
+  }, []);
   return (
     <div className="container">
       <div className="home-feed-page">
