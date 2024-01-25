@@ -5,7 +5,11 @@ import { Contact } from "../../Components/Contact/Contact";
 import { CounterBlock } from "../../Components/CounterBlock/CounterBlock";
 import { Landing } from "../../Components/Landing/Landing";
 import "./Homepage.css";
-import { b3content } from "../../Context/Content";
+import {
+  b3content,
+  block1HomePageContent,
+  block1HomePageContent2,
+} from "../../Context/Content";
 import { Block6 } from "../../Components/Block6/Block6";
 import { useContext, useEffect } from "react";
 import { SiteContext } from "../../Context/Context";
@@ -25,10 +29,11 @@ export const Homepage = () => {
     <div className="container">
       <Landing />
       <CounterBlock />
-      <Block6 />
+      {/* <Block6 /> */}
       <Block0 />
-      <Block1 />
+      <Block1 input={block1HomePageContent} />
       <Block3 data={b3content} />
+      <Block1 input={block1HomePageContent2} alt={2} />
       <Contact />
     </div>
   );

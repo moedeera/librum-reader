@@ -1,10 +1,11 @@
 import { Block2 } from "../../Components/Block2/Block2";
+import { Block6 } from "../../Components/Block6/Block6";
 import img1 from "./booklover.svg";
 import img2 from "./books.svg";
 
 export const AboutPage = () => {
   const data = {
-    title: "Welcome to Librum Reader",
+    title: "About Us",
     part1: `Welcome to Librum Reader, a vibrant community
     dedicated to fostering creativity and storytelling.
     At Librum Reader, we believe in the power of words to 
@@ -27,6 +28,7 @@ export const AboutPage = () => {
   return (
     <div className="container">
       <Block2 dataInfo={data} />
+      <Block6 />
     </div>
   );
 };

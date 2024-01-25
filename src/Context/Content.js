@@ -1,3 +1,8 @@
+import img1 from "../assets/images/reader.svg";
+import img2 from "../assets/images/typewriter.svg";
+import img3 from "../assets/images/community.svg";
+import img4 from "../assets/images/bulletin.svg";
+
 const info = [
   {
     id: 1,
@@ -165,6 +170,60 @@ const loremIpsum = [
   },
 ];
 
+const block1HomePageContent = [
+  {
+    id: 1,
+    cat: "Fantasy",
+    title: "Where Imagination comes alive.",
+    info: "Dive into our vast collection of enchanting tales, where each page transports you to realms unknown. Unleash your imagination and explore epic adventures, mystical creatures, and spellbinding worlds. Librum-Reader: Your gateway to the extraordinary. Start your adventure now!",
+    link: "quantum-mind",
+    tag: ["fantasy", "folklore", "Magic"],
+    pic: "https://images.pexels.com/photos/1.jpg",
+    ref: "/stories/fantasy",
+  },
+
+  {
+    id: 2,
+    cat: "Non-fiction",
+    title: "Discover the world in all its complexit.",
+    info: "Elevate your knowledge, understand diverse perspectives, and explore fascinating truths about science, history, culture, and more. Every read is a journey to enlightenment. Librum-Reader – where reality is more intriguing than fiction. Begin your quest for knowledge today!",
+    link: "journey-to-abyss",
+    tag: ["non-fiction", "biographies", "historic"],
+    pic: "https://images.pexels.com/photos/2.jpg",
+    ref: "/stories/non-fiction",
+  },
+  {
+    id: 3,
+    cat: "Community",
+    title: "Connect, create, and collaborate.",
+    info: "Join a community of passionate writers and find your perfect match to co-create stories. Exchange ideas, refine your skills, and inspire each other. At Librum-Reader, your next great writing adventure awaits. Team up today and let the storytelling magic unfold",
+    link: "community/partners",
+    tag: [],
+    pic: "https://images.pexels.com/photos/3.jpg",
+    ref: "/",
+  },
+];
+
+const block1HomePageContent2 = [
+  {
+    id: 1,
+    cat: "Community",
+    title: "Monthly Writing Contests",
+    info: "Each month brings a new theme, a new challenge, and a chance for you to showcase your talent. Compete with fellow writers, receive valuable feedback, and win exciting prizes. Librum-Reader is your platform to shine and inspire. Join this month's contest and let your words captivate the world!",
+    link: "/",
+    tag: [],
+    pic: "https://images.pexels.com/photos/1.jpg",
+    ref: "/",
+  },
+];
+
+const block6HomeFeedContent = [
+  { name: "Start Reading", text: "", image: img1, link: "/" },
+  { name: "Start Writing", text: "", image: img2, link: "/" },
+  { name: "See Latest Stories", text: "", image: img3, link: "/" },
+  { name: "Enter Contests", text: "", image: img4, link: "/" },
+];
+
 const block3Content = {
   title: "Where the power of words and the art of storytelling converge",
   text: `
@@ -176,4 +235,7 @@ export {
   info as storiesInfo,
   block3Content as b3content,
   loremIpsum as loremIpsum,
+  block1HomePageContent,
+  block1HomePageContent2,
+  block6HomeFeedContent,
 };

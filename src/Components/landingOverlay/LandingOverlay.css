@@ -15,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   background-image: url("./aismall.png");
+
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

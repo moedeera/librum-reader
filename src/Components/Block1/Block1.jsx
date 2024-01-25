@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
 
 // eslint-disable-next-line react/prop-types
-export const Block1 = ({ input }) => {
+export const Block1 = ({ input, alt }) => {
   const [info, setInfo] = useState([
     {
       id: 1,
@@ -54,7 +54,15 @@ export const Block1 = ({ input }) => {
   ]);
 
   return (
-    <div className="block-1-container">
+    <div
+      className={
+        alt === 1
+          ? "block-1-container block-1-alt"
+          : alt === 2
+          ? "block-1-container block-1-alt-2"
+          : "block-1-container"
+      }
+    >
       {info.map((item, index) => (
         <Link
           // onMouseEnter={(item) => {
@@ -111,7 +119,7 @@ export const Block1 = ({ input }) => {
             <p>{item.info}</p>
             <div className="btn">Read More</div>
             <p>
-              Tags:
+              {item.tag.length > 1 && "Tags:"}
               {item.tag.map((tagItem, index) => (
                 <span key={index}>
                   {" "}
