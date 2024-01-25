@@ -25,12 +25,13 @@ export const LoginPage = () => {
     imagesSorted,
     findImageSet,
     user,
+    profileInfo,
     signInWithGoogleFunction,
     loginWithEmailAndPassword,
   } = useContext(SiteContext);
 
   useEffect(() => {
-    if (user) {
+    if ((user && user !== null && profileInfo) || profileInfo !== null) {
       navigate("/profile");
       // return;
     }
