@@ -31,11 +31,11 @@ export const LoginPage = () => {
   } = useContext(SiteContext);
 
   useEffect(() => {
-    if ((user && user !== null && profileInfo) || profileInfo !== null) {
+    if (user && user !== null && profileInfo && profileInfo !== null) {
       navigate("/profile");
-      // return;
+      return;
     }
-  }, [user, navigate]);
+  }, [user, navigate, profileInfo]);
 
   return (
     <div className="container">
