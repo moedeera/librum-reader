@@ -11,7 +11,7 @@ export const HomeFeed = () => {
 
   const { profileInfo, user } = useContext(SiteContext);
   useEffect(() => {
-    if (!user || user === null) {
+    if (!user || user === null || !profileInfo || profileInfo === null) {
       navigate("/");
     }
   }, []);
