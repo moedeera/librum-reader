@@ -128,6 +128,7 @@ export const Stories = () => {
       <div className="stories-page">
         {" "}
         <h3>Browse Short Stories</h3>
+        <div className="stories-page-filter-section"></div>
         <Block4 searchTerm={search} />
         <button className="btn btn-primary">More</button>
       </div>
