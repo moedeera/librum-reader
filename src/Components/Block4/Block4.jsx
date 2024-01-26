@@ -66,6 +66,7 @@ export const Block4 = ({ searchTerm }) => {
   };
 
   const updateViews = async (id) => {
+    console.log(id);
     const story = doc(db, "stories", id);
     let storyInfo = await getDoc(story);
     console.log(storyInfo.data());

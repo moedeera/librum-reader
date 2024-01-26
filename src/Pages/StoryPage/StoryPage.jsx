@@ -102,12 +102,11 @@ export const StoryPage = () => {
           toolbar: false, // Disable the toolbar
         },
       });
-      getCharacterCount();
+
       // }
 
       quill.setContents(storyFirebase.story);
-      function getCharacterCount() {
-        // Get the editor text
+      function getWordCount() {
         var text = quill.getText();
 
         // Remove trailing newline character which Quill adds by default
@@ -115,10 +114,13 @@ export const StoryPage = () => {
           text = text.slice(0, -1);
         }
 
-        // Return the length of the text
-        return text.length;
-      }
+        // Use a regular expression to split the text into words
+        var words = text.match(/\b\w+\b/g);
 
+        // Return the number of words
+        return words ? words.length : 0;
+      }
+      console.log("Character count: ", getWordCount());
       // fetchAndSetStory();
       // Log new characters when the user edits the content
       quill.on("text-change", (delta, oldDelta, source) => {
