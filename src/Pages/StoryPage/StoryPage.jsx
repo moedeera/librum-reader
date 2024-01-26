@@ -102,10 +102,23 @@ export const StoryPage = () => {
           toolbar: false, // Disable the toolbar
         },
       });
-
+      getCharacterCount();
       // }
 
       quill.setContents(storyFirebase.story);
+      function getCharacterCount() {
+        // Get the editor text
+        var text = quill.getText();
+
+        // Remove trailing newline character which Quill adds by default
+        if (text.endsWith("\n")) {
+          text = text.slice(0, -1);
+        }
+
+        // Return the length of the text
+        return text.length;
+      }
+
       // fetchAndSetStory();
       // Log new characters when the user edits the content
       quill.on("text-change", (delta, oldDelta, source) => {
