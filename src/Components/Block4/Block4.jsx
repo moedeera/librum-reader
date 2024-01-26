@@ -8,7 +8,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
@@ -34,6 +36,35 @@ export const Block4 = ({ searchTerm }) => {
     }
   };
 
+  const fetchFilteredSummariesData = async () => {
+    try {
+      // Check if searchTerm is provided
+      let querySnapshot;
+      if (searchTerm) {
+        // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
+        const q = query(
+          summariesData,
+          where("tag", "array-contains", searchTerm)
+        );
+        querySnapshot = await getDocs(q);
+      } else {
+        // If no searchTerm, fetch all documents
+        querySnapshot = await getDocs(summariesData);
+      }
+
+      const summariesInfo = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        storyId: doc.id,
+      }));
+
+      setSummaries(summariesInfo);
+      setLoading(false);
+    } catch (error) {
+      console.log("error:", error);
+      return error;
+    }
+  };
+
   const updateViews = async (id) => {
     const story = doc(db, "stories", id);
     let storyInfo = await getDoc(story);
@@ -45,7 +76,11 @@ export const Block4 = ({ searchTerm }) => {
   };
 
   useEffect(() => {
-    fetchSummariesData();
+    if (searchTerm === "all" || searchTerm === "" || searchTerm === "general") {
+      fetchSummariesData();
+    } else {
+      fetchFilteredSummariesData();
+    }
   }, []);
 
   const { imagesSorted, findImageSet, setStory, setStoryId } =
