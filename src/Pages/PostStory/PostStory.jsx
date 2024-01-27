@@ -90,8 +90,8 @@ export const PostStory = () => {
         ref: iD,
         cat: story.category,
         title: story.title,
-        summary: story.summary,
-        tags: story.tags[0],
+        info: story.summary,
+        tag: story.tags[0],
         pic: story.picture,
         author: story.author,
       });
