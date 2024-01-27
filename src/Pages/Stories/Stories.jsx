@@ -10,7 +10,7 @@ export const Stories = () => {
   const [summaries, setSummaries] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showMore, setShowMore] = useState(4);
+  const [showMore, setShowMore] = useState(8);
 
   const { search } = useParams();
   const summariesData = collection(db, "summaries");
@@ -101,7 +101,9 @@ export const Stories = () => {
         {matches ? (
           <h3>{search} Stories</h3>
         ) : (
-          <h3>No story matches for {`"${search}"`}</h3>
+          <h3>
+            {!loading && <span>No story matches for {`"${search}"`}</span>}
+          </h3>
         )}
         <div className="stories-page-filter-section"></div>
         {matches ? (
