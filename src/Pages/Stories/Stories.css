@@ -10,6 +10,11 @@
   text-align: center;
 }
 
+.stories-page-suggestion h3 {
+  margin-top: 50px;
+  color: goldenrod;
+  text-align: left;
+}
 @media only screen and (min-width: 600px) {
   .stories-page {
     padding-top: var(--padding-top-md);

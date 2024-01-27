@@ -2,135 +2,128 @@ import { Block4 } from "../../Components/Block4/Block4";
 import "./Stories.css";
 import { useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 export const Stories = () => {
+  const [matches, setMatches] = useState(true);
+  const [summaries, setSummaries] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showMore, setShowMore] = useState(4);
+
   const { search } = useParams();
+  const summariesData = collection(db, "summaries");
   console.log(search);
-  async function updateStoriesWithSlug() {
-    const wasItSet = localStorage.getItem("summary-slugs-created-2");
-    if (wasItSet) {
-      return;
-    }
 
+  const fetchSummariesData = async () => {
     try {
-      // Reference to the stories collection
-      const storiesRef = collection(db, "summaries");
+      const data = await getDocs(summariesData);
+      const summariesInfo = data.docs.map((doc) => ({
+        ...doc.data(),
+        storyId: doc.id,
+      }));
 
-      // Get a snapshot of the stories collection
-      const snapshot = await getDocs(storiesRef);
-
-      // Update each document in the collection
-      const updatePromises = snapshot.docs.map(async (document) => {
-        console.log(document.data());
-        // Construct the slug using the document id and the link attribute
-        const slug = `${document.id}-${document.data().link}`;
-        const storyDoc = doc(db, "summaries", document.id);
-        // Update the document with the new slug attribute
-        // await storiesRef.doc(doc.id).update({ slug: slug });
-        await updateDoc(storyDoc, { slug: slug });
-      });
-
-      // Wait for all updates to complete
-      await Promise.all(updatePromises);
-      localStorage.setItem("summary-slugs-created-2", true);
-      console.log("All stories have been updated with slugs.");
+      setSummaries(summariesInfo);
+      setSuggestions(summariesInfo);
+      setLoading(false);
     } catch (error) {
-      console.error("Error updating stories with slugs:", error);
-    }
-  }
-  const fetchStory = async (idOrSlug) => {
-    let matchedStories = [];
-    try {
-      // Reference to the stories collection
-      const storiesRef = collection(db, "stories");
+      console.log("error:", error);
 
-      // Query the stories collection for the first document with the specified slug
-      const q = query(
-        storiesRef,
-        where("slug", "==", "3Zktmck8E77mUpxzVmRK-art-innovation")
-      );
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        console.log("No matching slugs.");
-        const storyDoc = doc(db, "stories", idOrSlug);
-        const docSnapshot = await getDoc(storyDoc);
-
-        if (docSnapshot.exists()) {
-          const summaryData = docSnapshot.data();
-          return summaryData;
-        }
-
-        return null;
-      } else {
-        querySnapshot.forEach((doc) => {
-          console.log(doc.id, "=>", doc.data());
-          matchedStories.push(doc.data());
-        });
-      }
-
-      // Return the first document found
-      console.log(matchedStories[0]);
-      return matchedStories[0];
-    } catch (error) {
-      console.error("Error searching story by slug:", error);
-      return null; // or handle the error as appropriate for your application
+      return error;
     }
   };
 
-  const fetchStoryBySlugOrId = async (slugOrId) => {
+  const fetchFilteredSummariesData = async () => {
     try {
-      // Reference to the stories collection
-      const storiesRef = collection(db, "stories");
-
-      // First, attempt to fetch the document assuming slugOrId is an ID
-      const docRef = doc(storiesRef, slugOrId);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        // Document found with the provided ID, return this document
-        console.log("Document found with ID:", slugOrId);
-        return docSnap.data();
+      // Check if searchTerm is provided
+      let querySnapshot;
+      if (search) {
+        // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
+        const q = query(summariesData, where("tag", "array-contains", search));
+        querySnapshot = await getDocs(q);
       } else {
-        // No document found with the ID, proceed to assume slugOrId is a slug
-        console.log("No document found with ID. Trying as slug...");
-
-        // Query the stories collection for the document with the specified slug
-        const q = query(storiesRef, where("slug", "==", slugOrId));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-          console.log("No matching documents with slug.");
-          return null;
-        } else {
-          // Assuming slug is unique and you want only the first matching document
-          const firstDoc = querySnapshot.docs[0];
-          console.log("Document found with slug:", slugOrId);
-          return firstDoc.data();
-        }
+        // If no searchTerm, fetch all documents
+        querySnapshot = await getDocs(summariesData);
       }
+
+      const summariesInfo = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        storyId: doc.id,
+      }));
+
+      setSummaries(summariesInfo);
+      setLoading(false);
     } catch (error) {
-      console.error("Error searching story by slugOrId:", error);
-      return null; // or handle the error as appropriate for your application
+      console.log("error:", error);
+      return error;
     }
   };
+
+  useEffect(() => {
+    if (search && search !== null && search !== "all" && search !== "general") {
+      fetchFilteredSummariesData();
+    } else {
+      fetchSummariesData();
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const data = await getDocs(summariesData);
+        const summariesInfo = data.docs.map((doc) => ({
+          ...doc.data(),
+          storyId: doc.id,
+        }));
+
+        setSuggestions(summariesInfo);
+        setLoading(false);
+      } catch (error) {
+        console.log("error:", error);
+
+        return error;
+      }
+    };
+
+    if (summaries.length === 0) {
+      setMatches(false);
+      fetchSuggestions();
+    } else {
+      setMatches(true);
+    }
+  }, [summaries]); // Only re-run the effect if 'summaries' changes
 
   return (
     <div className="container">
       <div className="stories-page">
         {" "}
-        <h3>Browse Short Stories</h3>
+        {matches ? (
+          <h3>{search} Stories</h3>
+        ) : (
+          <h3>No story matches for {`"${search}"`}</h3>
+        )}
         <div className="stories-page-filter-section"></div>
-        <Block4 searchTerm={search} />
-        <button className="btn btn-primary">More</button>
+        {matches ? (
+          <Block4 summaries={summaries} loading={loading} more={showMore} />
+        ) : (
+          <div className="stories-page-suggestion">
+            {!loading && <h3>Give these stories a try</h3>}
+            <Block4 summaries={suggestions} loading={loading} more={showMore} />
+          </div>
+        )}
+        {summaries.length + suggestions.length > showMore ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              setShowMore(showMore + 4);
+            }}
+          >
+            More
+          </button>
+        ) : (
+          <> No More to show </>
+        )}
       </div>
     </div>
   );
