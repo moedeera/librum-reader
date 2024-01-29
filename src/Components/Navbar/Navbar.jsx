@@ -19,12 +19,31 @@ export const Navbar = () => {
           Librum<span className="header-span">Reader</span>.
         </Link>
         <div className="navbar-menu-main">
-          {menuItemsMD.map((item) => (
-            <Link to={item.link} key={item.id}>
-              {item.name}
-            </Link>
-          ))}
-          {user && <Link to={"/write"}>Write</Link>}
+          {user ? (
+            <>
+              {" "}
+              {menuItemsMD.map(
+                (item) =>
+                  item.status !== "guest" && (
+                    <Link to={item.link} key={item.id}>
+                      {item.name}
+                    </Link>
+                  )
+              )}
+            </>
+          ) : (
+            <>
+              {" "}
+              {menuItemsMD.map(
+                (item) =>
+                  item.status !== "user" && (
+                    <Link to={item.link} key={item.id}>
+                      {item.name}
+                    </Link>
+                  )
+              )}
+            </>
+          )}
         </div>
         <div className="menu-icon">
           <div

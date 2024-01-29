@@ -148,10 +148,13 @@ export const SiteContextProvider = ({ children }) => {
   const createdStory = fetchCreatedStoryInfo();
 
   const menuItemsMD = [
-    { id: 1, name: "Home", link: "/" },
-    { id: 2, name: "Browse", link: "/stories" },
-    { id: 3, name: "Contact", link: "/contact" },
-    { id: 4, name: "About", link: "/about" },
+    { id: 1, name: "Home", link: "/", status: "all" },
+    { id: 2, name: "Browse", link: "/stories", status: "all" },
+    { id: 3, name: "Contact", link: "/contact", status: "guest" },
+    { id: 4, name: "About", link: "/about", status: "guest" },
+    { id: 5, name: "Write", link: "/write", status: "user" },
+    { id: 6, name: "Updates", link: "/Updates", status: "user" },
+    { id: 7, name: "Community", link: "/community", status: "user" },
   ];
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },

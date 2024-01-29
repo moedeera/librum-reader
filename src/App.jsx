@@ -26,6 +26,8 @@ import { Testing } from "./Pages/Testing/Testing";
 import { WritePage } from "./Pages/WritePage/WritePage";
 import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
 import { HomeFeed } from "./Pages/HomeFeed/HomeFeed";
+import { CommunityPage } from "./Pages/CommunityPage/CommunityPage";
+import { UpdatesPage } from "./Pages/UpdatesPage/UpdatesPage";
 
 function App() {
   return (
@@ -50,6 +52,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/account" element={<AccountPage />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/updates" element={<UpdatesPage />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/stories/:search" element={<Stories />} />

@@ -99,7 +99,11 @@ export const Stories = () => {
       <div className="stories-page">
         {" "}
         {matches ? (
-          <h3>{search} Stories</h3>
+          <h3>
+            {" "}
+            <span style={{ textTransform: "capitalize" }}>{search}</span>{" "}
+            Stories
+          </h3>
         ) : (
           <h3>
             {!loading && <span>No story matches for {`"${search}"`}</span>}
