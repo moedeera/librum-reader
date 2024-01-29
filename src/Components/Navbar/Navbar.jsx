@@ -111,7 +111,7 @@ export const Navbar = () => {
                     <img src={img1} alt="" />
                   </div>
                 </div>
-                {dropdown && (
+                {dropdown === true ? (
                   <div className="user-dropdown-menu">
                     <div>
                       <Link to={"/profile"}>My Profile</Link>
@@ -128,6 +128,8 @@ export const Navbar = () => {
                       Logout
                     </div>
                   </div>
+                ) : (
+                  ""
                 )}
               </div>
             ) : (

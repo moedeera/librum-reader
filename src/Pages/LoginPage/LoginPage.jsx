@@ -32,7 +32,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (user && user !== null && profileInfo && profileInfo !== null) {
-      navigate("/profile");
+      navigate("/");
       return;
     }
   }, [user, navigate, profileInfo]);
@@ -81,7 +81,7 @@ export const LoginPage = () => {
           />
           <button
             onClick={() => {
-              loginWithEmailAndPassword(logUser, navigate, "/profile");
+              loginWithEmailAndPassword(logUser, navigate, "/");
             }}
             className="btn btn-primary btn-form"
           >
