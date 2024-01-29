@@ -20,7 +20,7 @@ import {
 
 function getUserFromLocalStorage() {
   // Check if "user" exists in local storage
-  const storedUser = localStorage.getItem("librum-user");
+  const storedUser = localStorage.getItem("user");
   // console.log(storedUser);
   return storedUser ? JSON.parse(storedUser) : null;
   // Return the user if it exists, otherwise return null
@@ -371,6 +371,19 @@ export const SiteContextProvider = ({ children }) => {
     localStorage.setItem("created-story-info", JSON.stringify(story));
   }, [story]);
 
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+    if (user === null) {
+      setProfileInfo(null);
+    }
+
+    console.log("user updated");
+  }, [user]);
+  useEffect(() => {
+    localStorage.setItem("librum-user", JSON.stringify(profileInfo));
+
+    console.log("user profile updated");
+  }, [profileInfo]);
   return (
     <SiteContext.Provider
       value={{

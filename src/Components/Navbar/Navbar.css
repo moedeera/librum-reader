@@ -68,6 +68,51 @@
 .user-login-image {
   display: none;
 }
+.user-dropdown-button {
+  /* border: 1px solid red; */
+  width: 100%;
+  position: relative;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  transition: all 0.35s ease-in-out;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  width: 100%;
+  min-height: 100px;
+  background-color: rgba(220, 220, 220, 0.75);
+  top: 105%;
+  display: flex;
+  flex-direction: column;
+  font-size: small;
+  justify-content: space-between;
+  padding: 20px 10px;
+  box-shadow: 1px 1px 0.5px rgba(128, 128, 128, 0.25);
+}
+.user-dropdown-menu > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.user-image-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.user-image-name {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.user-image-name img {
+  width: 20px;
+}
+.user-image {
+  width: 100%;
+  border-radius: 50%;
+  max-width: 35px;
+}
+
 @media only screen and (min-width: 600px) {
 }
 

@@ -2,10 +2,9 @@ import { useContext, useState } from "react";
 import { SiteContext } from "../../../Context/Context";
 
 // eslint-disable-next-line react/prop-types
-export const BasicInfo = ({ profile, setProfile }) => {
-  console.log(profile);
-
-  const { updateProfile } = useContext(SiteContext);
+export const BasicInfo = () => {
+  const { updateProfile, profileInfo } = useContext(SiteContext);
+  const profile = profileInfo;
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(profile.profileName);

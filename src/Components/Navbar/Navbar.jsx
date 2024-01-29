@@ -1,15 +1,17 @@
 import { useContext, useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FullPageNav } from "./FullPageNav/FullPageNav.jsx";
 import { SiteContext } from "../../Context/Context";
+import img1 from "./chevron.png";
 
 export const Navbar = () => {
   const { menuItemsMD } = useContext(SiteContext);
   const [fullMenu, showFullMenu] = useState(false);
+  const [dropdown, setDropDown] = useState(false);
 
-  const { user } = useContext(SiteContext);
-
+  const { user, setUser } = useContext(SiteContext);
+  const navigate = useNavigate();
   // console.log(user);
 
   return (
@@ -56,7 +58,7 @@ export const Navbar = () => {
           <div className="bar bar-small"></div>
           <div className="user-login-image">
             {" "}
-            <Link
+            {/* <Link
               className="btn btn-primary btn-login "
               style={
                 user && {
@@ -87,7 +89,52 @@ export const Navbar = () => {
               ) : (
                 "Login"
               )}
-            </Link>
+            </Link> */}
+            {user ? (
+              <div className="user-dropdown-button">
+                <div
+                  onClick={() => {
+                    setDropDown(!dropdown);
+                    console.log(dropdown);
+                  }}
+                  className="user-image-container"
+                >
+                  {" "}
+                  <img
+                    className="user-image"
+                    src={user.pic}
+                    alt="profile-pic"
+                  />
+                  <div className="user-image-name">
+                    {" "}
+                    <small>{user.name}</small>
+                    <img src={img1} alt="" />
+                  </div>
+                </div>
+                {dropdown && (
+                  <div className="user-dropdown-menu">
+                    <div>
+                      <Link to={"/profile"}>My Profile</Link>
+                      <Link to={"/Messages"}>Messages</Link>
+                      <Link to={"/Settings"}>Account</Link>
+                    </div>
+
+                    <div
+                      onClick={() => {
+                        setUser(null);
+                        navigate("/login");
+                      }}
+                    >
+                      Logout
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link className="btn" to="/login">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
