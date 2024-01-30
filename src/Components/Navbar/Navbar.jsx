@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FullPageNav } from "./FullPageNav/FullPageNav.jsx";
 import { SiteContext } from "../../Context/Context";
 import img1 from "./chevron.png";
+import OutsideClickHandler from "react-outside-click-handler";
 
 export const Navbar = () => {
   const { menuItemsMD } = useContext(SiteContext);
@@ -95,7 +96,6 @@ export const Navbar = () => {
                 <div
                   onClick={() => {
                     setDropDown(!dropdown);
-                    console.log(dropdown);
                   }}
                   className="user-image-container"
                 >
@@ -112,22 +112,29 @@ export const Navbar = () => {
                   </div>
                 </div>
                 {dropdown === true ? (
-                  <div className="user-dropdown-menu">
-                    <div>
-                      <Link to={"/profile"}>My Profile</Link>
-                      <Link to={"/Messages"}>Messages</Link>
-                      <Link to={"/Settings"}>Account</Link>
-                    </div>
+                  <OutsideClickHandler
+                    onOutsideClick={() => {
+                      setDropDown(false);
+                    }}
+                  >
+                    {" "}
+                    <div className="user-dropdown-menu">
+                      <div>
+                        <Link to={"/profile"}>My Profile</Link>
+                        <Link to={"/Messages"}>Messages</Link>
+                        <Link to={"/Settings"}>Account</Link>
+                      </div>
 
-                    <div
-                      onClick={() => {
-                        setUser(null);
-                        navigate("/login");
-                      }}
-                    >
-                      Logout
+                      <div
+                        onClick={() => {
+                          setUser(null);
+                          navigate("/login");
+                        }}
+                      >
+                        Logout
+                      </div>
                     </div>
-                  </div>
+                  </OutsideClickHandler>
                 ) : (
                   ""
                 )}
