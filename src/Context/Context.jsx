@@ -279,7 +279,12 @@ export const SiteContextProvider = ({ children }) => {
       });
   };
 
-  const loginWithEmailAndPassword = async (userInfo, redirection, link) => {
+  const loginWithEmailAndPassword = async (
+    userInfo,
+    redirection,
+    link,
+    errorHandler
+  ) => {
     console.log(
       "on log called",
       "user info:",
@@ -313,6 +318,13 @@ export const SiteContextProvider = ({ children }) => {
       })
       .catch((error) => {
         console.log("error code:", error.code, "error message:", error.message);
+        if (
+          error.message === "Firebase: Error (auth/invalid-login-credentials)."
+        ) {
+          errorHandler("Invalid login Credentials");
+        } else {
+          errorHandler(error.message);
+        }
       });
   };
 

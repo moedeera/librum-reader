@@ -11,6 +11,7 @@ export const LoginPage = () => {
     email: "",
     password: "",
   });
+  const [error, setError] = useState("");
   const onChangeHandler = (e, type, userInfo, setUserInfo) => {
     if (type === "name") {
       setUserInfo({ ...userInfo, name: e.target.value });
@@ -79,9 +80,10 @@ export const LoginPage = () => {
             }}
             placeholder="Enter Your password"
           />
+          <p style={{ color: "crimson" }}>{error}</p>
           <button
             onClick={() => {
-              loginWithEmailAndPassword(logUser, navigate, "/");
+              loginWithEmailAndPassword(logUser, navigate, "/", setError);
             }}
             className="btn btn-primary btn-form"
           >
