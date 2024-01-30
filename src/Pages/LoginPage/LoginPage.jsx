@@ -83,6 +83,7 @@ export const LoginPage = () => {
           <p style={{ color: "crimson" }}>{error}</p>
           <button
             onClick={() => {
+              setError("");
               loginWithEmailAndPassword(logUser, navigate, "/", setError);
             }}
             className="btn btn-primary btn-form"

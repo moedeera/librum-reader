@@ -18,7 +18,10 @@ export const HomeFeed = () => {
   return (
     <div className="container">
       <div className="home-feed-page">
-        <h3>Welcome back {profileInfo.name}</h3>
+        <h3>
+          Welcome back{" "}
+          <span style={{ color: "goldenrod" }}>{profileInfo.profileName}</span>{" "}
+        </h3>
         <div className="home-feed-stories">
           <h4>Some Stories you might like</h4>
           <Block1 />

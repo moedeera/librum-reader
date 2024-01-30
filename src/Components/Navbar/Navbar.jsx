@@ -11,7 +11,7 @@ export const Navbar = () => {
   const [fullMenu, showFullMenu] = useState(false);
   const [dropdown, setDropDown] = useState(false);
 
-  const { user, setUser } = useContext(SiteContext);
+  const { user, setUser, profileInfo } = useContext(SiteContext);
   const navigate = useNavigate();
 
   return (
@@ -73,12 +73,12 @@ export const Navbar = () => {
                     {" "}
                     <img
                       className="user-image"
-                      src={user.pic}
+                      src={profileInfo.avatar}
                       alt="profile-pic"
                     />
                     <div className="user-image-name">
                       {" "}
-                      <small>{user.name}</small>
+                      <small>{profileInfo.profileName}</small>
                       <img src={img1} alt="" />
                     </div>
                   </div>
