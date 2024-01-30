@@ -29,6 +29,7 @@ import { HomeFeed } from "./Pages/HomeFeed/HomeFeed";
 import { CommunityPage } from "./Pages/CommunityPage/CommunityPage";
 import { UpdatesPage } from "./Pages/UpdatesPage/UpdatesPage";
 import { MyStoriesPage } from "./Pages/MyStoriesPage/MyStoriesPage";
+import { SettingsPage } from "./Pages/SettingsPage/SettingsPage";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/settings" element={<SettingsPage />} />
               <Route
                 path="/profiles"
                 element={<Navigate replace to="/profiles/librum" />}
