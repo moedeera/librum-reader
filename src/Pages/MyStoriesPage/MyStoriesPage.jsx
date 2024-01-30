@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
-import { MessagesBox } from "../ProfilePage/ProfilePageComp/MessagesBox";
+import "./MyStoriesPage.css";
 import { SiteContext } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 
-export const MessagesPage = () => {
-  const { profileInfo, setProfileInfo } = useContext(SiteContext);
+export const MyStoriesPage = () => {
+  const { profileInfo } = useContext(SiteContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (!profileInfo || profileInfo === null) {
@@ -14,8 +14,8 @@ export const MessagesPage = () => {
 
   return (
     <div className="container">
-      <div className="messages-page">
-        <MessagesBox profile={profileInfo} setProfile={setProfileInfo} />
+      <div className="my-story-page">
+        <h1>MyStoriesPage</h1>
       </div>
     </div>
   );

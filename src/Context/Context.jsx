@@ -173,6 +173,13 @@ export const SiteContextProvider = ({ children }) => {
     { id: 2, name: "Privacy Policy", link: "/" },
     { id: 3, name: "Copyright Policy", link: "/" },
   ];
+
+  const dropDownLinks = [
+    { id: 1, name: "My Profile", to: "/profile" },
+    { id: 2, name: "My Stories", to: "/mystories" },
+    { id: 3, name: "Messages", to: "/messages" },
+    { id: 4, name: "Settings", to: "/settings" },
+  ];
   const fetchedProfile = getProfileFromLocalStorage();
   const [profileInfo, setProfileInfo] = useState(fetchedProfile);
   const [story, setStory] = useState(createdStory);
@@ -408,6 +415,7 @@ export const SiteContextProvider = ({ children }) => {
         profileInfo,
         setProfileInfo,
         updateProfile,
+        dropDownLinks,
       }}
     >
       {children}

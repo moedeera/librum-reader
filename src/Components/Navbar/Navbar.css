@@ -76,10 +76,12 @@
 
 .user-dropdown-menu {
   position: absolute;
-  transition: all 0.35s ease-in-out;
+  transition: all 0.5s ease-in-out;
   border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
   width: 100%;
-  min-height: 100px;
+  height: max-content;
+  min-height: 120px;
   background-color: rgba(220, 220, 220, 0.75);
   top: 105%;
   display: flex;

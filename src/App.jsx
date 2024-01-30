@@ -28,6 +28,7 @@ import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
 import { HomeFeed } from "./Pages/HomeFeed/HomeFeed";
 import { CommunityPage } from "./Pages/CommunityPage/CommunityPage";
 import { UpdatesPage } from "./Pages/UpdatesPage/UpdatesPage";
+import { MyStoriesPage } from "./Pages/MyStoriesPage/MyStoriesPage";
 
 function App() {
   return (
@@ -48,9 +49,16 @@ function App() {
               <Route path="/write" element={<WritePage />} />
               <Route path="/storyinfo" element={<StoryInfo />} />
               <Route path="mystory/:id" element={<PostStory />} />
+              <Route path="mystories" element={<MyStoriesPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route
+                path="/profiles"
+                element={<Navigate replace to="/profiles/librum" />}
+              />
+              <Route path="/profiles/:userid" element={<ProfilePage />} />
+              <Route path="/messages" element={<MessagesPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/community" element={<CommunityPage />} />
               <Route path="/updates" element={<UpdatesPage />} />

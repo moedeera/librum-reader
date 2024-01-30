@@ -7,13 +7,12 @@ import img1 from "./chevron.png";
 import OutsideClickHandler from "react-outside-click-handler";
 
 export const Navbar = () => {
-  const { menuItemsMD } = useContext(SiteContext);
+  const { menuItemsMD, dropDownLinks } = useContext(SiteContext);
   const [fullMenu, showFullMenu] = useState(false);
   const [dropdown, setDropDown] = useState(false);
 
   const { user, setUser } = useContext(SiteContext);
   const navigate = useNavigate();
-  // console.log(user);
 
   return (
     <div className="navbar-container">
@@ -58,71 +57,45 @@ export const Navbar = () => {
           <div className="bar bar-large bar-lower"></div>
           <div className="bar bar-small"></div>
           <div className="user-login-image">
-            {" "}
-            {/* <Link
-              className="btn btn-primary btn-login "
-              style={
-                user && {
-                  height: "40px",
-                  width: "40px",
-                  // border: "1px solid red",
-                  borderRadius: "50%",
-                  padding: "0",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "transparent",
-                }
-              }
-              to={user ? "/login" : "/profile"}
-            >
-              {user ? (
-                <img
-                  className="user-image"
-                  style={{
-                    width: "100%",
-                    borderRadius: "50%",
-                    maxWidth: "45px",
-                  }}
-                  src={user.pic}
-                  alt=""
-                />
-              ) : (
-                "Login"
-              )}
-            </Link> */}
             {user ? (
-              <div className="user-dropdown-button">
-                <div
-                  onClick={() => {
-                    setDropDown(!dropdown);
-                  }}
-                  className="user-image-container"
-                >
-                  {" "}
-                  <img
-                    className="user-image"
-                    src={user.pic}
-                    alt="profile-pic"
-                  />
-                  <div className="user-image-name">
-                    {" "}
-                    <small>{user.name}</small>
-                    <img src={img1} alt="" />
-                  </div>
-                </div>
-                {dropdown === true ? (
-                  <OutsideClickHandler
-                    onOutsideClick={() => {
-                      setDropDown(false);
+              <OutsideClickHandler
+                onOutsideClick={() => {
+                  setDropDown(false);
+                }}
+              >
+                <div className="user-dropdown-button">
+                  <div
+                    onClick={() => {
+                      setDropDown(!dropdown);
                     }}
+                    className="user-image-container"
                   >
                     {" "}
+                    <img
+                      className="user-image"
+                      src={user.pic}
+                      alt="profile-pic"
+                    />
+                    <div className="user-image-name">
+                      {" "}
+                      <small>{user.name}</small>
+                      <img src={img1} alt="" />
+                    </div>
+                  </div>
+                  {dropdown === true ? (
                     <div className="user-dropdown-menu">
                       <div>
-                        <Link to={"/profile"}>My Profile</Link>
-                        <Link to={"/Messages"}>Messages</Link>
-                        <Link to={"/Settings"}>Account</Link>
+                        {dropDownLinks.map((link) => (
+                          <Link
+                            onClick={() => {
+                              setDropDown(false);
+                            }}
+                            key={link.id}
+                            to={link.to}
+                          >
+                            {link.name}
+                          </Link>
+                        ))}
                       </div>
 
                       <div
@@ -134,11 +107,11 @@ export const Navbar = () => {
                         Logout
                       </div>
                     </div>
-                  </OutsideClickHandler>
-                ) : (
-                  ""
-                )}
-              </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </OutsideClickHandler>
             ) : (
               <Link className="btn" to="/login">
                 Login
