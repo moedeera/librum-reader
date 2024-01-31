@@ -5,6 +5,7 @@ import { FullPageNav } from "./FullPageNav/FullPageNav.jsx";
 import { SiteContext } from "../../Context/Context";
 import img1 from "./chevron.png";
 import OutsideClickHandler from "react-outside-click-handler";
+import { SearchBar } from "../SearchBar/SearchBar.jsx";
 
 export const Navbar = () => {
   const { menuItemsMD, dropDownLinks } = useContext(SiteContext);
@@ -45,7 +46,8 @@ export const Navbar = () => {
                   )
               )}
             </>
-          )}
+          )}{" "}
+          <SearchBar />
         </div>
         <div className="menu-icon">
           <div

@@ -1,0 +1,28 @@
+.search-bar-container {
+  width: 100%;
+}
+
+.search-bar-container img {
+  width: 100%;
+  max-width: 15px;
+}
+.search-bar-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(128, 128, 128, 0.4);
+  border-radius: 5px;
+  padding: 3px;
+  grid-column-gap: 3px;
+  font-weight: 400;
+}
+.search-bar-main input {
+  padding: 0;
+  background-color: transparent;
+  border: none;
+
+  outline: none;
+}
+.search-bar-main input:focus {
+}
