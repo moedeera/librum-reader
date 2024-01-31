@@ -2,12 +2,12 @@ import { useContext, useState } from "react";
 import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
-import { Loading } from "../Loading/Loading";
+
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 // eslint-disable-next-line react/prop-types
-export const Block4 = ({ summaries, loading, more }) => {
+export const Block4 = ({ summaries, more }) => {
   const updateViews = async (id) => {
     console.log(id);
     const story = doc(db, "stories", id);
@@ -25,10 +25,6 @@ export const Block4 = ({ summaries, loading, more }) => {
     new Array(summaries.length).fill({ id: summaries.id, state: false })
   );
   /* eslint-disable-next-line react/prop-types */
-
-  if (loading) {
-    return <Loading />;
-  }
 
   return (
     <div className="block-4-container">

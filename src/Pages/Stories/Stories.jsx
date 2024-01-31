@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { Loading } from "../../Components/Loading/Loading";
 
 export const Stories = () => {
   const [matches, setMatches] = useState(true);
@@ -93,6 +94,10 @@ export const Stories = () => {
       setMatches(true);
     }
   }, [summaries]); // Only re-run the effect if 'summaries' changes
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container">

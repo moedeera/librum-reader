@@ -3,11 +3,11 @@ import "./ProfilePage.css";
 
 import { SiteContext } from "../../Context/Context";
 import { useNavigate, useParams } from "react-router-dom";
+import { BasicInfo } from "./ProfilePageComp/BasicInfo";
 export const ProfilePage = () => {
   const { userid } = useParams();
   //
-  const { user, setUser, profileInfo, setProfileInfo } =
-    useContext(SiteContext);
+  const { user, profileInfo } = useContext(SiteContext);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -20,5 +20,12 @@ export const ProfilePage = () => {
       navigate(`/profiles/${user.name}`);
     }
   }, [user, navigate]);
-  return <div className="container"></div>;
+  return (
+    <div className="container">
+      <div className="profile-page-container">
+        {" "}
+        <BasicInfo />
+      </div>
+    </div>
+  );
 };

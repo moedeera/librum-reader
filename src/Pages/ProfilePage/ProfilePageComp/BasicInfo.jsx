@@ -3,7 +3,8 @@ import { SiteContext } from "../../../Context/Context";
 
 // eslint-disable-next-line react/prop-types
 export const BasicInfo = () => {
-  const { updateProfile, profileInfo } = useContext(SiteContext);
+  const { updateProfile, profileInfo, setProfileInfo } =
+    useContext(SiteContext);
   const profile = profileInfo;
 
   const [isEditing, setIsEditing] = useState(false);
@@ -12,6 +13,8 @@ export const BasicInfo = () => {
   const [bio, setBio] = useState(profile.bio);
   const [tempBio, setTempBio] = useState(profile.bio);
   const [isPublic, setIsPublic] = useState(false);
+  const [bioError, setBioError] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -24,12 +27,25 @@ export const BasicInfo = () => {
     // eslint-disable-next-line react/prop-types
     if (profile.profileName !== tempName) {
       // eslint-disable-next-line react/prop-types
-      await updateProfile(profile.profile_Id, "profileName", tempName);
+      try {
+        await updateProfile(profile.profile_Id, "profileName", tempName);
+        setProfileInfo({ ...profileInfo, profileName: tempName });
+        setNameError([]);
+      } catch (error) {
+        setNameError(error);
+      }
     }
     // eslint-disable-next-line react/prop-types
     if (profile.bio !== tempBio) {
       // eslint-disable-next-line react/prop-types
-      await updateProfile(profile.profile_Id, "bio", tempBio);
+
+      try {
+        await updateProfile(profile.profile_Id, "bio", tempBio);
+        setProfileInfo({ ...profileInfo, bio: tempBio });
+        setBioError([]);
+      } catch (error) {
+        setBioError(error);
+      }
     }
   };
 
