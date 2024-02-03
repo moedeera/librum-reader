@@ -7,11 +7,11 @@ import { useEffect, useState } from "react";
 import { Loading } from "../../Components/Loading/Loading";
 
 export const Stories = () => {
-  const [matches, setMatches] = useState(true);
   const [summaries, setSummaries] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMore, setShowMore] = useState(8);
+  const [error, setError] = useState("");
 
   const { search } = useParams();
   const summariesData = collection(db, "summaries");
@@ -27,11 +27,13 @@ export const Stories = () => {
 
       setSummaries(summariesInfo);
       setSuggestions(summariesInfo);
-      setLoading(false);
     } catch (error) {
       console.log("error:", error);
+      setError("Error: Please try again");
 
       return error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,14 +41,10 @@ export const Stories = () => {
     try {
       // Check if searchTerm is provided
       let querySnapshot;
-      if (search) {
-        // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
-        const q = query(summariesData, where("tag", "array-contains", search));
-        querySnapshot = await getDocs(q);
-      } else {
-        // If no searchTerm, fetch all documents
-        querySnapshot = await getDocs(summariesData);
-      }
+
+      // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
+      const q = query(summariesData, where("tag", "array-contains", search));
+      querySnapshot = await getDocs(q);
 
       const summariesInfo = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -54,15 +52,17 @@ export const Stories = () => {
       }));
 
       setSummaries(summariesInfo);
-      setLoading(false);
     } catch (error) {
       console.log("error:", error);
-      return error;
+      // fix this
+      fetchSummariesData();
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (search && search !== null && search !== "all" && search !== "general") {
+    if (search && search !== "all" && search !== "general") {
       fetchFilteredSummariesData();
     } else {
       fetchSummariesData();
@@ -88,22 +88,28 @@ export const Stories = () => {
     };
 
     if (summaries.length === 0) {
-      setMatches(false);
       fetchSuggestions();
-    } else {
-      setMatches(true);
     }
   }, [summaries]); // Only re-run the effect if 'summaries' changes
 
   if (loading) {
     return <Loading />;
   }
+  console.log(summaries);
+  if (error) {
+    return (
+      <div className="container">
+        {" "}
+        <h1>{error}</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <div className="stories-page">
         {" "}
-        {matches ? (
+        {summaries.length > 0 ? (
           <h3>
             {" "}
             <span style={{ textTransform: "capitalize" }}>{search}</span>{" "}
@@ -115,7 +121,7 @@ export const Stories = () => {
           </h3>
         )}
         <div className="stories-page-filter-section"></div>
-        {matches ? (
+        {summaries.length > 0 ? (
           <Block4 summaries={summaries} loading={loading} more={showMore} />
         ) : (
           <div className="stories-page-suggestion">
