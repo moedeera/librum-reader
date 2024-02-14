@@ -56,7 +56,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/browse/:id" element={<SearchPage />} />
+              <Route path="/browse/:search" element={<SearchPage />} />
               <Route
                 path="/profiles"
                 element={<Navigate replace to="/profiles/librum" />}
