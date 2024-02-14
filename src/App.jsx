@@ -30,6 +30,7 @@ import { CommunityPage } from "./Pages/CommunityPage/CommunityPage";
 import { UpdatesPage } from "./Pages/UpdatesPage/UpdatesPage";
 import { MyStoriesPage } from "./Pages/MyStoriesPage/MyStoriesPage";
 import { SettingsPage } from "./Pages/SettingsPage/SettingsPage";
+import { SearchPage } from "./Pages/SearchPage/SearchPage";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/browse/:id" element={<SearchPage />} />
               <Route
                 path="/profiles"
                 element={<Navigate replace to="/profiles/librum" />}
