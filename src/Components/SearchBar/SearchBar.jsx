@@ -8,7 +8,7 @@ export const SearchBar = ({ size }) => {
         <div className="search-bar-icon">
           <img src={img} alt="magnifying glass icon" />
         </div>
-        <input type="text" placeholder="search" className="search-bar-input" />
+        <input type="text" placeholder="Search" className="search-bar-input" />
       </div>
       <div className="search-bar-drop-down"></div>
     </div>

@@ -135,6 +135,7 @@
     font-weight: 900;
 
     justify-content: center;
+    align-items: center;
   }
   .menu-icon {
     flex-direction: row;
