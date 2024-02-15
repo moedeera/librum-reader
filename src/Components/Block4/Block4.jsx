@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
-
+import { summarizeParagraph } from "../../assets/images/images";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
@@ -97,22 +97,37 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   style={{
                     backgroundImage: `url("${item.pic}")`,
                   }}
-                >
-                  {/* <img
-                    src="https://images.pexels.com/photos/20197333/pexels-photo-20197333/free-photo-of-a-man-in-cowboy-hat-riding-a-horse-in-a-field.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt=""
-                  /> */}
+                ></div>
+
+                {/* <small>{item.cat}</small> */}
+                <small>By {item?.author}</small>
+                <div className="block-4-segment-stats">
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
+                    <small>13</small>
+                  </div>
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
+                    <small>13</small>
+                  </div>
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
+                    <small>0</small>
+                  </div>
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[3]} alt="" />
+                    <small>3 min</small>
+                  </div>
                 </div>
-                <small>{item.cat}</small>
                 <h5>{item.title}</h5>
-                <p>{item.info}</p>
+                <p>{summarizeParagraph(item.info)} </p>
                 {/* <div className="btn">Read More</div> */}
                 <p className="block-4-tags">
                   Tags:
                   {item?.tag?.map((tagItem, index) => (
-                    <span key={index}>
+                    <span key={index} className="block-4-tag">
                       {" "}
-                      {index > 0 && ", "}
+                      {/* {index > 0 && ", "} */}
                       {tagItem}
                     </span>
                   ))}

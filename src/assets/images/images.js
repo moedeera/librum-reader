@@ -2,6 +2,7 @@ import librum1 from "./fantasy.jpg";
 import librum2 from "./librum-r-3.jpg";
 import librum3 from "./librum-r-1.jpg";
 import library from "./library.jpg";
+import clockIcon from "./clock.png";
 import fantasy2 from "./fantasy2.jpg";
 import dystopia from "./dystopia1.jpg";
 import eyeIcon from "./eye-icon.png";
@@ -29,7 +30,7 @@ const imagesSorted = [
   },
   { id: "library", images: [library] },
   { id: "fantasy", images: [librum1, fantasy2] },
-  { id: "icons", images: [eyeIcon, heartIcon, commentIcon] },
+  { id: "icons", images: [eyeIcon, heartIcon, commentIcon, clockIcon] },
 ];
 
 function findImageSet(ref, imagesSorted) {
@@ -44,5 +45,18 @@ function findImageSet(ref, imagesSorted) {
     return imagesSorted[0].images[0];
   }
 }
+function summarizeParagraph(paragraph) {
+  // Split the paragraph into an array of words
+  const words = paragraph.split(/\s+/);
+  // Reduce the paragraph to the first 15 words or less and join them back into a string
+  const summary = words.slice(0, 20).join(" ") + "...";
+  return summary;
+}
 
-export { imagesSorted as imagesSorted, findImageSet as findImageSet };
+// Example usage
+
+export {
+  imagesSorted as imagesSorted,
+  findImageSet as findImageSet,
+  summarizeParagraph,
+};

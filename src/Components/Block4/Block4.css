@@ -10,7 +10,9 @@
   gap: 15px;
   overflow: hidden;
 }
-
+.block-4-segment small {
+  text-transform: capitalize;
+}
 .block-4-segment {
   margin: 0 auto;
   width: 80%;
@@ -25,7 +27,14 @@
   position: relative;
   overflow: hidden;
 }
+.block-4-tag {
+  background-color: var(--primary-button);
+  border-radius: 5px;
+  margin-left: 5px;
 
+  padding: 2px;
+  border-radius: 1px solid grey;
+}
 .block-4-segment-overlay {
   position: absolute;
   top: 0;
@@ -47,7 +56,6 @@
 .block-4-segment-image {
   height: 150px;
   width: 100%;
-
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -55,6 +63,19 @@
 
 .block-4-segment-text p {
   font-size: 12px;
+}
+.block-4-segment-stats {
+  display: flex;
+  gap: 35px;
+  margin-top: 5px;
+}
+.block-4-segment-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.block-4-segment-stat img {
+  width: 20px;
 }
 
 @media only screen and (min-width: 900px) {
