@@ -77,7 +77,7 @@ export const SearchPage = () => {
         }));
 
         if (search && search !== "all" && search !== "general") {
-          console.log(search === "all");
+          console.log(search == "all");
           setSuggestions(true);
         }
         setSummaries(summariesInfo);
