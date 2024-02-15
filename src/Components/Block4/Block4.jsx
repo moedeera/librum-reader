@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Block4.css";
 import { Link } from "react-router-dom";
 import { SiteContext } from "../../Context/Context";
@@ -7,7 +7,7 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 
 // eslint-disable-next-line react/prop-types
-export const Block4 = ({ summaries, more }) => {
+export const Block4 = ({ summaries, showingAmount }) => {
   const updateViews = async (id) => {
     console.log(id);
     const story = doc(db, "stories", id);
@@ -18,6 +18,13 @@ export const Block4 = ({ summaries, more }) => {
     const newCount = Number(storyObject.views) + 1;
     await updateDoc(story, { views: newCount });
   };
+  const [showingCount, setShowingCount] = useState(4);
+
+  useEffect(() => {
+    if (showingAmount) {
+      setShowingCount(showingAmount);
+    }
+  }, []);
 
   const { imagesSorted, findImageSet } = useContext(SiteContext);
   const [hover, setHover] = useState(
@@ -31,7 +38,7 @@ export const Block4 = ({ summaries, more }) => {
       {/* eslint-disable-next-line react/prop-types */}
       {summaries.map(
         (item, index) =>
-          index < more && (
+          index < showingCount && (
             <Link
               // onMouseEnter={(item) => {
               onMouseEnter={() => {

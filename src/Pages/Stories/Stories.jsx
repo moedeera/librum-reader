@@ -122,11 +122,19 @@ export const Stories = () => {
         )}
         <div className="stories-page-filter-section"></div>
         {summaries.length > 0 ? (
-          <Block4 summaries={summaries} loading={loading} more={showMore} />
+          <Block4
+            summaries={summaries}
+            loading={loading}
+            showingAmount={showMore}
+          />
         ) : (
           <div className="stories-page-suggestion">
             {!loading && <h3>Give these stories a try</h3>}
-            <Block4 summaries={suggestions} loading={loading} more={showMore} />
+            <Block4
+              summaries={suggestions}
+              loading={loading}
+              showingAmount={showMore}
+            />
           </div>
         )}
         {summaries.length + suggestions.length > showMore ? (

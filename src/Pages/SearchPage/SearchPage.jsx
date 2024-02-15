@@ -4,6 +4,7 @@ import { Loading } from "../../Components/Loading/Loading";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
+import { Block4 } from "../../Components/Block4/Block4";
 
 export const SearchPage = () => {
   const [loading, setLoading] = useState(true);
@@ -92,5 +93,12 @@ export const SearchPage = () => {
     return <Loading />;
   }
 
-  return <div className="container"></div>;
+  return (
+    <div className="container">
+      <div className="search-page">
+        {" "}
+        <Block4 summaries={summaries} loading={loading} />
+      </div>
+    </div>
+  );
 };
