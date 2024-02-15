@@ -68,7 +68,7 @@ function App() {
               <Route path="/updates" element={<UpdatesPage />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/stories/:search" element={<Stories />} />
+              <Route path="/stories/:search" element={<SearchPage />} />
               <Route
                 path="/stories"
                 element={<Navigate replace to="/stories/all" />}

@@ -20,7 +20,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
     const newCount = Number(storyObject.views) + 1;
     await updateDoc(story, { views: newCount });
   };
-  const [showingCount, setShowingCount] = useState(4);
+  const [showingCount, setShowingCount] = useState(8);
 
   useEffect(() => {
     if (showingAmount) {

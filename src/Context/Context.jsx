@@ -149,7 +149,7 @@ export const SiteContextProvider = ({ children }) => {
 
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/", status: "all" },
-    { id: 2, name: "Browse", link: "/stories", status: "all" },
+    { id: 2, name: "Browse", link: "/browse/all", status: "all" },
     { id: 3, name: "Contact", link: "/contact", status: "guest" },
     { id: 4, name: "About", link: "/about", status: "guest" },
     { id: 5, name: "Write", link: "/write", status: "user" },
@@ -159,7 +159,7 @@ export const SiteContextProvider = ({ children }) => {
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Login", link: "/login" },
-    { id: 3, name: "Browse", link: "/stories" },
+    { id: 3, name: "Browse", link: "/browse/all" },
     // { id: 3, name: "Stories", link: "/stories" },
     // { id: 4, name: "Write", link: "/write" },
     { id: 5, name: "About", link: "/about" },

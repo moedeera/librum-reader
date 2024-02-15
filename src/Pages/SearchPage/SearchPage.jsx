@@ -9,7 +9,7 @@ import { Block4 } from "../../Components/Block4/Block4";
 export const SearchPage = () => {
   const [loading, setLoading] = useState(true);
   const [summaries, setSummaries] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState(false);
   const [error, setError] = useState("");
   const { search } = useParams();
   const summariesData = collection(db, "summaries");
@@ -68,6 +68,7 @@ export const SearchPage = () => {
 
   useEffect(() => {
     const fetchSuggestions = async () => {
+      console.log("fetching suggestions");
       try {
         const data = await getDocs(summariesData);
         const summariesInfo = data.docs.map((doc) => ({
@@ -75,7 +76,12 @@ export const SearchPage = () => {
           storyId: doc.id,
         }));
 
-        setSuggestions(summariesInfo);
+        if (search && search !== "all" && search !== "general") {
+          console.log(search === "all");
+          setSuggestions(true);
+        }
+        setSummaries(summariesInfo);
+        console.log(suggestions);
         setLoading(false);
       } catch (error) {
         console.log("error:", error);
@@ -96,7 +102,9 @@ export const SearchPage = () => {
   return (
     <div className="container">
       <div className="search-page">
-        {" "}
+        <h3>
+          {suggestions && <span>No story matches for {`"${search}"`}</span>}
+        </h3>{" "}
         <Block4 summaries={summaries} loading={loading} />
       </div>
     </div>
