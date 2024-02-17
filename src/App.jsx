@@ -56,7 +56,7 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/browse/:search" element={<SearchPage />} />
+              <Route path="/browse/:searchWord" element={<SearchPage />} />
               <Route
                 path="/profiles"
                 element={<Navigate replace to="/profiles/librum" />}
@@ -68,7 +68,7 @@ function App() {
               <Route path="/updates" element={<UpdatesPage />} />
               <Route path="/all" element={<AllComponents />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/stories/:search" element={<SearchPage />} />
+              <Route path="/stories/:searchWord" element={<SearchPage />} />
               <Route
                 path="/stories"
                 element={<Navigate replace to="/stories/all" />}

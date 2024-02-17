@@ -6,6 +6,10 @@
   margin: 0 auto;
   padding: var(--padding-top-sm) 0;
 }
+.search-page h4 {
+  margin: 30px auto;
+  text-align: center;
+}
 
 @media only screen and (min-width: 600px) {
   .search-page {
