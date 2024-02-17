@@ -100,7 +100,11 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 ></Link>
 
                 {/* <small>{item.cat}</small> */}
-                <small>By {item?.author}</small>
+
+                <Link to={`/user/${item.author}`}>
+                  <small>By {item?.author}</small>
+                </Link>
+
                 <div className="block-4-segment-stats">
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[0]} alt="" />

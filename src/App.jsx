@@ -31,6 +31,7 @@ import { UpdatesPage } from "./Pages/UpdatesPage/UpdatesPage";
 import { MyStoriesPage } from "./Pages/MyStoriesPage/MyStoriesPage";
 import { SettingsPage } from "./Pages/SettingsPage/SettingsPage";
 import { SearchPage } from "./Pages/SearchPage/SearchPage";
+import { UserPage } from "./Pages/UserPage/UserPage";
 
 function App() {
   return (
@@ -78,7 +79,7 @@ function App() {
                 element={<Navigate replace to="/stories/all" />}
               />
               <Route path="/story/:storyidorslug" element={<StoryPage />} />
-
+              <Route path="/user/:userid" element={<UserPage />} />
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/testing" element={<Testing />} />
             </Routes>
