@@ -41,7 +41,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
       {summaries.map(
         (item, index) =>
           index < showingCount && (
-            <Link
+            <div
               // onMouseEnter={(item) => {
               onMouseEnter={() => {
                 setHover((prevHover) => {
@@ -62,10 +62,6 @@ export const Block4 = ({ summaries, showingAmount }) => {
                     return hookItem;
                   });
                 });
-              }}
-              to={`/story/${item.slug}`}
-              onClick={() => {
-                updateViews(item.ref, item.views);
               }}
               className="block-4-segment"
               key={item.id}
@@ -92,12 +88,16 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 }
               ></div>
               <div className="block-4-segment-text">
-                <div
+                <Link
+                  to={`/story/${item.slug}`}
+                  onClick={() => {
+                    updateViews(item.ref, item.views);
+                  }}
                   className="block-4-segment-image"
                   style={{
                     backgroundImage: `url("${item.pic}")`,
                   }}
-                ></div>
+                ></Link>
 
                 {/* <small>{item.cat}</small> */}
                 <small>By {item?.author}</small>
@@ -119,7 +119,16 @@ export const Block4 = ({ summaries, showingAmount }) => {
                     <small>3 min</small>
                   </div>
                 </div>
-                <h5>{item.title}</h5>
+
+                <Link
+                  to={`/story/${item.slug}`}
+                  onClick={() => {
+                    updateViews(item.ref, item.views);
+                  }}
+                >
+                  <h5>{item.title}</h5>
+                </Link>
+
                 <p>{summarizeParagraph(item.info)} </p>
                 {/* <div className="btn">Read More</div> */}
                 <p className="block-4-tags">
@@ -133,7 +142,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   ))}
                 </p>
               </div>
-            </Link>
+            </div>
           )
       )}
     </div>
