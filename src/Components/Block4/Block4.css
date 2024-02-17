@@ -78,11 +78,19 @@
   width: 20px;
 }
 
+.block-4-segment-text h5 {
+  transition: all 0.5s ease-in-out;
+}
+
 @media only screen and (min-width: 900px) {
   .block-4-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding-bottom: 60px;
+  }
+  .block-4-segment-text h5:hover {
+    /* border-bottom: 1px solid grey; */
+    text-decoration: underline;
   }
 }
 
