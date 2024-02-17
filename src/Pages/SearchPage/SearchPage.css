@@ -10,6 +10,20 @@
   margin: 30px auto;
   text-align: center;
 }
+.search-page-tags-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.search-page-tag,
+.search-page-tag a,
+.search-page-tag a:visited {
+  background-color: goldenrod;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  color: white !important;
+}
 
 @media only screen and (min-width: 600px) {
   .search-page {

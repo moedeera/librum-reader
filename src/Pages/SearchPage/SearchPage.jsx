@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./SearchPage.css";
 import { Loading } from "../../Components/Loading/Loading";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
 import { Block4 } from "../../Components/Block4/Block4";
 
@@ -88,6 +88,8 @@ export const SearchPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       let postsData = [];
+      setSuggestions(false);
+      setLoading(true);
       try {
         if (searchWord === "all" || searchWord === "general") {
           console.log("condition 1");
@@ -123,7 +125,15 @@ export const SearchPage = () => {
 
     fetchData().catch(console.error); // Handle errors appropriately in your real implementation
   }, [searchWord]); // This effect depends on searchWord
-
+  const tags = [
+    "science-fiction",
+    "science",
+    "business",
+    "fantasy",
+    "fiction",
+    "mystery",
+    "adventure",
+  ];
   if (loading) {
     return <Loading />;
   }
@@ -141,8 +151,22 @@ export const SearchPage = () => {
             </>
           )}
         </h4>{" "}
-        <div className="search-page-filter"></div>
-        <h4>Trending Stories</h4>
+        <div className="search-page-filter">
+          <p>Categories:</p>
+          <div className="search-page-tags-container">
+            {" "}
+            {tags.map((tag, index) => (
+              <Link
+                to={`/browse/${tag}`}
+                key={index}
+                className="search-page-tag"
+              >
+                {tag}
+              </Link>
+            ))}
+          </div>
+        </div>
+        {suggestions ? <h4>Trending Stories</h4> : <h4>Top Stories</h4>}
         <Block4 summaries={summaries} loading={loading} />
       </div>
     </div>
