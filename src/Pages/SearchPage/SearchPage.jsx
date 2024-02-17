@@ -5,6 +5,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
 import { Block4 } from "../../Components/Block4/Block4";
+import { DropDown } from "../../Components/DropDown/DropDown";
 
 export const SearchPage = () => {
   const [loading, setLoading] = useState(true);
@@ -166,7 +167,14 @@ export const SearchPage = () => {
             ))}
           </div>
         </div>
-        {suggestions ? <h4>Trending Stories</h4> : <h4>Top Stories</h4>}
+        {suggestions ? (
+          <h4>Trending Stories</h4>
+        ) : (
+          <h4>
+            Top {searchWord !== "all" && searchWord !== "general" && searchWord}{" "}
+            Stories
+          </h4>
+        )}
         <Block4 summaries={summaries} loading={loading} />
       </div>
     </div>
