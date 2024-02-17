@@ -22,14 +22,11 @@ export const SearchPage = () => {
         storyId: doc.id,
       }));
 
-      setSummaries(summariesInfo);
+      return summariesInfo;
     } catch (error) {
       console.log("error:", error);
       setError("Error: Please try again");
-
       return error;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -39,7 +36,10 @@ export const SearchPage = () => {
       let querySnapshot;
 
       // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
-      const q = query(summariesData, where("tag", "array-contains", search));
+      const q = query(
+        summariesData,
+        where("tag", "array-contains", searchWord)
+      );
       querySnapshot = await getDocs(q);
 
       const summariesInfo = querySnapshot.docs.map((doc) => ({
@@ -47,13 +47,10 @@ export const SearchPage = () => {
         storyId: doc.id,
       }));
 
-      setSummaries(summariesInfo);
+      return summariesInfo;
     } catch (error) {
       console.log("error:", error);
       // fix this
-      fetchSummariesData();
-    } finally {
-      setLoading(false);
     }
   };
   // const fetchSuggestions = async () => {
@@ -91,30 +88,37 @@ export const SearchPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       let postsData = [];
-
-      if (searchWord === "all" || searchWord === "general") {
-        await fetchSummariesData();
-      } else if (searchWord) {
-        // Assumes searchWord is not null, 'all', or 'general'
-        await fetchFilteredSummariesData(searchWord);
-      }
-
-      // Check if postsData is still empty, then fetch suggested posts
-      if (postsData.length === 0) {
-        try {
-          const data = await getDocs(summariesData);
-          postsData = data.docs.map((doc) => ({
-            ...doc.data(),
-            storyId: doc.id,
-          }));
-          setSummaries(postsData);
-          setSuggestions(true);
-        } catch (error) {
-          console.log(error);
+      try {
+        if (searchWord === "all" || searchWord === "general") {
+          console.log("condition 1");
+          postsData = await fetchSummariesData();
+        } else if (searchWord) {
+          // Assumes searchWord is not null, 'all', or 'general'
+          console.log("condition 2");
+          postsData = await fetchFilteredSummariesData();
         }
-      }
 
-      setLoading(false);
+        // Check if postsData is still empty, then fetch suggested posts
+        if (postsData.length === 0) {
+          console.log("summaries length is zero", summaries);
+          try {
+            const data = await getDocs(summariesData);
+            postsData = data.docs.map((doc) => ({
+              ...doc.data(),
+              storyId: doc.id,
+            }));
+
+            setSuggestions(true);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setSummaries(postsData);
+        setLoading(false);
+      }
     };
 
     fetchData().catch(console.error); // Handle errors appropriately in your real implementation
@@ -127,16 +131,16 @@ export const SearchPage = () => {
   return (
     <div className="container">
       <div className="search-page">
-        <h3>
+        <h4>
           {suggestions && (
             <>
               <div>
-                <span>Sorry, no matches for</span>{" "}
-                <span style={{ color: "goldenrod" }}>{`"${searchWord}"`}</span>
+                <span style={{ color: "black" }}>Sorry, no matches for</span>{" "}
+                <span>{`"${searchWord}"`}</span>
               </div>
             </>
           )}
-        </h3>{" "}
+        </h4>{" "}
         <div className="search-page-filter"></div>
         <h4>Trending Stories</h4>
         <Block4 summaries={summaries} loading={loading} />
