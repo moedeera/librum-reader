@@ -78,7 +78,8 @@
   width: 20px;
 }
 
-.block-4-segment-text h5 {
+.block-4-segment-text h5,
+.block-4-author-small {
   transition: all 0.5s ease-in-out;
 }
 
@@ -88,7 +89,8 @@
     grid-template-columns: 1fr 1fr;
     padding-bottom: 60px;
   }
-  .block-4-segment-text h5:hover {
+  .block-4-segment-text h5:hover,
+  .block-4-author-small:hover {
     /* border-bottom: 1px solid grey; */
     text-decoration: underline;
   }

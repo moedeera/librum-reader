@@ -20,7 +20,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
     const newCount = Number(storyObject.views) + 1;
     await updateDoc(story, { views: newCount });
   };
-  const [showingCount, setShowingCount] = useState(8);
+  const [showingCount, setShowingCount] = useState(12);
 
   useEffect(() => {
     if (showingAmount) {
@@ -102,7 +102,9 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 {/* <small>{item.cat}</small> */}
 
                 <Link to={`/user/${item.author}`}>
-                  <small>By {item?.author}</small>
+                  <small className="block-4-author-small">
+                    By {item?.author}
+                  </small>
                 </Link>
 
                 <div className="block-4-segment-stats">

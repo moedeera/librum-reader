@@ -5,7 +5,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { Link, useParams } from "react-router-dom";
 import { db } from "../../../firebase-config";
 import { Block4 } from "../../Components/Block4/Block4";
-import { DropDown } from "../../Components/DropDown/DropDown";
 
 export const SearchPage = () => {
   const [loading, setLoading] = useState(true);
@@ -54,37 +53,6 @@ export const SearchPage = () => {
       // fix this
     }
   };
-  // const fetchSuggestions = async () => {
-  //   console.log("fetching suggestions");
-
-  //   console.log(search == "all");
-  //   try {
-  //     const data = await getDocs(summariesData);
-  //     const summariesInfo = data.docs.map((doc) => ({
-  //       ...doc.data(),
-  //       storyId: doc.id,
-  //     }));
-
-  //     if (search && search !== "all" && search !== "general") {
-  //       setSuggestions(true);
-  //     }
-  //     setSummaries(summariesInfo);
-  //     console.log(suggestions);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log("error:", error);
-
-  //     return error;
-  //   }
-  // };
-  // useEffect(() => {
-
-  //   if (search && search !== "all" && search !== "general") {
-  //     fetchFilteredSummariesData();
-  //   } else {
-  //     fetchSummariesData();
-  //   }
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -114,6 +82,7 @@ export const SearchPage = () => {
             setSuggestions(true);
           } catch (error) {
             console.log(error);
+            setError(error);
           }
         }
       } catch (error) {
@@ -127,7 +96,7 @@ export const SearchPage = () => {
     fetchData().catch(console.error); // Handle errors appropriately in your real implementation
   }, [searchWord]); // This effect depends on searchWord
   const tags = [
-    "science-fiction",
+    "crime",
     "science",
     "business",
     "fantasy",
@@ -152,6 +121,17 @@ export const SearchPage = () => {
             </>
           )}
         </h4>{" "}
+        {suggestions ? (
+          <h4>Trending Stories</h4>
+        ) : (
+          <h4 style={{ textTransform: "capitalize" }}>
+            {searchWord !== "all" && searchWord !== "general"
+              ? searchWord
+              : "Trending"}{" "}
+            stories
+          </h4>
+        )}
+        <Block4 summaries={summaries} loading={loading} />
         <div className="search-page-filter">
           <p>Categories:</p>
           <div className="search-page-tags-container">
@@ -167,15 +147,6 @@ export const SearchPage = () => {
             ))}
           </div>
         </div>
-        {suggestions ? (
-          <h4>Trending Stories</h4>
-        ) : (
-          <h4>
-            Top {searchWord !== "all" && searchWord !== "general" && searchWord}{" "}
-            Stories
-          </h4>
-        )}
-        <Block4 summaries={summaries} loading={loading} />
       </div>
     </div>
   );

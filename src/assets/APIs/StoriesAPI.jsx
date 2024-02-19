@@ -9,6 +9,29 @@ import {
   where,
 } from "firebase/firestore";
 
+const fetchProfile = async (name) => {
+  // Reset profile data
+
+  // Create a query against the collection.
+  const q = query(collection(db, "profile"), where("name", "==", name));
+
+  const querySnapshot = await getDocs(q);
+  const profiles = [];
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    profiles.push(doc.data());
+  });
+
+  // Assuming you want the first document that matches
+  if (profiles.length > 0) {
+    console.log(profiles[0]);
+    let data = profiles[0];
+    return data;
+  } else {
+    console.log("No such document!");
+  }
+};
+
 async function updateStoriesWithSlug() {
   const wasItSet = localStorage.getItem("summary-slugs-created-2");
   if (wasItSet) {
@@ -117,4 +140,9 @@ const fetchStoryBySlugOrId = async (slugOrId) => {
   }
 };
 
-export { updateStoriesWithSlug, fetchStory, fetchStoryBySlugOrId };
+export {
+  updateStoriesWithSlug,
+  fetchStory,
+  fetchStoryBySlugOrId,
+  fetchProfile,
+};
