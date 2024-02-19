@@ -4,17 +4,25 @@ import { useEffect, useState } from "react";
 import { fetchProfile } from "../../assets/APIs/StoriesAPI";
 import { Loading } from "../../Components/Loading/Loading";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
 
 export const UserPage = () => {
   const [profile, setProfile] = useState("");
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { userid } = useParams();
 
   useEffect(() => {
     const fetchInfo = async () => {
-      const response = await fetchProfile(userid);
-      setLoading(false);
-      setProfile(response);
+      try {
+        const response = await fetchProfile(userid);
+        setProfile(response);
+      } catch (error) {
+        console.log(error);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     };
 
     console.log(userid);
@@ -47,6 +55,10 @@ export const UserPage = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return <ErrorPage />;
   }
 
   return (

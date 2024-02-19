@@ -28,7 +28,8 @@ const fetchProfile = async (name) => {
     let data = profiles[0];
     return data;
   } else {
-    console.log("No such document!");
+    console.log("error");
+    throw new Error("no user found");
   }
 };
 
