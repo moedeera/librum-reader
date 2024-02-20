@@ -150,16 +150,16 @@ export const SiteContextProvider = ({ children }) => {
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/", status: "all" },
     { id: 2, name: "Browse", link: "/browse/all", status: "all" },
-    { id: 3, name: "Contact", link: "/contact", status: "guest" },
+    { id: 3, name: "Community", link: "/community", status: "all" },
     { id: 4, name: "About", link: "/about", status: "guest" },
     { id: 5, name: "Write", link: "/write", status: "user" },
     { id: 6, name: "Updates", link: "/Updates", status: "user" },
-    { id: 7, name: "Community", link: "/community", status: "user" },
   ];
   const menuItemsLG = [
     { id: 1, name: "Home", link: "/" },
     { id: 2, name: "Login", link: "/login" },
     { id: 3, name: "Browse", link: "/browse/all" },
+    { id: 4, name: "Community", link: "/community", status: "user" },
     // { id: 3, name: "Stories", link: "/stories" },
     // { id: 4, name: "Write", link: "/write" },
     { id: 5, name: "About", link: "/about" },
@@ -172,6 +172,7 @@ export const SiteContextProvider = ({ children }) => {
     { id: 1, name: "Terms of Use", link: "/" },
     { id: 2, name: "Privacy Policy", link: "/" },
     { id: 3, name: "Copyright Policy", link: "/" },
+    { id: 4, name: "Contact", link: "/contact", status: "guest" },
   ];
 
   const dropDownLinks = [
