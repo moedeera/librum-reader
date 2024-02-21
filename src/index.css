@@ -147,7 +147,6 @@ body {
 }
 .standard-page {
   padding-top: 50px;
-  width: 95%;
   min-height: 100vh;
   max-width: var(--max-width-main);
   margin: 0 auto;

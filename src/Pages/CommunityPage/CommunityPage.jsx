@@ -5,10 +5,12 @@ import "./CommunityPage.css";
 
 export const CommunityPage = () => {
   return (
-    <div className="container community-page standard-page">
-      <h3>Join the Community</h3>
-      <Block3 data={b3content} />
-      <Block1 />
+    <div className="container community-page">
+      <div className="community-page">
+        <h3 className="community-page-header">Join the Community</h3>
+        <Block3 data={b3content} />
+        <Block1 />
+      </div>
     </div>
   );
 };
