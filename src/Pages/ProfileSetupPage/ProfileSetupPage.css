@@ -1,0 +1,7 @@
+.profile-setup-page {
+  padding-top: var(--padding-top-lg) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}

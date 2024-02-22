@@ -32,6 +32,7 @@ import { MyStoriesPage } from "./Pages/MyStoriesPage/MyStoriesPage";
 import { SettingsPage } from "./Pages/SettingsPage/SettingsPage";
 import { SearchPage } from "./Pages/SearchPage/SearchPage";
 import { UserPage } from "./Pages/UserPage/UserPage";
+import { ProfileSetupPage } from "./Pages/ProfileSetupPage/ProfileSetupPage";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
                 element={<Navigate replace to="/profiles/librum" />}
               />
               <Route path="/profiles/:userid" element={<ProfilePage />} />
+              <Route path="/setup" element={<ProfileSetupPage />} />
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/account" element={<AccountPage />} />
               <Route path="/community" element={<CommunityPage />} />

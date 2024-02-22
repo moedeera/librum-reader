@@ -231,6 +231,13 @@ const block3Content = {
   button: { link: "/", text: "More" },
 };
 
+const communityPageContent = {
+  title: "About the Community",
+  text: `Welcome to the Librum-Reader Community, a vibrant hub designed for both fiction and non-fiction enthusiasts eager to unleash their creativity and elevate their writing skills. Our community thrives on engagement and growth, offering monthly competitions that challenge and inspire, with winners enjoying special recognition and rewards. Dive into our free writing workshops, led by experienced authors and industry experts, to refine your craft, explore new genres, and unlock your full potential. Additionally, our live events provide a unique opportunity to connect, network, and share your passion with like-minded individuals. Whether you're a seasoned writer or just starting your journey, the Librum-Reader Community is your gateway to a world of endless possibilities and support. Join us, and let's create, learn, and grow together.
+   `,
+  button: { link: "/", text: "More" },
+};
+
 export {
   info as storiesInfo,
   block3Content as b3content,
@@ -238,4 +245,5 @@ export {
   block1HomePageContent,
   block1HomePageContent2,
   block6HomeFeedContent,
+  communityPageContent,
 };
