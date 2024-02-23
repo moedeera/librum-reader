@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./UserPage.css";
 import { useEffect, useState } from "react";
 import { fetchProfile } from "../../assets/APIs/StoriesAPI";
@@ -88,34 +88,34 @@ export const UserPage = () => {
         <div className="user-page-lower-stories">
           <h4>Recent Writings</h4>
           <div className="recent-writings-container">
-            {books.map((book, index) => (
-              <div key={index} className="recent-writings-item">
+            {profile.stories.map((story, index) => (
+              <Link
+                to={`../story/${story.id}`}
+                key={index}
+                className="recent-writings-item"
+              >
                 <div
                   className="recent-writings-image-container"
-                  style={{ backgroundImage: `url(${book.pic})` }}
+                  style={{ backgroundImage: `url(${story.pic})` }}
                 ></div>
 
-                <p>{book.name}</p>
-                <div className="recent-writing-item-bio">
-                  Nat has always joked about one of her best friends, Molly,
-                  being a top-secret CIA agent. After all, it always fit in with
-                  her many absences from school...
-                </div>
+                <p>{story.title}</p>
+                <div className="recent-writing-item-bio">{story.summary}</div>
                 <div className="recent-stats-container">
                   <div className="recent-story-stat">
-                    {book.views}{" "}
+                    16{" "}
                     <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
                   </div>
                   <div className="recent-story-stat">
-                    {book.likes}{" "}
+                    5{" "}
                     <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
                   </div>
                   <div className="recent-story-stat">
-                    {book.comments}{" "}
+                    1{" "}
                     <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
