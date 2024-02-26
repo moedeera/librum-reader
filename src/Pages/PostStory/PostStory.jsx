@@ -4,14 +4,17 @@ import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
+import { Loading } from "../../Components/Loading/Loading";
+import { uploadImage } from "../../assets/APIs/StoriesAPI";
 
 export const PostStory = () => {
-  const { story, data } = useContext(SiteContext);
+  const { story, data, storyImage, setStory } = useContext(SiteContext);
   const [storyArray, setStoryArray] = useState([]);
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
 
   const [postData, setPostData] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper === null) return;
@@ -54,8 +57,10 @@ export const PostStory = () => {
   }, []);
 
   const PublishStory = async () => {
-    console.log(story.tags[0]);
+    // console.log(story.tags[0]);
+
     try {
+      const imageURL = await uploadImage(storyImage, setStory, story);
       const docRef = await addDoc(storyData, {
         author: story.author,
         authorPic: story.authorPic,
@@ -63,7 +68,7 @@ export const PostStory = () => {
         title: story.title,
         summary: story.summary,
         public: true,
-        picture: story.picture,
+        picture: imageURL,
         tags: story.tags[0],
         category: story.category,
         comments: [],
@@ -102,6 +107,9 @@ export const PostStory = () => {
     }
   };
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="container">
       <div className="text-editor-page">

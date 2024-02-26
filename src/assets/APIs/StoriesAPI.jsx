@@ -1,4 +1,5 @@
-import { db } from "../../../firebase-config";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "../../../firebase-config";
 import {
   collection,
   doc,
@@ -8,7 +9,24 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-
+const uploadImage = async (image, setStory, story) => {
+  if (image === null || image === undefined) {
+    console.log("error with image");
+    return;
+  }
+  const imageRef = ref(storage, `images/${image.name}`);
+  uploadBytes(imageRef, image).then(async () => {
+    try {
+      const url = await getDownloadURL(imageRef);
+      console.log(url);
+      setStory({ ...story, picture: url });
+      console.log(story);
+      console.log("successfully uploaded image");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
 const fetchProfile = async (name) => {
   // Reset profile data
 
@@ -146,4 +164,5 @@ export {
   fetchStory,
   fetchStoryBySlugOrId,
   fetchProfile,
+  uploadImage,
 };

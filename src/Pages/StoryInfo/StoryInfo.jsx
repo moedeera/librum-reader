@@ -99,7 +99,6 @@ export const StoryInfo = () => {
       title: newStoryInfo.title,
       author: user.name,
       authorPic: user.pic,
-
       summary: newStoryInfo.summary,
       tags: newStoryInfo.tags,
       comments: [],
