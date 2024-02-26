@@ -158,7 +158,10 @@ export const StoryPage = () => {
                 }}
                 className="story-user-image"
               ></div>
-              <p> {storyFirebase.author} </p>
+              <Link to={`/user/${storyFirebase.author}`}>
+                {" "}
+                {storyFirebase.author}{" "}
+              </Link>
             </div>
             <div className="story-stats-container">
               <div className="single-story-stat">

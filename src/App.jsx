@@ -14,7 +14,6 @@ import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import { LoginPage } from "./Pages/LoginPage/LoginPage";
 import { PostStory } from "./Pages/PostStory/PostStory";
 import { AllComponents } from "./Pages/AllComponents/AllComponents";
-import { Stories } from "./Pages/Stories/Stories";
 import { ContactPage } from "./Pages/ContactPage/ContactPage";
 import { StoryPage } from "./Pages/StoryPage/StoryPage";
 import { Register } from "./Pages/Register/Register";

@@ -4,10 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 import ImageUploader from "./AddImage";
 import { DropDown } from "../../Components/DropDown/DropDown";
+import ImageBox from "./ImageUploader";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../firebase-config";
 
 export const StoryInfo = () => {
   const navigate = useNavigate();
-  const { story, setStory, user } = useContext(SiteContext);
+  const { story, setStory, user, storyImage } = useContext(SiteContext);
 
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -25,6 +28,24 @@ export const StoryInfo = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+  const uploadImage = async (image) => {
+    if (image === null || image === undefined) {
+      console.log("error with image");
+      return;
+    }
+    const imageRef = ref(storage, `images/${image.name}`);
+    uploadBytes(imageRef, image).then(async () => {
+      try {
+        const url = await getDownloadURL(imageRef);
+        console.log(url);
+        setStory({ ...story, picture: url });
+        console.log(story);
+        console.log("successfully uploaded image");
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
 
   const [newStoryInfo, setNewStoryInfo] = useState({
     author: user.name,
@@ -66,7 +87,7 @@ export const StoryInfo = () => {
     const newItems = input.split(/[\s,]+/).filter((item) => item.trim() !== "");
     setItems(newItems);
     setNewStoryInfo({ ...newStoryInfo, tags: [newItems] });
-    console.log(newItems);
+    // console.log(newItems);
   }, [input]);
 
   const handleContinue = () => {
@@ -102,7 +123,8 @@ export const StoryInfo = () => {
           {/* <div className="story-info-picture">
             <button className="btn btn-primary">Add Image</button>
           </div> */}
-          <ImageUploader />
+          {/* <ImageUploader /> */}
+          <ImageBox />
           <div className="story-info-details">
             {" "}
             <div className="story-info-input">
@@ -154,42 +176,45 @@ export const StoryInfo = () => {
                 storyInfo={newStoryInfo}
               />
             </div>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                handleContinue();
-              }}
-            >
-              Continue
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                console.log(newStoryInfo);
-              }}
-            >
-              Preview
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                setStory({
-                  ...story,
-                  id: "preview",
-                  title: newStoryInfo.title,
-                  author: user.name,
-                  authorPic: user.pic,
-                  summary: newStoryInfo.summary,
-                  tags: newStoryInfo.tags,
-                  comments: [],
-                  likes: 0,
-                  views: 0,
-                });
-                console.log(story);
-              }}
-            >
-              Preview & Save
-            </button>
+            <div className="story-page-button-container">
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  handleContinue();
+                }}
+              >
+                Continue
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  // console.log(newStoryInfo);
+                  uploadImage(storyImage);
+                }}
+              >
+                Preview Image save
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  setStory({
+                    ...story,
+                    id: "preview",
+                    title: newStoryInfo.title,
+                    author: user.name,
+                    authorPic: user.pic,
+                    summary: newStoryInfo.summary,
+                    tags: newStoryInfo.tags,
+                    comments: [],
+                    likes: 0,
+                    views: 0,
+                  });
+                  console.log(story);
+                }}
+              >
+                Preview & Save
+              </button>
+            </div>
           </div>
         </div>
       </div>

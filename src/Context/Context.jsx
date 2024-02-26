@@ -147,6 +147,8 @@ export const SiteContextProvider = ({ children }) => {
   const auth = getAuth(app);
   const createdStory = fetchCreatedStoryInfo();
 
+  const websiteTitle = ["Librum", "Reader"];
+
   const menuItemsMD = [
     { id: 1, name: "Home", link: "/", status: "all" },
     { id: 2, name: "Browse", link: "/browse/all", status: "all" },
@@ -189,6 +191,8 @@ export const SiteContextProvider = ({ children }) => {
   const [user, setUser] = useState(userInfo);
   const [storyId, setStoryId] = useState(savedStoryId);
   const fbProfile = collection(db, "profile");
+  const [storyImage, setStoryImage] = useState(null);
+
   function parseHtmlToQuillDelta(html) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
@@ -340,16 +344,18 @@ export const SiteContextProvider = ({ children }) => {
       console.log("no such profile, creating new profile.....");
       try {
         let newProfile = {
+          avatar: userInfo.pic,
+          bio: "Enter your Bio",
+          age: null,
           email: userInfo.email,
           name: userInfo.name,
           profileName: userInfo.name,
-          avatar: "https://www.w3schools.com/howto/img_avatar.png",
           stories: [],
           messages: [],
           gender: null,
           dob: null,
-          bio: "Enter your Bio",
-          public: false,
+          intro: false,
+          public: true,
         };
         await addDoc(fbProfile, newProfile);
         setProfileInfo(newProfile);
@@ -404,6 +410,11 @@ export const SiteContextProvider = ({ children }) => {
 
     console.log("user profile updated");
   }, [profileInfo]);
+
+  useEffect(() => {
+    console.log(storyImage);
+  }, [storyImage]);
+
   return (
     <SiteContext.Provider
       value={{
@@ -429,6 +440,9 @@ export const SiteContextProvider = ({ children }) => {
         setProfileInfo,
         updateProfile,
         dropDownLinks,
+        websiteTitle,
+        storyImage,
+        setStoryImage,
       }}
     >
       {children}

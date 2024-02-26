@@ -67,6 +67,7 @@ const ImageUploader = () => {
       //     imagePreviewUrl && { backgroundImage: `url("${imagePreviewUrl}")` }
       //   }
     >
+      <div className="image-placeholder"></div>
       <input
         ref={fileInputRef}
         type="file"

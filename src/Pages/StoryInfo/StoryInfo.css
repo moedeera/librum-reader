@@ -8,6 +8,11 @@
   text-align: center;
 }
 
+.story-info-page input,
+.story-info-page textarea {
+  max-width: 500px;
+}
+
 .story-info-container {
   margin: 10px auto;
   width: 90%;
@@ -27,6 +32,12 @@
   padding: 20px 0 10px;
   margin-bottom: 20px;
   gap: 10px;
+}
+
+.image-placeholder {
+  border: 1px solid orange;
+  width: 80%;
+  height: 80%;
 }
 
 .story-info-picture input {
@@ -60,6 +71,37 @@
   padding: 5px 15px;
   border-radius: 5px;
   background-color: steelblue;
+  color: white;
+}
+.story-page-button-container {
+  border: 1px solid green;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+/* image box */
+.image-box-container {
+  height: 400px;
+  width: 90%;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: "column";
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  padding: 5px;
+}
+.image-preview-holder {
+  height: 250px;
+  width: 90%;
+  /* border: 5px solid green; */
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
 }
 

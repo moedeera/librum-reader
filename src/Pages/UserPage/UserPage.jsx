@@ -17,6 +17,7 @@ export const UserPage = () => {
       try {
         const response = await fetchProfile(userid);
         setProfile(response);
+        console.log(response);
       } catch (error) {
         console.log(error);
         setError(true);
@@ -28,30 +29,6 @@ export const UserPage = () => {
     console.log(userid);
     fetchInfo();
   }, []);
-
-  const books = [
-    {
-      name: "Spy world",
-      pic: "https://img.wattpad.com/cover/383153-144-k870546.jpg",
-      views: 130,
-      comments: 20,
-      likes: 41,
-    },
-    {
-      name: "Young Detective",
-      pic: "https://img.wattpad.com/cover/2108777-144-k375033.jpg",
-      views: 243,
-      comments: 10,
-      likes: 14,
-    },
-    {
-      name: "Greys Bridge Murder",
-      pic: "https://img.wattpad.com/cover/51502699-144-k722901.jpg",
-      views: 103,
-      comments: 23,
-      likes: 11,
-    },
-  ];
 
   if (loading) {
     return <Loading />;

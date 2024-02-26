@@ -8,7 +8,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { SearchBar } from "../SearchBar/SearchBar.jsx";
 
 export const Navbar = () => {
-  const { menuItemsMD, dropDownLinks } = useContext(SiteContext);
+  const { menuItemsMD, dropDownLinks, websiteTitle } = useContext(SiteContext);
   const [fullMenu, showFullMenu] = useState(false);
   const [dropdown, setDropDown] = useState(false);
 
@@ -19,7 +19,8 @@ export const Navbar = () => {
     <div className="navbar-container">
       <div className="navbar">
         <Link className="navbar-header" to={"/"}>
-          Librum<span className="header-span">Reader</span>.
+          {websiteTitle[0]}
+          <span className="header-span">{websiteTitle[1]}</span>.
         </Link>
         <div className="navbar-menu-main">
           {user ? (

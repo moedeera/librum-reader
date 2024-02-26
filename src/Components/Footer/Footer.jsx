@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { SiteContext } from "../../Context/Context";
 
 export const Footer = () => {
-  const { menuItemsLG, menuAlt } = useContext(SiteContext);
+  const { menuItemsLG, menuAlt, websiteTitle } = useContext(SiteContext);
 
   return (
     <div className="container footer">
@@ -14,8 +14,8 @@ export const Footer = () => {
             {" "}
             <h3>
               <span className="title-span">Expand</span> your mind with{" "}
-              <span className="alt-span">Librum</span>
-              <span className="title-span">Reader</span>
+              <span className="alt-span">{websiteTitle[0]}</span>
+              <span className="title-span">{websiteTitle[1]}</span>
             </h3>
             <p>
               A unique platform for writers of all levels to enhance their
