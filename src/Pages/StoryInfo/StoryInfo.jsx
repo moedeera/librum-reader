@@ -188,7 +188,7 @@ export const StoryInfo = () => {
                 className="btn btn-primary"
                 onClick={() => {
                   // console.log(newStoryInfo);
-                  uploadImage(storyImage);
+                  // uploadImage(storyImage);
                 }}
               >
                 Preview Image save

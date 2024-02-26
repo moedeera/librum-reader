@@ -18,10 +18,11 @@ const uploadImage = async (image, setStory, story) => {
   uploadBytes(imageRef, image).then(async () => {
     try {
       const url = await getDownloadURL(imageRef);
-      console.log(url);
+      // console.log(url);
       setStory({ ...story, picture: url });
       console.log(story);
       console.log("successfully uploaded image");
+      return url;
     } catch (error) {
       console.log(error);
     }
