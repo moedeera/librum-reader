@@ -74,7 +74,8 @@
   color: white;
 }
 .story-page-button-container {
-  border: 1px solid green;
+  border: 1px solid wheat;
+  padding: 5px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;

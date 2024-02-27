@@ -60,6 +60,7 @@ const fetchCreatedStoryInfo = () => {
         views: 0,
       };
 };
+
 const data = [
   {
     attributes: {

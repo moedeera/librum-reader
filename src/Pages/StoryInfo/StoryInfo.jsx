@@ -2,16 +2,17 @@ import { useNavigate } from "react-router-dom";
 import "./StoryInfo.css";
 import { useContext, useEffect, useState } from "react";
 import { SiteContext } from "../../Context/Context";
-import ImageUploader from "./AddImage";
+
 import { DropDown } from "../../Components/DropDown/DropDown";
 import ImageBox from "./ImageUploader";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../../firebase-config";
+import { createStory, uploadImage } from "../../assets/APIs/StoriesAPI";
+import { Loading } from "../../Components/Loading/Loading";
 
 export const StoryInfo = () => {
   const navigate = useNavigate();
   const { story, setStory, user, storyImage } = useContext(SiteContext);
-
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   useEffect(() => {
     const handleBeforeUnload = (e) => {
       // Cancel the event
@@ -28,24 +29,6 @@ export const StoryInfo = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-  const uploadImage = async (image) => {
-    if (image === null || image === undefined) {
-      console.log("error with image");
-      return;
-    }
-    const imageRef = ref(storage, `images/${image.name}`);
-    uploadBytes(imageRef, image).then(async () => {
-      try {
-        const url = await getDownloadURL(imageRef);
-        console.log(url);
-        setStory({ ...story, picture: url });
-        console.log(story);
-        console.log("successfully uploaded image");
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
 
   const [newStoryInfo, setNewStoryInfo] = useState({
     author: user.name,
@@ -59,7 +42,6 @@ export const StoryInfo = () => {
     category: "",
   });
 
-  const [error, setError] = useState("");
   const onChangeHandler = (e, type) => {
     if (type === "title") {
       setNewStoryInfo({ ...newStoryInfo, title: e.target.value });
@@ -90,28 +72,56 @@ export const StoryInfo = () => {
     // console.log(newItems);
   }, [input]);
 
-  const handleContinue = () => {
-    const newStoryId = Math.floor(Math.random() * (2000 - 1100) + 1100);
+  const handleContinue = async () => {
+    setLoading(true);
+    setError(""); // Reset previous errors
 
-    setStory({
-      ...story,
-      id: newStoryId,
-      title: newStoryInfo.title,
-      author: user.name,
-      authorPic: user.pic,
-      summary: newStoryInfo.summary,
-      tags: newStoryInfo.tags,
-      comments: [],
-      likes: 0,
-      views: 0,
-    });
-
-    navigate(`/mystory/${newStoryId}`);
+    try {
+      const imageURL = await uploadImage(storyImage); // Ensure this returns a Promise
+      if (!imageURL) {
+        throw new Error("Failed to upload image");
+      }
+      const newStory = {
+        picture: imageURL,
+        title: newStoryInfo.title,
+        author: user.name,
+        authorPic: user.pic,
+        summary: newStoryInfo.summary,
+        tags: newStoryInfo.tags,
+        comments: [],
+        likes: 0,
+        views: 0,
+      };
+      const newSavedStory = await createStory(newStory); // Assuming this also returns a Promise
+      console.log(newSavedStory); // Success handling here, like navigation or setting state
+    } catch (error) {
+      setError(error.message); // Set error state to display the error message
+    } finally {
+      setLoading(false); // Always reset loading state, whether success or failure
+    }
   };
 
+  //   try {
+  //     c
+  //     // Assuming setStory is an async operation or you have a mechanism to ensure the story is saved/persisted before navigating.
+  //
+  //     const storyId = await createStory(newStory);
+  //     setStory({ ...newStory, id: storyId });
+  //     setSuccess(true);
+  //   } catch (error) {
+  //     // Enhance error handling by checking error type or message.
+  // // Implement `displayError` for better UX.
+  //     console.error(error); // For debugging purposes.
+  //   } finally {
+  //     setLoading(false);
+  //   }
   if (user === null || !user) {
     navigate("/login");
     return;
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -184,15 +194,7 @@ export const StoryInfo = () => {
               >
                 Continue
               </button>
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  // console.log(newStoryInfo);
-                  // uploadImage(storyImage);
-                }}
-              >
-                Preview Image save
-              </button>
+
               <button
                 className="btn btn-primary"
                 onClick={() => {

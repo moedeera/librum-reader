@@ -1,6 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../../firebase-config";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -9,25 +10,59 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-const uploadImage = async (image, setStory, story) => {
-  if (image === null || image === undefined) {
-    console.log("error with image");
-    return;
-  }
-  const imageRef = ref(storage, `images/${image.name}`);
-  uploadBytes(imageRef, image).then(async () => {
-    try {
-      const url = await getDownloadURL(imageRef);
-      // console.log(url);
-      setStory({ ...story, picture: url });
-      console.log(story);
-      console.log("successfully uploaded image");
-      return url;
-    } catch (error) {
-      console.log(error);
+// story
+const storyData = collection(db, "stories");
+// summary of story
+const storySummaries = collection(db, "summaries");
+
+// image uploader function
+// const uploadImage = async (image) => {
+//   if (image === null || image === undefined) {
+//     console.log("error with image");
+//     return;
+//   }
+//   const imageRef = ref(storage, `images/${image.name}`);
+//   uploadBytes(imageRef, image).then(async () => {
+//     try {
+//       const url = await getDownloadURL(imageRef);
+//       console.log(url);
+
+//       console.log("successfully uploaded image");
+//       return url;
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   });
+// };
+const uploadImage = (image) => {
+  return new Promise((resolve, reject) => {
+    if (!image) {
+      console.log("error with image");
+      reject("No image provided");
+      return;
     }
+    const imageRef = ref(storage, `images/${image.name}`);
+    uploadBytes(imageRef, image)
+      .then(() => {
+        getDownloadURL(imageRef)
+          .then((url) => {
+            console.log(url);
+            console.log("successfully uploaded image");
+            resolve(url); // Resolve the promise with the URL
+          })
+          .catch((error) => {
+            console.log(error);
+            reject(error); // Reject the promise if there's an error getting the download URL
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        reject(error); // Reject the promise if there's an error uploading the file
+      });
   });
 };
+
+// profile fetching function
 const fetchProfile = async (name) => {
   // Reset profile data
 
@@ -52,6 +87,7 @@ const fetchProfile = async (name) => {
   }
 };
 
+//update story function
 async function updateStoriesWithSlug() {
   const wasItSet = localStorage.getItem("summary-slugs-created-2");
   if (wasItSet) {
@@ -122,7 +158,6 @@ const fetchStory = async (idOrSlug) => {
     return null; // or handle the error as appropriate for your application
   }
 };
-
 const fetchStoryBySlugOrId = async (slugOrId) => {
   try {
     // Reference to the stories collection
@@ -160,10 +195,60 @@ const fetchStoryBySlugOrId = async (slugOrId) => {
   }
 };
 
+const createStory = async (story, image) => {
+  console.log(image);
+  try {
+    const docRef = await addDoc(storyData, {
+      author: story.author,
+      authorPic: story.authorPic,
+      title: story.title,
+      summary: story.summary,
+      public: false,
+      picture: image,
+      tags: story.tags[0],
+      category: story.category,
+      comments: [],
+      likes: 0,
+      views: 0,
+      ref: "",
+      story: story.Array,
+      date: new Date(),
+    });
+    const titleToLink = (title) => {
+      return title.trim().replace(/\s+/g, "-");
+    };
+
+    const link = titleToLink(story.title);
+
+    await updateDoc(docRef, {
+      id: docRef.id,
+      link: link,
+      slug: `${docRef.id}-${link}`,
+    });
+    const iD = docRef.id;
+    await addDoc(storySummaries, {
+      id: story.id,
+      ref: iD,
+      cat: story.category,
+      title: story.title,
+      info: story.summary,
+      tag: story.tags[0],
+      pic: story.picture,
+      author: story.author,
+    });
+
+    console.log("success, story and summary was saved on data-base");
+    return iD;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   updateStoriesWithSlug,
   fetchStory,
   fetchStoryBySlugOrId,
   fetchProfile,
   uploadImage,
+  createStory,
 };
