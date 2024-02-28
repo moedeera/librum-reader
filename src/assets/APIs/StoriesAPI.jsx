@@ -11,7 +11,6 @@ import {
   where,
 } from "firebase/firestore";
 //saved story
-
 //published  story
 const storyData = collection(db, "stories");
 // summary of story
@@ -68,8 +67,6 @@ const fetchProfile = async (name) => {
     throw new Error("no user found");
   }
 };
-//
-
 //update story function
 async function updateStoriesWithSlug() {
   const wasItSet = localStorage.getItem("summary-slugs-created-2");
@@ -178,8 +175,7 @@ const fetchStoryBySlugOrId = async (slugOrId) => {
   }
 };
 //Save Story
-const saveStory = async (story, image) => {
-  console.log(image);
+const saveStory = async (story) => {
   try {
     const docRef = await addDoc(storyData, {
       author: story.author,
@@ -187,14 +183,14 @@ const saveStory = async (story, image) => {
       title: story.title,
       summary: story.summary,
       public: false,
-      picture: image,
-      tags: story.tags[0],
+      picture: story.picture,
+      tags: [story.tags[0], "all"],
       category: story.category,
       comments: [],
       likes: 0,
       views: 0,
       ref: "",
-      story: story.Array,
+      story: story.story,
       date: new Date(),
     });
     const titleToLink = (title) => {
@@ -226,7 +222,6 @@ const saveStory = async (story, image) => {
     console.log(error);
   }
 };
-
 // Publish story
 const createStory = async (story, image) => {
   console.log(image);
@@ -277,6 +272,20 @@ const createStory = async (story, image) => {
   }
 };
 
+const publishStory = async (id, storyData) => {
+  const storyRef = doc(db, "stories", id);
+
+  try {
+    await updateDoc(storyRef, {
+      story: storyData,
+      public: true,
+    });
+    console.log("Document successfully updated!");
+  } catch (error) {
+    console.error("Error updating document: ", error);
+  }
+};
+
 export {
   updateStoriesWithSlug,
   fetchStory,
@@ -285,4 +294,5 @@ export {
   uploadImage,
   createStory,
   saveStory,
+  publishStory,
 };

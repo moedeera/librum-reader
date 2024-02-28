@@ -14,6 +14,7 @@ import { Loading } from "../../Components/Loading/Loading";
 
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
+  const [error, setError] = useState(false);
   const { storyId, story } = useContext(SiteContext);
   let info = { title: "Legend of the Lurkers" };
 
@@ -39,6 +40,7 @@ export const StoryPage = () => {
           "slug is",
           docSnap.data().slug
         );
+
         navigate(`../story/${docSnap.data().slug}`);
         return docSnap.data();
       } else {
@@ -56,6 +58,7 @@ export const StoryPage = () => {
         } else {
           // Assuming slug is unique and you want only the first matching document
           const firstDoc = querySnapshot.docs[0];
+
           // console.log("Document found with slug:", slugOrId);
           return firstDoc.data();
         }
@@ -135,6 +138,28 @@ export const StoryPage = () => {
   );
   if (loading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          border: "1px solid rgba(128,128,128,0.5)",
+          margin: "100px auto 0px",
+          width: "50%",
+          minWidth: "300px",
+        }}
+      >
+        <h3>We encountered an Error! </h3>
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (

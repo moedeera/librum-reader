@@ -1,18 +1,21 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./StoryInfo.css";
 import { useContext, useEffect, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 
 import { DropDown } from "../../Components/DropDown/DropDown";
 import ImageBox from "./ImageUploader";
-import { createStory, uploadImage } from "../../assets/APIs/StoriesAPI";
+import { saveStory, uploadImage } from "../../assets/APIs/StoriesAPI";
 import { Loading } from "../../Components/Loading/Loading";
 
 export const StoryInfo = () => {
   const navigate = useNavigate();
   const { story, setStory, user, storyImage } = useContext(SiteContext);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [imageLink, setImageLink] = useState("undefined");
+  const [storyLink, setStoryLink] = useState("no link");
 
   const [newStoryInfo, setNewStoryInfo] = useState({
     author: user.name,
@@ -25,7 +28,17 @@ export const StoryInfo = () => {
     tags: [],
     category: "",
   });
-
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      // Set loading back to false after 3 seconds
+      timer = setTimeout(() => {
+        setLoading(false);
+      }, 20000);
+    }
+    // Cleanup function to clear the timeout if loading changes to false before 3s
+    return () => clearTimeout(timer);
+  }, [loading]);
   const onChangeHandler = (e, type) => {
     if (type === "title") {
       setNewStoryInfo({ ...newStoryInfo, title: e.target.value });
@@ -47,28 +60,20 @@ export const StoryInfo = () => {
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
-  useEffect(() => {
-    let timer;
-    if (loading) {
-      // Set loading back to false after 3 seconds
-      timer = setTimeout(() => {
-        setLoading(false);
-      }, 3000);
-    }
 
-    // Cleanup function to clear the timeout if the component unmounts
-    // or if loading changes again before the timeout finishes
-    return () => clearTimeout(timer);
-  }, [loading]);
   useEffect(() => {
     // Split the input by commas or spaces and filter out any empty strings
     const newItems = input.split(/[\s,]+/).filter((item) => item.trim() !== "");
     setItems(newItems);
-    setNewStoryInfo({ ...newStoryInfo, tags: [newItems] });
+    setNewStoryInfo({ ...newStoryInfo, tags: [...newItems, "general"] });
     // console.log(newItems);
   }, [input]);
 
   const handleContinue = async () => {
+    if (error) {
+      return;
+    }
+
     setError("");
     if (newStoryInfo.title === "") {
       setError("Please enter a title");
@@ -79,7 +84,49 @@ export const StoryInfo = () => {
       return;
     }
 
+    if (newStoryInfo.tags.length === 0) {
+      setError("Please enter at least one tag");
+      return;
+    }
     setLoading(true);
+
+    let imageURL;
+    try {
+      imageURL = await uploadImage(storyImage);
+      if (imageURL && imageURL !== undefined) {
+        setImageLink(imageURL);
+        setSuccess(true);
+        const updatedStoryInfo = {
+          ...newStoryInfo,
+          author: user.name,
+          authorPic: user.pic,
+          comments: [],
+          likes: 0,
+          views: 0,
+          story: [],
+          picture: imageURL,
+        };
+
+        console.log(updatedStoryInfo);
+        // Set the updated state
+        setNewStoryInfo(updatedStoryInfo);
+
+        // Use the updated object directly
+        let id = await saveStory(updatedStoryInfo);
+        if (id) {
+          setStoryLink(id);
+          setError(false);
+        } else {
+          setError("Unable to save story");
+          throw new Error("unable to save story");
+        }
+      }
+    } catch (error) {
+      setError("Unable to Save Story");
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (user === null || !user) {
@@ -89,6 +136,38 @@ export const StoryInfo = () => {
 
   if (loading) {
     return <Loading />;
+  }
+
+  if (success && !loading && !error) {
+    return (
+      <div className="container">
+        <div
+          className="story-info-page"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            border: "1px solid rgba(128,128,128,0.5)",
+            margin: "100px auto 0px",
+            width: "50%",
+            minWidth: "300px",
+          }}
+        >
+          <h4>Story Successfully created !</h4>
+          <p>
+            Image link <Link to={{ imageLink }}>Here</Link>{" "}
+          </p>
+          <p>
+            Here is the <Link to={`mystory/${storyLink}`}>Link</Link>{" "}
+          </p>
+          <p>
+            Click <Link to={"/"}>this link</Link> to start editing{" "}
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (

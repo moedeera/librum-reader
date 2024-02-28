@@ -1,11 +1,16 @@
 import Quill from "quill";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import "./PostStory.css";
 import { SiteContext } from "../../Context/Context";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase-config";
 import { Loading } from "../../Components/Loading/Loading";
-import { uploadImage } from "../../assets/APIs/StoriesAPI";
+import {
+  fetchStoryBySlugOrId,
+  publishStory,
+  uploadImage,
+} from "../../assets/APIs/StoriesAPI";
+import { useParams } from "react-router-dom";
 
 export const PostStory = () => {
   const { story, data, storyImage, setStory } = useContext(SiteContext);
@@ -15,7 +20,7 @@ export const PostStory = () => {
 
   const [postData, setPostData] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { id } = useParams();
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper === null) return;
 
@@ -55,57 +60,14 @@ export const PostStory = () => {
       wrapper.innerHTML = "";
     };
   }, []);
+  useEffect(() => {
+    const fetch = async () => {
+      let story = await fetchStoryBySlugOrId(id);
+      return story;
+    };
 
-  const PublishStory = async () => {
-    // console.log(story.tags[0]);
-
-    try {
-      const imageURL = await uploadImage(storyImage, setStory, story);
-      const docRef = await addDoc(storyData, {
-        author: story.author,
-        authorPic: story.authorPic,
-        id: story.id,
-        title: story.title,
-        summary: story.summary,
-        public: true,
-        picture: imageURL,
-        tags: story.tags[0],
-        category: story.category,
-        comments: [],
-        likes: 0,
-        views: 0,
-        ref: "",
-        story: storyArray,
-        date: new Date(),
-      });
-      const titleToLink = (title) => {
-        return title.trim().replace(/\s+/g, "-");
-      };
-
-      const link = titleToLink(story.title);
-
-      await updateDoc(docRef, {
-        id: docRef.id,
-        link: link,
-        slug: `${docRef.id}-${link}`,
-      });
-      const iD = docRef.id;
-      await addDoc(storySummaries, {
-        id: story.id,
-        ref: iD,
-        cat: story.category,
-        title: story.title,
-        info: story.summary,
-        tag: story.tags[0],
-        pic: story.picture,
-        author: story.author,
-      });
-
-      console.log("success, story and summary was saved on data-base");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    setStoryArray(fetch);
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -124,7 +86,7 @@ export const PostStory = () => {
           <button
             className="btn btn-primary"
             onClick={() => {
-              PublishStory();
+              publishStory(id, storyArray);
             }}
           >
             Save Story

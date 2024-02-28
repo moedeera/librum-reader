@@ -16,7 +16,8 @@ export const SearchPage = () => {
 
   const fetchSummariesData = async () => {
     try {
-      const data = await getDocs(summariesData);
+      const q = query(summariesData, where("public", "==", true));
+      const data = await getDocs(q);
       const summariesInfo = data.docs.map((doc) => ({
         ...doc.data(),
         storyId: doc.id,
@@ -38,7 +39,8 @@ export const SearchPage = () => {
       // Create a query against the 'summaries' collection where 'tag' array contains 'searchTerm'
       const q = query(
         summariesData,
-        where("tag", "array-contains", searchWord)
+        where("tag", "array-contains", searchWord),
+        where("public", "==", true)
       );
       querySnapshot = await getDocs(q);
 
@@ -61,17 +63,15 @@ export const SearchPage = () => {
       setLoading(true);
       try {
         if (searchWord === "all" || searchWord === "general") {
-          console.log("condition 1");
           postsData = await fetchSummariesData();
         } else if (searchWord) {
           // Assumes searchWord is not null, 'all', or 'general'
-          console.log("condition 2");
+
           postsData = await fetchFilteredSummariesData();
         }
 
         // Check if postsData is still empty, then fetch suggested posts
         if (postsData.length === 0) {
-          console.log("summaries length is zero", summaries);
           try {
             const data = await getDocs(summariesData);
             postsData = data.docs.map((doc) => ({
