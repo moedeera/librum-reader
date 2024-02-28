@@ -4,7 +4,7 @@ import { storage } from "../../../firebase-config";
 import { SiteContext } from "../../Context/Context";
 
 const ImageBox = (onClick) => {
-  const { setStoryImage } = useContext(SiteContext);
+  const { setStoryImage, storyImage } = useContext(SiteContext);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +22,7 @@ const ImageBox = (onClick) => {
     }
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async (imageFile) => {
     if (imageFile) {
       const storageRef = ref(storage, `images/${imageFile.name}`);
       uploadBytes(storageRef, imageFile).then((snapshot) => {
