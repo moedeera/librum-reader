@@ -27,11 +27,9 @@ export const StoryPage = () => {
     try {
       // Reference to the stories collection
       const storiesRef = collection(db, "stories");
-
       // First, attempt to fetch the document assuming slugOrId is an ID
       const docRef = doc(storiesRef, slugOrId);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         // Document found with the provided ID, return this document
         console.log(
@@ -40,17 +38,14 @@ export const StoryPage = () => {
           "slug is",
           docSnap.data().slug
         );
-
         navigate(`../story/${docSnap.data().slug}`);
         return docSnap.data();
       } else {
         // No document found with the ID, proceed to assume slugOrId is a slug
         // console.log("No document found with ID. Trying as slug...");
-
         // Query the stories collection for the document with the specified slug
         const q = query(storiesRef, where("slug", "==", slugOrId));
         const querySnapshot = await getDocs(q);
-
         if (querySnapshot.empty) {
           console.log("No matching documents with slug.");
           setStoryFirebase("error");
