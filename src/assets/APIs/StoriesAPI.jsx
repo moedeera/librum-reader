@@ -10,30 +10,13 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-// story
+//saved story
+
+//published  story
 const storyData = collection(db, "stories");
 // summary of story
 const storySummaries = collection(db, "summaries");
 
-// image uploader function
-// const uploadImage = async (image) => {
-//   if (image === null || image === undefined) {
-//     console.log("error with image");
-//     return;
-//   }
-//   const imageRef = ref(storage, `images/${image.name}`);
-//   uploadBytes(imageRef, image).then(async () => {
-//     try {
-//       const url = await getDownloadURL(imageRef);
-//       console.log(url);
-
-//       console.log("successfully uploaded image");
-//       return url;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   });
-// };
 const uploadImage = (image) => {
   return new Promise((resolve, reject) => {
     if (!image) {
@@ -61,7 +44,6 @@ const uploadImage = (image) => {
       });
   });
 };
-
 // profile fetching function
 const fetchProfile = async (name) => {
   // Reset profile data
@@ -86,6 +68,7 @@ const fetchProfile = async (name) => {
     throw new Error("no user found");
   }
 };
+//
 
 //update story function
 async function updateStoriesWithSlug() {
@@ -194,8 +177,8 @@ const fetchStoryBySlugOrId = async (slugOrId) => {
     return null; // or handle the error as appropriate for your application
   }
 };
-
-const createStory = async (story, image) => {
+//Save Story
+const saveStory = async (story, image) => {
   console.log(image);
   try {
     const docRef = await addDoc(storyData, {
@@ -244,6 +227,56 @@ const createStory = async (story, image) => {
   }
 };
 
+// Publish story
+const createStory = async (story, image) => {
+  console.log(image);
+  try {
+    const docRef = await addDoc(storyData, {
+      author: story.author,
+      authorPic: story.authorPic,
+      title: story.title,
+      summary: story.summary,
+      public: true,
+      picture: image,
+      tags: story.tags[0],
+      category: story.category,
+      comments: [],
+      likes: 0,
+      views: 0,
+      ref: "",
+      story: story.Array,
+      date: new Date(),
+    });
+    const titleToLink = (title) => {
+      return title.trim().replace(/\s+/g, "-");
+    };
+
+    const link = titleToLink(story.title);
+
+    await updateDoc(docRef, {
+      id: docRef.id,
+      link: link,
+      slug: `${docRef.id}-${link}`,
+    });
+    const iD = docRef.id;
+    await addDoc(storySummaries, {
+      id: story.id,
+      ref: iD,
+      cat: story.category,
+      title: story.title,
+      info: story.summary,
+      tag: story.tags[0],
+      pic: story.picture,
+      author: story.author,
+    });
+
+    console.log("success, story and summary was saved on data-base");
+    return iD;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   updateStoriesWithSlug,
   fetchStory,
@@ -251,4 +284,5 @@ export {
   fetchProfile,
   uploadImage,
   createStory,
+  saveStory,
 };

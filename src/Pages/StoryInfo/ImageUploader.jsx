@@ -1,17 +1,26 @@
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useContext, useState } from "react";
-import { storage } from "../../../firebase-config";
-import { SiteContext } from "../../Context/Context";
 
-const ImageBox = (onClick) => {
-  const { setStoryImage, storyImage } = useContext(SiteContext);
+import { SiteContext } from "../../Context/Context";
+import blank from "./blank.png";
+
+const ImageBox = ({ setError }) => {
+  const { setStoryImage } = useContext(SiteContext);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
+      console.log(file.size);
+      // Check if file size is greater than 900KB (900 * 1024 bytes)
+      if (file.size > 900 * 1024) {
+        setError("Image size should not be larger than 900KB");
+        setLoading(false); // Ensure loading is set to false as no loading process will occur
+        return; // Prevent further execution
+      }
+
       setLoading(true);
+      setError(""); // Reset error state on a new file selection
       setStoryImage(file); // Store the file for later upload
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -19,21 +28,6 @@ const ImageBox = (onClick) => {
         setLoading(false);
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const uploadImage = async (imageFile) => {
-    if (imageFile) {
-      const storageRef = ref(storage, `images/${imageFile.name}`);
-      uploadBytes(storageRef, imageFile).then((snapshot) => {
-        console.log("Uploaded a blob or file!", snapshot);
-
-        // Optionally, get the download URL after upload
-        getDownloadURL(snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          alert("Image saved");
-        });
-      });
     }
   };
 
@@ -57,7 +51,7 @@ const ImageBox = (onClick) => {
           height: "250px",
           width: "80%",
           backgroundColor: "gray", // Default background color
-          backgroundImage: image ? `url(${image})` : "none",
+          backgroundImage: image ? `url(${image})` : `url(${blank})`,
           backgroundPosition: "center center", // Center the background image
           backgroundSize: "cover", // Ensure the image covers the area without distorting its aspect ratio
           backgroundRepeat: "no-repeat", // Do not repeat the image

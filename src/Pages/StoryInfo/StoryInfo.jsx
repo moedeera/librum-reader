@@ -13,22 +13,6 @@ export const StoryInfo = () => {
   const { story, setStory, user, storyImage } = useContext(SiteContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      // Cancel the event
-      e.preventDefault();
-      // Chrome requires returnValue to be set
-      e.returnValue = "";
-    };
-
-    // Add event listener for beforeunload
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Cleanup the event listener
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
 
   const [newStoryInfo, setNewStoryInfo] = useState({
     author: user.name,
@@ -63,7 +47,19 @@ export const StoryInfo = () => {
   const handleInputChange = (e) => {
     setInput(e.target.value);
   };
+  useEffect(() => {
+    let timer;
+    if (loading) {
+      // Set loading back to false after 3 seconds
+      timer = setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    }
 
+    // Cleanup function to clear the timeout if the component unmounts
+    // or if loading changes again before the timeout finishes
+    return () => clearTimeout(timer);
+  }, [loading]);
   useEffect(() => {
     // Split the input by commas or spaces and filter out any empty strings
     const newItems = input.split(/[\s,]+/).filter((item) => item.trim() !== "");
@@ -73,48 +69,19 @@ export const StoryInfo = () => {
   }, [input]);
 
   const handleContinue = async () => {
-    setLoading(true);
-    setError(""); // Reset previous errors
-
-    try {
-      const imageURL = await uploadImage(storyImage); // Ensure this returns a Promise
-      if (!imageURL) {
-        throw new Error("Failed to upload image");
-      }
-      const newStory = {
-        picture: imageURL,
-        title: newStoryInfo.title,
-        author: user.name,
-        authorPic: user.pic,
-        summary: newStoryInfo.summary,
-        tags: newStoryInfo.tags,
-        comments: [],
-        likes: 0,
-        views: 0,
-      };
-      const newSavedStory = await createStory(newStory); // Assuming this also returns a Promise
-      console.log(newSavedStory); // Success handling here, like navigation or setting state
-    } catch (error) {
-      setError(error.message); // Set error state to display the error message
-    } finally {
-      setLoading(false); // Always reset loading state, whether success or failure
+    setError("");
+    if (newStoryInfo.title === "") {
+      setError("Please enter a title");
+      return;
     }
+    if (newStoryInfo.summary === "") {
+      setError("Please enter a summary");
+      return;
+    }
+
+    setLoading(true);
   };
 
-  //   try {
-  //     c
-  //     // Assuming setStory is an async operation or you have a mechanism to ensure the story is saved/persisted before navigating.
-  //
-  //     const storyId = await createStory(newStory);
-  //     setStory({ ...newStory, id: storyId });
-  //     setSuccess(true);
-  //   } catch (error) {
-  //     // Enhance error handling by checking error type or message.
-  // // Implement `displayError` for better UX.
-  //     console.error(error); // For debugging purposes.
-  //   } finally {
-  //     setLoading(false);
-  //   }
   if (user === null || !user) {
     navigate("/login");
     return;
@@ -133,9 +100,9 @@ export const StoryInfo = () => {
             <button className="btn btn-primary">Add Image</button>
           </div> */}
           {/* <ImageUploader /> */}
-          <ImageBox />
+          <ImageBox setError={setError} />
           <div className="story-info-details">
-            {" "}
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <div className="story-info-input">
               <h4>Title</h4>
               <input
