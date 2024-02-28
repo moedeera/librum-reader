@@ -10,14 +10,64 @@ import {
   block1HomePageContent,
   block1HomePageContent2,
 } from "../../Context/Content";
-import { Block6 } from "../../Components/Block6/Block6";
-import { useContext, useEffect } from "react";
+
+import { useContext, useEffect, useRef } from "react";
 import { SiteContext } from "../../Context/Context";
 import { useNavigate } from "react-router-dom";
 
 export const Homepage = () => {
+  const blockRef1 = useRef(null);
+  const blockRef2 = useRef(null);
+  const blockRef3 = useRef(null);
+  const blockRef4 = useRef(null);
+
   const { user } = useContext(SiteContext);
   const navigate = useNavigate();
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fadeInUp");
+          }
+        });
+      },
+      {
+        threshold: 0.2, // Trigger when the element is at least 10% visible
+      }
+    );
+
+    // Observe the divs wrapping the Block1 components
+    if (blockRef1.current) {
+      observer.observe(blockRef1.current);
+    }
+    if (blockRef2.current) {
+      observer.observe(blockRef2.current);
+    }
+    if (blockRef3.current) {
+      observer.observe(blockRef3.current);
+    }
+    if (blockRef4.current) {
+      observer.observe(blockRef4.current);
+    }
+
+    // Clean up the observer on component unmount
+    return () => {
+      if (blockRef1.current) {
+        observer.unobserve(blockRef1.current);
+      }
+      if (blockRef2.current) {
+        observer.unobserve(blockRef2.current);
+      }
+      if (blockRef3.current) {
+        observer.unobserve(blockRef3.current);
+      }
+      if (blockRef4.current) {
+        observer.unobserve(blockRef4.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (user && user !== null) {
       navigate("/home");
@@ -28,12 +78,20 @@ export const Homepage = () => {
   return (
     <div className="container">
       <Landing />
-      <CounterBlock />
-      {/* <Block6 /> */}
-      <Block0 />
+      <div ref={blockRef1} className="animated-block">
+        <CounterBlock />
+      </div>
+      <div ref={blockRef2} className="animated-block">
+        <Block0 />
+      </div>{" "}
       <Block1 input={block1HomePageContent} />
-      <Block3 data={b3content} />
-      <Block1 input={block1HomePageContent2} alt={2} />
+      <div className="animated-block">
+        {" "}
+        <Block3 ref={blockRef4} data={b3content} />
+      </div>
+      <div ref={blockRef3} className="animated-block">
+        <Block1 input={block1HomePageContent2} alt={2} />
+      </div>
       <Contact />
     </div>
   );

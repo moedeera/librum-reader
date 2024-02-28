@@ -272,7 +272,7 @@ textarea {
   }
 }
 
-@keyframes fadeUp {
+/* @keyframes fadeUp {
   0% {
     opacity: 0;
     transform: translateY(10%);
@@ -282,6 +282,20 @@ textarea {
     opacity: 1;
     transform: translateY(0%);
   }
+} */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-block.animate-fadeInUp {
+  animation: fadeInUp 0.65s ease-in-out;
 }
 
 @keyframes fadeInFromRight {
