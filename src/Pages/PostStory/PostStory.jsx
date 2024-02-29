@@ -8,66 +8,75 @@ import { Loading } from "../../Components/Loading/Loading";
 import {
   fetchStoryBySlugOrId,
   publishStory,
+  saveStory,
   uploadImage,
 } from "../../assets/APIs/StoriesAPI";
 import { useParams } from "react-router-dom";
 
 export const PostStory = () => {
   const { story, data, storyImage, setStory } = useContext(SiteContext);
-  const [storyArray, setStoryArray] = useState([]);
+  const [storyInfo, setStoryInfo] = useState(null);
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
-
+  const [editedStory, setEditedStory] = useState(null);
   const [postData, setPostData] = useState("");
   const [loading, setLoading] = useState(false);
+  const [value, setValue] = useState(null);
   const { id } = useParams();
-  const wrapperRef = useCallback((wrapper) => {
-    if (wrapper === null) return;
 
-    // Create a new Quill editor
-    const editor = document.createElement("div");
-    editor.setAttribute("id", "quill-editor");
-    wrapper.append(editor);
-
-    // Initialize Quill on the editor
-    const quill = new Quill(editor, {
-      theme: "snow",
-    });
-
-    const button = document.getElementById("save-button");
-
-    button.addEventListener("click", () => {
-      var delte = quill.getContents();
-      console.log("content:", ":", delte.ops);
-      localStorage.setItem("savedData", JSON.stringify(delte.ops));
-    });
-
-    // Log new characters when the user edits the content
-    quill.on("text-change", (delta, oldDelta, source) => {
-      if (source === "user") {
-        // This logs the changes made by the user
-        const content = quill.root.innerHTML;
-        setPostData(content);
-        var delte = quill.getContents();
-
-        setStoryArray(delte.ops);
-      }
-    });
-
-    // Cleanup function
-    return () => {
-      quill.off("text-change");
-      wrapper.innerHTML = "";
-    };
-  }, []);
   useEffect(() => {
-    const fetch = async () => {
-      let story = await fetchStoryBySlugOrId(id);
-      return story;
-    };
-
-    setStoryArray(fetch);
+    fetchStoryBySlugOrId(id)
+      .then((match) => {
+        setValue(match); // This will log the actual document data or null
+        console.log(match);
+        setStoryInfo(match);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch story:", error);
+      });
   }, []);
+
+  const wrapperRef = useCallback(
+    (wrapper) => {
+      if (!wrapper) return;
+
+      // Assuming editor is uniquely identified or this hook only runs once per component instance
+      let editor = wrapper.querySelector(".quill-editor");
+      if (!editor) {
+        editor = document.createElement("div");
+        editor.classList.add("quill-editor");
+        wrapper.appendChild(editor);
+      } else {
+        // Optionally clear previous editor's content
+      }
+
+      const quill = new Quill(editor, {
+        theme: "snow",
+        readOnly: false, // Set to false to enable editing
+        modules: {
+          toolbar: true, // Enables the default toolbar
+        },
+      });
+
+      // Handle Quill editor content or events as needed
+      quill.on("text-change", (delta, oldDelta, source) => {
+        if (source === "user") {
+          // This logs the changes made by the user
+          const content = quill.getContents();
+          setEditedStory(content.ops);
+          // setStoryInfo({ ...storyInfo, story: content.ops });
+          console.log(content.ops, storyInfo);
+        }
+      });
+
+      // Cleanup function to destroy the Quill instance when the component unmounts or if re-initialized
+      return () => {
+        quill.destroy();
+      };
+    },
+    [] // Dependencies array, adjust if necessary based on your use case
+  );
 
   if (loading) {
     return <Loading />;
@@ -86,15 +95,13 @@ export const PostStory = () => {
           <button
             className="btn btn-primary"
             onClick={() => {
-              publishStory(id, storyArray);
+              saveStory(storyInfo.id);
             }}
           >
             Save Story
           </button>
           <button
-            onClick={() => {
-              localStorage.setItem("savedData", JSON.stringify(storyArray));
-            }}
+            onClick={() => {}}
             id="save-button"
             className="btn btn-primary btn-green"
           >

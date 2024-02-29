@@ -222,6 +222,22 @@ const saveStory = async (story) => {
     console.log(error);
   }
 };
+
+//Update Story
+const updateStory = async (documentId, newStoryArray) => {
+  const storyDocRef = doc(db, "stories", documentId);
+
+  try {
+    await updateDoc(storyDocRef, {
+      story: newStoryArray,
+    });
+    return "successfully updated story";
+  } catch (error) {
+    console.error("Error updating document: ", error);
+    return "unable to update story";
+  }
+};
+
 // Publish story
 const createStory = async (story, image) => {
   console.log(image);
@@ -295,4 +311,5 @@ export {
   createStory,
   saveStory,
   publishStory,
+  updateStory,
 };

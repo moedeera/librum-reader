@@ -3,15 +3,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
 import "./StoryPage.css";
 import { SiteContext } from "../../Context/Context";
-
-import { db } from "../../../firebase-config";
-import { collection, getDocs, where, query } from "firebase/firestore";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { doc } from "firebase/firestore";
-import { getDoc } from "firebase/firestore";
+import { Link, useParams } from "react-router-dom";
 import { Loading } from "../../Components/Loading/Loading";
-
+import { fetchStoryBySlugOrId } from "../../assets/APIs/StoriesAPI";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
@@ -22,47 +17,7 @@ export const StoryPage = () => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(null);
   const { storyidorslug } = useParams();
-  const navigate = useNavigate();
-  const fetchStoryBySlugOrId = async (slugOrId) => {
-    try {
-      // Reference to the stories collection
-      const storiesRef = collection(db, "stories");
-      // First, attempt to fetch the document assuming slugOrId is an ID
-      const docRef = doc(storiesRef, slugOrId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        // Document found with the provided ID, return this document
-        console.log(
-          "Document found with ID:",
-          slugOrId,
-          "slug is",
-          docSnap.data().slug
-        );
-        navigate(`../story/${docSnap.data().slug}`);
-        return docSnap.data();
-      } else {
-        // No document found with the ID, proceed to assume slugOrId is a slug
-        // console.log("No document found with ID. Trying as slug...");
-        // Query the stories collection for the document with the specified slug
-        const q = query(storiesRef, where("slug", "==", slugOrId));
-        const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) {
-          console.log("No matching documents with slug.");
-          setStoryFirebase("error");
-          navigate("/story-not-found");
-        } else {
-          // Assuming slug is unique and you want only the first matching document
-          const firstDoc = querySnapshot.docs[0];
 
-          // console.log("Document found with slug:", slugOrId);
-          return firstDoc.data();
-        }
-      }
-    } catch (error) {
-      console.error("Error searching story by slugOrId:", error);
-      return null; // or handle the error as appropriate for your application
-    }
-  };
   useEffect(() => {
     fetchStoryBySlugOrId(storyidorslug)
       .then((match) => {
@@ -79,7 +34,6 @@ export const StoryPage = () => {
   useEffect(() => {
     if (story) {
       info.title = story;
-      // console.log(story);
     }
   }, [story]);
 
@@ -104,6 +58,7 @@ export const StoryPage = () => {
       // }
 
       quill.setContents(storyFirebase.story);
+      console.log(storyFirebase.story);
       function getWordCount() {
         var text = quill.getText();
 
