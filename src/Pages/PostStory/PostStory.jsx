@@ -65,7 +65,7 @@ export const PostStory = () => {
           // This logs the changes made by the user
           const content = quill.getContents();
           setEditedStory(content.ops);
-          // setStoryInfo({ ...storyInfo, story: content.ops });
+          setStoryInfo({ ...storyInfo, story: content.ops });
           console.log(content.ops, storyInfo);
         }
       });
