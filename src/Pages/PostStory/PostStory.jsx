@@ -9,6 +9,7 @@ import {
   fetchStoryBySlugOrId,
   publishStory,
   updateStory,
+  updateStoryStatus,
   uploadImage,
 } from "../../assets/APIs/StoriesAPI";
 import { useParams } from "react-router-dom";
@@ -16,11 +17,12 @@ import { useParams } from "react-router-dom";
 export const PostStory = () => {
   const { story, data, storyImage, setStory } = useContext(SiteContext);
   const [storyInfo, setStoryInfo] = useState("");
+  const [updating, setUpdating] = useState(false);
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
   const [editedStory, setEditedStory] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(null);
   const { id } = useParams();
   let info = { title: "My story" };
@@ -51,8 +53,13 @@ export const PostStory = () => {
         editor = document.createElement("div");
         editor.classList.add("quill-editor");
         wrapper.appendChild(editor);
+        let x = document.getElementsByClassName("ql-toolbar");
       } else {
-        // Optionally clear previous editor's content
+        console.log("editor present");
+        let x = document.getElementsByClassName("ql-toolbar");
+
+        let y = x[0];
+        y.remove();
       }
 
       const quill = new Quill(editor, {
@@ -62,7 +69,7 @@ export const PostStory = () => {
           toolbar: true, // Enables the default toolbar
         },
       });
-      console.log(storyInfo.story);
+
       quill.setContents(storyInfo.story);
       // Handle Quill editor content or events as needed
       quill.on("text-change", (delta, oldDelta, source) => {
@@ -72,7 +79,6 @@ export const PostStory = () => {
 
           setEditedStory(content.ops);
           localStorage.setItem("qjs-edited-story", JSON.stringify(content.ops));
-          console.log(content.ops, editedStory);
         }
       });
 
@@ -81,7 +87,7 @@ export const PostStory = () => {
         quill.destroy();
       };
     },
-    [] // Dependencies array, adjust if necessary based on your use case
+    [storyInfo] // Dependencies array, adjust if necessary based on your use case
   );
 
   const handleSave = async () => {
@@ -90,6 +96,20 @@ export const PostStory = () => {
     let x = await updateStory(storyInfo.id, JSON.parse(updatedStoryData));
     console.log(x);
   };
+  const togglePublicStatus = async (status) => {
+    setUpdating(true); // Indicate that update is in progress
+
+    try {
+      await updateStoryStatus(storyInfo.id, status); // Assume this function updates the status in the backend
+      setStoryInfo({ ...storyInfo, public: status }); // Update local state if the backend update is successful
+    } catch (error) {
+      console.error("Failed to update public status:", error);
+    } finally {
+      setUpdating(false); // Reset updating status regardless of the outcome
+    }
+  };
+
+  const buttonColor = updating ? "orange" : storyInfo.public ? "grey" : "green";
   if (loading) {
     return <Loading />;
   }
@@ -112,13 +132,28 @@ export const PostStory = () => {
           >
             Save Story
           </button>
-          <button
-            onClick={() => {}}
-            id="save-button"
-            className="btn btn-primary btn-green"
-          >
-            Publish
-          </button>
+          {storyInfo.public ? (
+            <button
+              className="btn btn-primary"
+              style={{ backgroundColor: buttonColor }}
+              onClick={() => {
+                togglePublicStatus(false);
+              }}
+            >
+              Set Private
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                togglePublicStatus(true);
+              }}
+              id="save-button"
+              className="btn btn-primary btn-green"
+              style={{ backgroundColor: buttonColor }}
+            >
+              Publish
+            </button>
+          )}
         </div>
       </div>
     </div>

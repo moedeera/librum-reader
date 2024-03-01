@@ -237,7 +237,44 @@ const updateStory = async (documentId, newStoryArray) => {
     return "unable to update story";
   }
 };
+// UpdateStory status
+const updateStoryStatus = async (id, status) => {
+  const storyDocRef = doc(db, "stories", id);
 
+  try {
+    await updateDoc(storyDocRef, {
+      public: status,
+    });
+    return "successfully updated story";
+  } catch (error) {
+    console.error("Error updating document: ", error);
+    return "unable to update story";
+  }
+};
+const updateSummaryStatus = async (id, status) => {
+  const summariesDocRef = doc(db, "summaries", id);
+  const q = query(summariesDocRef, where("ref", "==", id));
+
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    console.log("No summary found.");
+    throw new Error("No summary found");
+  } else {
+    // Assuming slug is unique and you want only the first matching document
+    const firstDoc = querySnapshot.docs[0];
+
+    try {
+      await updateDoc(firstDoc, {
+        public: status,
+      });
+      return "successfully updated story";
+    } catch (error) {
+      console.error("Error updating document: ", error);
+      return "unable to update story";
+    }
+  }
+};
 // Publish story
 const createStory = async (story, image) => {
   console.log(image);
@@ -279,6 +316,7 @@ const createStory = async (story, image) => {
       tag: story.tags[0],
       pic: story.picture,
       author: story.author,
+      public: false,
     });
 
     console.log("success, story and summary was saved on data-base");
@@ -312,4 +350,5 @@ export {
   saveStory,
   publishStory,
   updateStory,
+  updateStoryStatus,
 };
