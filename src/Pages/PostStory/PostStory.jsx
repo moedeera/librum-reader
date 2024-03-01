@@ -8,22 +8,22 @@ import { Loading } from "../../Components/Loading/Loading";
 import {
   fetchStoryBySlugOrId,
   publishStory,
-  saveStory,
+  updateStory,
   uploadImage,
 } from "../../assets/APIs/StoriesAPI";
 import { useParams } from "react-router-dom";
 
 export const PostStory = () => {
   const { story, data, storyImage, setStory } = useContext(SiteContext);
-  const [storyInfo, setStoryInfo] = useState(null);
+  const [storyInfo, setStoryInfo] = useState("");
   const storyData = collection(db, "stories");
   const storySummaries = collection(db, "summaries");
   const [editedStory, setEditedStory] = useState(null);
-  const [postData, setPostData] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(null);
   const { id } = useParams();
-
+  let info = { title: "My story" };
   useEffect(() => {
     fetchStoryBySlugOrId(id)
       .then((match) => {
@@ -36,7 +36,11 @@ export const PostStory = () => {
         console.error("Failed to fetch story:", error);
       });
   }, []);
-
+  useEffect(() => {
+    if (story) {
+      info.title = story;
+    }
+  }, [story]);
   const wrapperRef = useCallback(
     (wrapper) => {
       if (!wrapper) return;
@@ -58,15 +62,17 @@ export const PostStory = () => {
           toolbar: true, // Enables the default toolbar
         },
       });
-
+      console.log(storyInfo.story);
+      quill.setContents(storyInfo.story);
       // Handle Quill editor content or events as needed
       quill.on("text-change", (delta, oldDelta, source) => {
         if (source === "user") {
           // This logs the changes made by the user
           const content = quill.getContents();
+
           setEditedStory(content.ops);
-          setStoryInfo({ ...storyInfo, story: content.ops });
-          console.log(content.ops, storyInfo);
+          localStorage.setItem("qjs-edited-story", JSON.stringify(content.ops));
+          console.log(content.ops, editedStory);
         }
       });
 
@@ -78,13 +84,19 @@ export const PostStory = () => {
     [] // Dependencies array, adjust if necessary based on your use case
   );
 
+  const handleSave = async () => {
+    const updatedStoryData = localStorage.getItem("qjs-edited-story");
+    console.log(updatedStoryData);
+    let x = await updateStory(storyInfo.id, JSON.parse(updatedStoryData));
+    console.log(x);
+  };
   if (loading) {
     return <Loading />;
   }
   return (
     <div className="container">
       <div className="text-editor-page">
-        <h3>Your Story</h3>
+        <h3>{info.title}</h3>
         <div
           className="text-editor"
           ref={wrapperRef}
@@ -95,7 +107,7 @@ export const PostStory = () => {
           <button
             className="btn btn-primary"
             onClick={() => {
-              saveStory(storyInfo.id);
+              handleSave();
             }}
           >
             Save Story

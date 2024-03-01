@@ -407,7 +407,7 @@ export const SiteContextProvider = ({ children }) => {
     console.log("user updated");
   }, [user]);
   useEffect(() => {
-    localStorage.setItem("librum-user", JSON.stringify(profileInfo));
+    localStorage.setItem("librum-user", profileInfo);
 
     console.log("user profile updated");
   }, [profileInfo]);
