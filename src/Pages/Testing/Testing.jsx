@@ -1,9 +1,40 @@
 import "./Testing.css";
+import client from "../../client";
+import { useEffect, useState } from "react";
 
 export const Testing = () => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    client
+      .fetch(`*[_type == "post"]`)
+      .then((data) => setPosts(data))
+      .catch(console.error);
+  }, []);
+  console.log(posts[0]?.mainImage.asset._ref);
+  function convertToSanityImageUrl(imageString, projectId, dataset) {
+    // Extract the fileId, dimensions, and format from the input string
+    const match = imageString.match(/^image-(.+)-(\d+)x(\d+)-(\w+)$/);
+    if (!match) {
+      console.error("Input string format is incorrect.");
+      return null;
+    }
+
+    const [, fileId, width, height, format] = match;
+
+    // Construct the Sanity CDN URL
+    const url = `https://cdn.sanity.io/images/${projectId}/${dataset}/${fileId}-${width}x${height}.${format}`;
+    return url;
+  }
+
+  // Example usage
+  const imageString =
+    "image-1c7e20af7169ee667cb496829aa4b8d28666247d-1280x732-png";
+  const projectId = "2d4fqbse"; // Replace with your actual project ID
+  const dataset = "production"; // Replace with your actual dataset name
+
   return (
     <div className="container">
-      <div className="testing-page">
+      {/* <div className="testing-page">
         <div className="login-section">
           <div className="login-test">
             <h3>John Smith</h3>{" "}
@@ -65,7 +96,26 @@ export const Testing = () => {
             </div>
           </div>
         </div>
+      </div> */}
+      <div>
+        {posts.map((post) => (
+          <div key={post._id}>
+            <h1>{post.title}</h1>
+            <img
+              src={`${convertToSanityImageUrl(
+                post.mainImage.asset._ref,
+                projectId,
+                dataset
+              )}`}
+              alt=""
+              style={{ width: "100%", maxWidth: "500px" }}
+            />
+            <br />
+            {`${post.body[0].children[0].text}`}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
+//image-1c7e20af7169ee667cb496829aa4b8d28666247d-1280x732-png
