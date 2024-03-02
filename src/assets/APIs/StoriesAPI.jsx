@@ -139,31 +139,37 @@ const fetchStory = async (idOrSlug) => {
   }
 };
 const fetchStoryBySlugOrId = async (slugOrId) => {
+  console.log(slugOrId);
+
+  // Function to eliminate anything after a hyphen, treating the input as an ID if it's a slug
+  function convertSlugToId(inputString) {
+    return inputString.split("-")[0];
+  }
+
+  // Convert slugOrId to ID format if it's a slug
+  const convertedId = convertSlugToId(slugOrId);
+  console.log(convertedId);
   try {
-    // Reference to the stories collection
     const storiesRef = collection(db, "stories");
 
-    // First, attempt to fetch the document assuming slugOrId is an ID
-    const docRef = doc(storiesRef, slugOrId);
+    // First, attempt to fetch the document using the converted ID
+    const docRef = doc(storiesRef, convertedId);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      // Document found with the provided ID, return this document
-      console.log("Document found with ID:", slugOrId);
+      console.log("Document found with ID:", convertedId);
       return docSnap.data();
     } else {
-      // No document found with the ID, proceed to assume slugOrId is a slug
       console.log("No document found with ID. Trying as slug...");
 
-      // Query the stories collection for the document with the specified slug
+      // If no document is found with the converted ID, try fetching by the original slugOrId
       const q = query(storiesRef, where("slug", "==", slugOrId));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
         console.log("No matching documents with slug.");
-        return null;
+        throw new Error("No matching documents found."); // Throw an error when no documents are found
       } else {
-        // Assuming slug is unique and you want only the first matching document
         const firstDoc = querySnapshot.docs[0];
         console.log("Document found with slug:", slugOrId);
         return firstDoc.data();
@@ -171,9 +177,10 @@ const fetchStoryBySlugOrId = async (slugOrId) => {
     }
   } catch (error) {
     console.error("Error searching story by slugOrId:", error);
-    return null; // or handle the error as appropriate for your application
+    throw error; // Propagate the error
   }
 };
+
 //Save Story
 const saveStory = async (story) => {
   try {

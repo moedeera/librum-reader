@@ -7,6 +7,7 @@ import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { Link, useParams } from "react-router-dom";
 import { Loading } from "../../Components/Loading/Loading";
 import { fetchStoryBySlugOrId } from "../../assets/APIs/StoriesAPI";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
@@ -19,17 +20,21 @@ export const StoryPage = () => {
   const { storyidorslug } = useParams();
 
   useEffect(() => {
+    setError(false); // Reset error state
+    setLoading(true); // Start loading
     fetchStoryBySlugOrId(storyidorslug)
       .then((match) => {
-        setValue(match); // This will log the actual document data or null
-
+        setValue(match);
         setStoryFirebase(match);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Failed to fetch story:", error);
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading whether the fetch succeeded or failed
       });
-  }, []);
+  }, [storyidorslug]); // Add storyidorslug to the dependency array to refetch when it changes
 
   useEffect(() => {
     if (story) {
@@ -91,25 +96,7 @@ export const StoryPage = () => {
   }
 
   if (error) {
-    return (
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          border: "1px solid rgba(128,128,128,0.5)",
-          margin: "100px auto 0px",
-          width: "50%",
-          minWidth: "300px",
-        }}
-      >
-        <h3>We encountered an Error! </h3>
-        <p>{error}</p>
-      </div>
-    );
+    return <ErrorPage story={true} />;
   }
 
   return (
@@ -118,8 +105,8 @@ export const StoryPage = () => {
         <div className="story-header-container">
           {" "}
           <small className="story-category-small">Fiction</small>
-          <h3 className="story-page-header">{storyFirebase.title}</h3>
-          <small>by {storyFirebase.author}</small>
+          <h3 className="story-page-header">{storyFirebase?.title}</h3>
+          <small>by {storyFirebase?.author}</small>
         </div>
 
         <div className="story-container">
