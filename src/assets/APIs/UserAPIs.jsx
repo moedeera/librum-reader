@@ -121,9 +121,12 @@ const signInWithGoogleFunction = async (setProfileInfo, setUser) => {
   } else {
     let data = querySnapshot.docs[0].data();
     setProfileInfo(data);
+    console.log(data);
     localStorage.setItem("librum-profile", JSON.stringify(data));
   }
 
   localStorage.setItem("librum-user", JSON.stringify(userInfo));
   setUser(userInfo);
 };
+
+export { signInWithGoogleFunction };

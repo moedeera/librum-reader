@@ -3,6 +3,7 @@ import "./LoginPage.css";
 import { useContext, useEffect, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 import googleIcon from "./google.svg";
+import { signInWithGoogleFunction } from "../../assets/APIs/UserAPIs";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -26,8 +27,9 @@ export const LoginPage = () => {
     imagesSorted,
     findImageSet,
     user,
+    setUser,
     profileInfo,
-    signInWithGoogleFunction,
+    setProfileInfo,
     loginWithEmailAndPassword,
   } = useContext(SiteContext);
 
@@ -44,7 +46,9 @@ export const LoginPage = () => {
         <div className="login-form">
           <h3>Sign in </h3>
           <button
-            onClick={signInWithGoogleFunction}
+            onClick={() => {
+              signInWithGoogleFunction(setProfileInfo, setUser);
+            }}
             className="btn btn-white btn-google"
           >
             {" "}
