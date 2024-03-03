@@ -38,7 +38,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
   return (
     <div className="block-4-container">
       {/* eslint-disable-next-line react/prop-types */}
-      {summaries.map(
+      {summaries?.map(
         (item, index) =>
           index < showingCount && (
             <div

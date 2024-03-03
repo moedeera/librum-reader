@@ -85,9 +85,9 @@ export const Homepage = () => {
         <Block0 />
       </div>{" "}
       <Block1 input={block1HomePageContent} />
-      <div className="animated-block">
+      <div ref={blockRef4} data={b3content} className="animated-block">
         {" "}
-        <Block3 ref={blockRef4} data={b3content} />
+        <Block3 />
       </div>
       <div ref={blockRef3} className="animated-block">
         <Block1 input={block1HomePageContent2} alt={2} />
