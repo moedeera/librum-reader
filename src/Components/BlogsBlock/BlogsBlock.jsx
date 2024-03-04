@@ -1,52 +1,50 @@
-import client from "@/client";
 import "./BlogsBlock.css";
-import { useEffect, useState } from "react";
+
+function trimParagraphTo25Words(paragraph) {
+  // Split the paragraph into words
+  const words = paragraph.split(/\s+/);
+
+  // Check if the paragraph is already 25 words or shorter
+  if (words.length <= 25) {
+    return paragraph;
+  } else {
+    // Join the first 25 words and add "..."
+    return words.slice(0, 20).join(" ") + "...";
+  }
+}
+
 import { Link } from "react-router-dom";
 
-function convertToSanityImageUrl(imageString, projectId, dataset) {
-  // Extract the fileId, dimensions, and format from the input string
-  const match = imageString.match(/^image-(.+)-(\d+)x(\d+)-(\w+)$/);
-  if (!match) {
-    console.error("Input string format is incorrect.");
-    return null;
-  }
-
-  const [, fileId, width, height, format] = match;
-
-  // Construct the Sanity CDN URL
-  const url = `https://cdn.sanity.io/images/${projectId}/${dataset}/${fileId}-${width}x${height}.${format}`;
-  return url;
-}
-export const BlogsBlock = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    client
-      .fetch(`*[_type == "post"]`)
-      .then((data) => setPosts(data))
-      .catch(console.error);
-  }, []);
-  console.log(posts);
-  const projectId = "2d4fqbse";
-  const dataset = "production";
+// eslint-disable-next-line react/prop-types
+export const BlogsBlock = ({ posts, function1, function2 }) => {
+  console.log(posts[0]);
   return (
     <div className="blogs-container">
       <div className="blogs-list">
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <div key={post._id} className="blog-item">
-            <Link to={`../blogs/${post.slug.current}`}>
-              <h1>{post.title}</h1>
-            </Link>
-            <img
-              src={`${convertToSanityImageUrl(
-                post.mainImage.asset._ref,
-                projectId,
-                dataset
-              )}`}
-              alt=""
-              style={{ width: "100%", maxWidth: "500px" }}
-            />
+            <div className="blog-item-details">
+              {" "}
+              <Link to={`../blogs/${post.slug.current}`}>
+                <h4>{post.title}</h4>
+              </Link>
+              <small> By Admin </small>
+              <small> {post._createdAt.slice(0, 10)}</small>
+            </div>
+
+            <Link
+              to={`../blogs/${post.slug.current}`}
+              className="blog-item-image"
+              style={{
+                backgroundImage: `url(${function1(post.mainImage.asset._ref)})`,
+              }}
+            ></Link>
+
             <br />
-            {`${post.body[0].children[0].text}`}
+            {`${trimParagraphTo25Words(post?.body[0].children[0].text)}`}
+            <small className="btn">
+              <Link>Read More</Link>
+            </small>
           </div>
         ))}
       </div>
