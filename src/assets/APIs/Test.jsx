@@ -4,6 +4,17 @@
 //     // Reference to the stories collection
 //     const storiesRef = collection(db, "stories");
 
+import { db } from "firebase-config";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+
+const updateSingleDocStats = async (id) => {
+  console.log(id);
+  const story = doc(db, "summaries", id);
+  let storyInfo = await getDoc(story);
+  const newStats = [0, 0, 0];
+  await updateDoc(storyInfo, { stats: newStats });
+};
+
 //     // First, attempt to fetch the document assuming slugOrId is an ID
 //     const docRef = doc(storiesRef, slugOrId);
 //     const docSnap = await getDoc(docRef);

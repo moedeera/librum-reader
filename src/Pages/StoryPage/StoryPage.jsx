@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 import { Loading } from "../../Components/Loading/Loading";
 import { fetchStoryBySlugOrId } from "../../assets/APIs/StoriesAPI";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { updateSingleSummaryStat } from "@/assets/APIs/SummariesAPI";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
@@ -39,6 +40,7 @@ export const StoryPage = () => {
   useEffect(() => {
     if (story) {
       info.title = story;
+      updateSingleSummaryStat(story.ref);
     }
   }, [story]);
 

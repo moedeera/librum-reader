@@ -20,6 +20,13 @@ export const Block4 = ({ summaries, showingAmount }) => {
     const newCount = Number(storyObject.views) + 1;
     await updateDoc(story, { views: newCount });
   };
+
+  // useEffect(() => {
+  //   updateAllDocStats();
+  // }, []);
+  // Remember to call the function where needed
+  // updateAllDocStats();
+
   const [showingCount, setShowingCount] = useState(12);
 
   useEffect(() => {
@@ -92,6 +99,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   to={`/story/${item.slug}`}
                   onClick={() => {
                     updateViews(item.ref, item.views);
+                    // console.log(item);
                   }}
                   className="block-4-segment-image"
                   style={{
@@ -108,18 +116,24 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 </Link>
 
                 <div className="block-4-segment-stats">
-                  <div className="block-4-segment-stat">
-                    <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
-                    <small>13</small>
-                  </div>
-                  <div className="block-4-segment-stat">
+                  {item?.stats.map((item, index) => (
+                    <div key={index} className="block-4-segment-stat">
+                      <img
+                        src={findImageSet("icons", imagesSorted)[index]}
+                        alt=""
+                      />
+                      <small>{item}</small>
+                    </div>
+                  ))}
+
+                  {/* <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
                     <small>13</small>
                   </div>
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
                     <small>0</small>
-                  </div>
+                  </div> */}
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[3]} alt="" />
                     <small>3 min</small>
@@ -135,7 +149,13 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   <h5>{item.title}</h5>
                 </Link>
 
-                <p>{summarizeParagraph(item.info)} </p>
+                <p
+                  onClick={() => {
+                    console.log(item);
+                  }}
+                >
+                  {summarizeParagraph(item.info)}{" "}
+                </p>
                 {/* <div className="btn">Read More</div> */}
                 <p className="block-4-tags">
                   Tags:

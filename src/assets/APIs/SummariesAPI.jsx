@@ -1,6 +1,13 @@
-import { collection, getDocs, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../firebase-config";
-import { query } from "express";
 
 const summariesData = collection(db, "summaries");
 const fetchSummariesData = async () => {
@@ -40,4 +47,47 @@ const fetchFilteredSummariesData = async (search) => {
   }
 };
 
-export { fetchSummariesData, fetchFilteredSummariesData };
+const updateAllSummaryStats = async () => {
+  const summariesCollectionRef = collection(db, "summaries");
+  const snapshot = await getDocs(summariesCollectionRef);
+
+  const newStats = [0, 0, 0];
+  const updatePromises = [];
+
+  snapshot.forEach((doc) => {
+    // For each document, prepare an update operation
+    const docRef = doc.ref; // Get a reference to the document
+    updatePromises.push(updateDoc(docRef, { stats: newStats })); // Update the document
+  });
+
+  // Wait for all update operations to complete
+  try {
+    await Promise.all(updatePromises);
+    console.log("All documents have been successfully updated.");
+  } catch (error) {
+    console.error("Error updating documents:", error);
+  }
+};
+
+const updateSingleSummaryStat = async (id) => {
+  try {
+    const docRef = doc(db, "summaries", id); // Get a reference to the document
+    const docSnap = await getDoc(docRef); // Fetch the document data
+
+    if (docSnap.exists()) {
+      console.log("Summary data:", docSnap.data()); // Log the document data
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error fetching document:", error);
+    throw new Error("Failed to fetch document", { cause: error });
+  }
+};
+
+export {
+  fetchSummariesData,
+  fetchFilteredSummariesData,
+  updateAllSummaryStats,
+  updateSingleSummaryStat,
+};
