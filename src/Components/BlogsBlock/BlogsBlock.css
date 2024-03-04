@@ -1,0 +1,9 @@
+.blogs-container {
+  width: 100%;
+  max-width: var(--max-width-main);
+  margin: 0 auto;
+}
+
+.blogs-list {
+  border: 1px solid green;
+}
