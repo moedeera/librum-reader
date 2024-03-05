@@ -15,7 +15,7 @@ export const StoryPage = () => {
   const { storyId, story } = useContext(SiteContext);
   let info = { title: "Legend of the Lurkers" };
 
-  const [storyFirebase, setStoryFirebase] = useState([]);
+  const [storyFirebase, setStoryFirebase] = useState(null);
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(null);
   const { storyidorslug } = useParams();
@@ -38,11 +38,17 @@ export const StoryPage = () => {
   }, [storyidorslug]); // Add storyidorslug to the dependency array to refetch when it changes
 
   useEffect(() => {
-    if (story) {
-      info.title = story;
-      updateSingleSummaryStat(story.ref);
+    if (storyFirebase !== null) {
+      info.title = storyFirebase.title;
+      console.log(storyFirebase);
+      let updatedStats = [
+        Number(storyFirebase.views),
+        Number(storyFirebase.likes),
+        storyFirebase.comments.length,
+      ];
+      updateSingleSummaryStat(storyFirebase.ref, updatedStats);
     }
-  }, [story]);
+  }, [storyFirebase]);
 
   const wrapperRef = useCallback(
     (wrapper) => {

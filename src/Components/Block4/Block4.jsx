@@ -126,14 +126,6 @@ export const Block4 = ({ summaries, showingAmount }) => {
                     </div>
                   ))}
 
-                  {/* <div className="block-4-segment-stat">
-                    <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
-                    <small>13</small>
-                  </div>
-                  <div className="block-4-segment-stat">
-                    <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
-                    <small>0</small>
-                  </div> */}
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[3]} alt="" />
                     <small>3 min</small>

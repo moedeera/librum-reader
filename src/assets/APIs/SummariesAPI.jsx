@@ -69,19 +69,27 @@ const updateAllSummaryStats = async () => {
   }
 };
 
-const updateSingleSummaryStat = async (id) => {
-  try {
-    const docRef = doc(db, "summaries", id); // Get a reference to the document
-    const docSnap = await getDoc(docRef); // Fetch the document data
+const updateSingleSummaryStat = async (id, updatedStats) => {
+  if (id === undefined || id === null) {
+    console.log("undefined id");
+    return;
+  }
+  if (updatedStats === undefined) {
+    console.log("no valid stats");
+    return;
+  }
 
-    if (docSnap.exists()) {
-      console.log("Summary data:", docSnap.data()); // Log the document data
-    } else {
-      console.log("No such document!");
-    }
+  console.log(id, updatedStats);
+  try {
+    // Directly reference the document by its ID within the "summaries" collection
+    const summaryRef = doc(db, "summaries", id);
+
+    // Update the document with the new stats
+    await updateDoc(summaryRef, { stats: updatedStats });
+
+    console.log("Summary updated successfully.");
   } catch (error) {
-    console.error("Error fetching document:", error);
-    throw new Error("Failed to fetch document", { cause: error });
+    console.log("error:", error);
   }
 };
 
