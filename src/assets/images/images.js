@@ -8,7 +8,8 @@ import dystopia from "./dystopia1.jpg";
 import eyeIcon from "./eye-icon.png";
 import heartIcon from "./heart-icon.png";
 import commentIcon from "./comment-icon.png";
-
+import calendar from "./calendar.png";
+import writingHand from "./write.png";
 const images = [librum1, librum2, librum3, library];
 const imagesSorted = [
   { id: "all", images: images },
@@ -30,7 +31,10 @@ const imagesSorted = [
   },
   { id: "library", images: [library] },
   { id: "fantasy", images: [librum1, fantasy2] },
-  { id: "icons", images: [eyeIcon, heartIcon, commentIcon, clockIcon] },
+  {
+    id: "icons",
+    images: [eyeIcon, heartIcon, commentIcon, clockIcon, calendar, writingHand],
+  },
 ];
 
 function findImageSet(ref, imagesSorted) {

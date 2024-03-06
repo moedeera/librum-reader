@@ -21,11 +21,34 @@ export const Block4 = ({ summaries, showingAmount }) => {
     await updateDoc(story, { views: newCount });
   };
 
-  // useEffect(() => {
-  //   updateAllDocStats();
-  // }, []);
-  // Remember to call the function where needed
-  // updateAllDocStats();
+  function processNumber(num) {
+    if (num <= 200) {
+      return 1;
+    } else {
+      // Divides the number by 200 and rounds to the nearest whole number
+      return Math.round(num / 200);
+    }
+  }
+
+  function formatFirebaseTimestamp(firebaseTimestamp) {
+    const date = firebaseTimestamp.toDate();
+
+    // Create a custom format "YYYY-MM-DD HH:MM"
+    const formatted =
+      date.getFullYear() +
+      "-" +
+      ("0" + (date.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + date.getDate()).slice(-2) +
+      " " +
+      ("0" + date.getHours()).slice(-2) +
+      ":" +
+      ("0" + date.getMinutes()).slice(-2);
+
+    return formatted;
+  }
+
+  console.log(formatFirebaseTimestamp(summaries[0].dateCreated));
 
   const [showingCount, setShowingCount] = useState(12);
 
@@ -128,7 +151,13 @@ export const Block4 = ({ summaries, showingAmount }) => {
 
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[3]} alt="" />
-                    <small>3 min</small>
+                    <small>{processNumber(item.wordCount)} min</small>
+                  </div>
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[4]} alt="" />
+                    <small>
+                      {formatFirebaseTimestamp(item.dateCreated).slice(2, 10)}
+                    </small>
                   </div>
                 </div>
 

@@ -12,6 +12,8 @@
 }
 .block-4-segment small {
   text-transform: capitalize;
+  font-size: x-small;
+  margin-top: 5px;
 }
 .block-4-segment {
   margin: 0 auto;
@@ -26,6 +28,10 @@
   padding: 25px 10px;
   position: relative;
   overflow: hidden;
+}
+
+.block-4-segment-stat:nth-child(5) {
+  display: none;
 }
 .block-4-tag {
   background-color: var(--primary-button);
@@ -115,6 +121,9 @@
     width: 90%;
     margin: 0 5px 0;
   }
+  .block-4-segment-stat:nth-child(5) {
+    display: flex;
+  }
 }
 
 @media only screen and (max-width: 900px) {
@@ -123,6 +132,6 @@
     height: 28s0px;
   }
   .block-4-tags {
-    display: none;
+    display: flex;
   }
 }
