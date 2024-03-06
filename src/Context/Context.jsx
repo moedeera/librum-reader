@@ -54,7 +54,7 @@ const fetchCreatedStoryInfo = () => {
         public: true,
         picture: "",
         tags: [],
-        category: "",
+        category: "General",
         comments: [],
         likes: 0,
         views: 0,

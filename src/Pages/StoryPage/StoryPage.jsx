@@ -112,7 +112,9 @@ export const StoryPage = () => {
       <div className="story-page">
         <div className="story-header-container">
           {" "}
-          <small className="story-category-small">Fiction</small>
+          <small className="story-category-small">
+            {storyFirebase.category}
+          </small>
           <h3 className="story-page-header">{storyFirebase?.title}</h3>
           <small>by {storyFirebase?.author}</small>
         </div>
