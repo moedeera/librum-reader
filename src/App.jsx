@@ -32,6 +32,7 @@ import { SettingsPage } from "./Pages/SettingsPage/SettingsPage";
 import { SearchPage } from "./Pages/SearchPage/SearchPage";
 import { UserPage } from "./Pages/UserPage/UserPage";
 import { ProfileSetupPage } from "./Pages/ProfileSetupPage/ProfileSetupPage";
+import AuthPage from "./Pages/AuthPage.js/AuthPage";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               <Route path="/" element={<Homepage />} />
               <Route path="/home" element={<HomeFeed />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/signin" element={<AuthPage />} />
 
               <Route path="/write" element={<WritePage />} />
               <Route path="/storyinfo" element={<StoryInfo />} />
