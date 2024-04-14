@@ -301,7 +301,7 @@ export const SiteContextProvider = ({ children }) => {
     signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
       .then(async (userCredential) => {
         // Signed in
-        localStorage.setItem("librum-user", JSON.stringify(userInfo));
+        // localStorage.setItem("librum-user", JSON.stringify(userInfo));
         console.log(userCredential.user.email);
         setUser(userCredential.user);
         const profileRef = collection(db, "profile");
