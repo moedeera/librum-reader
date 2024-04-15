@@ -167,7 +167,8 @@ const AuthPage = () => {
       setLoading(false);
     }
   };
-
+  // Creating a story
+  const handleCreateStory = async () => {};
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
