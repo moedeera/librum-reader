@@ -7,13 +7,16 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
@@ -45,11 +48,11 @@ const AuthPage = () => {
         console.log("error code:", error.code, "error message:", error.message);
       });
   };
-
   // login with google
   const handleLoginWithGoogle = async () => {
     signInWithGoogleFunction();
   };
+  //Fetching Profile
   const handleFetchProfile = async () => {
     console.log(auth.currentUser.email);
 
@@ -61,9 +64,10 @@ const AuthPage = () => {
       console.log("no such profile");
     } else {
       let data = querySnapshot.docs[0].data();
-      console.log(data);
+      console.log(data, querySnapshot.docs[0].id);
     }
   };
+  // Logging out authentication session
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -71,7 +75,7 @@ const AuthPage = () => {
       console.error("Error signing out: ", error);
     }
   };
-
+  // User Registration/ Create new user profile
   const handleRegister = async () => {
     let names = [
       "John",
@@ -132,6 +136,37 @@ const AuthPage = () => {
 
         // ..
       });
+  };
+  // Editing a profile
+  const handleEditProfile = async () => {
+    setLoading(true);
+    if (!auth.currentUser || !auth.currentUser.email) {
+      console.log("No authenticated user or user email.");
+      return;
+    }
+
+    const profileRef = collection(db, "profile");
+    // const q = query(profileRef, where("email", "==", auth.currentUser.email));
+    const q = query(profileRef, where("email", "==", "deeramoe89@gmail.com"));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log("No such profile");
+      return;
+    }
+
+    const documentId = querySnapshot.docs[0].id;
+    const documentRef = doc(db, "profile", documentId);
+
+    try {
+      const updateObject = { name: "Changed Name" };
+      await updateDoc(documentRef, updateObject);
+      console.log(`Profile ${documentId} updated successfully.`);
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -201,7 +236,14 @@ const AuthPage = () => {
       <div
         style={{ marginTop: "50px", display: "flex", flexDirection: "column" }}
       >
-        <button className="btn">Edit Profile</button>
+        <button
+          className="btn"
+          onClick={() => {
+            handleEditProfile();
+          }}
+        >
+          Edit Profile
+        </button>
         {/* <input
           type="text"
           name="name"

@@ -337,6 +337,7 @@ export const SiteContextProvider = ({ children }) => {
   const signInWithGoogleFunction = async () => {
     const userInfo = await signInWithGoogle();
     console.log(userInfo);
+    const user = auth.currentUser;
     const profileRef = collection(db, "profile");
     const q = query(profileRef, where("email", "==", userInfo.email));
     const querySnapshot = await getDocs(q);
@@ -357,6 +358,8 @@ export const SiteContextProvider = ({ children }) => {
           dob: null,
           intro: false,
           public: true,
+          userId: user.uid, // Reference to the user ID of the creator
+          createdAt: new Date(), // Optional: track when the post was created
         };
         await addDoc(fbProfile, newProfile);
         setProfileInfo(newProfile);
