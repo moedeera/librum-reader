@@ -146,8 +146,7 @@ const AuthPage = () => {
     }
 
     const profileRef = collection(db, "profile");
-    // const q = query(profileRef, where("email", "==", auth.currentUser.email));
-    const q = query(profileRef, where("email", "==", "deeramoe89@gmail.com"));
+    const q = query(profileRef, where("email", "==", auth.currentUser.email));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
