@@ -3,16 +3,21 @@ import "./LoginPage.css";
 import { useContext, useEffect, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 import googleIcon from "./google.svg";
-import { signInWithGoogleFunction } from "../../assets/APIs/UserAPIs";
+
+import { AuthContext } from "@/Context/AuthContext";
+import { useAuth } from "@/utils/custom-hooks/useAuth";
 
 export const LoginPage = () => {
+  const { handleLogin, signInWithGoogleFunction, loading, error, setError } =
+    useAuth();
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [logUser, setLogUser] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
+
   const onChangeHandler = (e, type, userInfo, setUserInfo) => {
     if (type === "name") {
       setUserInfo({ ...userInfo, name: e.target.value });
@@ -26,7 +31,7 @@ export const LoginPage = () => {
   const {
     imagesSorted,
     findImageSet,
-    user,
+
     setUser,
     profileInfo,
     setProfileInfo,
@@ -34,8 +39,8 @@ export const LoginPage = () => {
   } = useContext(SiteContext);
 
   useEffect(() => {
-    if (user && user !== null && profileInfo && profileInfo !== null) {
-      navigate("/");
+    if (user && user !== null) {
+      navigate("/home");
       return;
     }
   }, [user, navigate, profileInfo]);
@@ -47,7 +52,7 @@ export const LoginPage = () => {
           <h3>Sign in </h3>
           <button
             onClick={() => {
-              signInWithGoogleFunction(setProfileInfo, setUser);
+              signInWithGoogleFunction();
             }}
             className="btn btn-white btn-google"
           >
@@ -87,8 +92,7 @@ export const LoginPage = () => {
           <p style={{ color: "crimson" }}>{error}</p>
           <button
             onClick={() => {
-              setError("");
-              loginWithEmailAndPassword(logUser, navigate, "/", setError);
+              handleLogin(logUser.email, logUser.password);
             }}
             className="btn btn-primary btn-form"
           >

@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [currentProfile, setCurrentProfile] = useState(null);
 
   const auth = getAuth();
+  const profileRef = collection(db, "profile");
 
   const fetchProfile = async () => {
     console.log(auth.currentUser.email);
@@ -51,6 +52,8 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user: currentUser,
     logOut,
+    currentProfile,
+    setCurrentProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

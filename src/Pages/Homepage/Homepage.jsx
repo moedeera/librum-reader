@@ -11,17 +11,20 @@ import {
   block1HomePageContent2,
 } from "../../Context/Content";
 
-import { useContext, useEffect, useRef } from "react";
-import { SiteContext } from "../../Context/Context";
+import { useContext, useEffect, useRef, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/Context/AuthContext";
+import { Loading } from "@/Components/Loading/Loading";
 
 export const Homepage = () => {
   const blockRef1 = useRef(null);
   const blockRef2 = useRef(null);
   const blockRef3 = useRef(null);
   const blockRef4 = useRef(null);
+  const [loading, setLoading] = useState(true);
 
-  const { user } = useContext(SiteContext);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -70,10 +73,16 @@ export const Homepage = () => {
 
   useEffect(() => {
     if (user && user !== null) {
-      navigate("/home");
+      setTimeout(navigate("/home"), 3000);
       return;
+    } else {
+      setLoading(false);
     }
   }, [navigate, user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container">

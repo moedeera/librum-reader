@@ -1,26 +1,36 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./HomeFeed.css";
-import { SiteContext } from "../../Context/Context";
+
 import { Block1 } from "../../Components/Block1/Block1";
 import { Block6 } from "../../Components/Block6/Block6";
 import { block6HomeFeedContent } from "../../Context/Content";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "@/Context/AuthContext";
+import { Loading } from "@/Components/Loading/Loading";
 
 export const HomeFeed = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-  const { profileInfo, user } = useContext(SiteContext);
+  const { user } = useContext(AuthContext);
   useEffect(() => {
-    if (!user || user === null || !profileInfo || profileInfo === null) {
+    if (!user || user === null) {
       navigate("/");
+    } else {
+      setLoading(false);
     }
-  }, []);
+  }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="container">
       <div className="home-feed-page">
         <h3>
           Welcome back{" "}
-          <span style={{ color: "goldenrod" }}>{profileInfo.profileName}</span>{" "}
+          <span style={{ color: "goldenrod" }}>{user?.displayName}</span>{" "}
         </h3>
         <div className="home-feed-stories">
           <h4>Some Stories you might like</h4>
