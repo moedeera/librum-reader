@@ -2,8 +2,6 @@ import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 
 export const Editor = ({ title, setStory, story }) => {
-  const [isDirty, setIsDirty] = useState(false);
-
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 

@@ -6,13 +6,14 @@ import { SiteContext } from "../../Context/Context";
 import img1 from "./chevron.png";
 import OutsideClickHandler from "react-outside-click-handler";
 import { SearchBar } from "../SearchBar/SearchBar.jsx";
+import { AuthContext } from "@/Context/AuthContext";
 
 export const Navbar = () => {
   const { menuItemsMD, dropDownLinks, websiteTitle } = useContext(SiteContext);
   const [fullMenu, showFullMenu] = useState(false);
   const [dropdown, setDropDown] = useState(false);
 
-  const { user, setUser, profileInfo } = useContext(SiteContext);
+  const { user, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   return (
@@ -76,12 +77,12 @@ export const Navbar = () => {
                     {" "}
                     <img
                       className="user-image"
-                      src={profileInfo.avatar}
+                      src={user.photoURL}
                       alt="profile-pic"
                     />
                     <div className="user-image-name">
                       {" "}
-                      <small>{profileInfo.profileName}</small>
+                      {/* <small>{"hello"}</small> */}
                       <img src={img1} alt="" />
                     </div>
                   </div>
@@ -103,7 +104,7 @@ export const Navbar = () => {
 
                       <div
                         onClick={() => {
-                          setUser(null);
+                          logOut();
                           navigate("/login");
                         }}
                       >

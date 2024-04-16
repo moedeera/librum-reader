@@ -5,6 +5,10 @@ import { Editor } from "@/Components/Editor/Editor";
 import ImageBox from "../StoryInfo/ImageUploader";
 import { DropDown } from "@/Components/DropDown/DropDown";
 
+window.onbeforeunload = function () {
+  alert("Data will be lost if you leave the page, are you sure?");
+};
+
 export const CreateStory = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
@@ -169,8 +173,8 @@ export const CreateStory = () => {
       <button
         className="btn btn-primary"
         onClick={() => {
-          setStory({
-            ...story,
+          setStoryInfo({
+            ...storyInfo,
             id: "preview",
             title: storyInfo.title,
             author: user.name,

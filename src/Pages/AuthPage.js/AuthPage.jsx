@@ -21,6 +21,32 @@ import {
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 
+let names = [
+  "John",
+  "Adam",
+  "Brianna",
+  "Corey",
+  "Deanna",
+  "Edward",
+  "Faith",
+  "George",
+  "Helen",
+  "Issac",
+];
+let lastNames = [
+  "Smith",
+  "Jones",
+  "Williams",
+  "Stevens",
+  "Johnson",
+  "Scott",
+  "MacDonald",
+  "Hughes",
+  "Kirk",
+  "Connell",
+];
+const number1 = Math.floor(Math.random() * 10);
+const number2 = Math.floor(Math.random() * 10);
 const AuthPage = () => {
   const { signInWithGoogleFunction } = useContext(SiteContext);
   const [post, setPost] = useState(null);
@@ -41,8 +67,22 @@ const AuthPage = () => {
       .then(async (userCredential) => {
         // Signed in
         // localStorage.setItem("librum-user", JSON.stringify(userInfo));
+        const user = userCredential.user;
         console.log(userCredential.user);
         setCurrentUser(userCredential.user);
+        if (!user.displayName || !user.photoURL) {
+          try {
+            await updateProfile(user, {
+              displayName:
+                user.displayName || `${names[number1]} ${lastNames[number2]}`,
+              photoURL:
+                user.photoURL ||
+                "https://www.w3schools.com/howto/img_avatar.png",
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        }
       })
       .catch((error) => {
         console.log("error code:", error.code, "error message:", error.message);
@@ -77,65 +117,43 @@ const AuthPage = () => {
   };
   // User Registration/ Create new user profile
   const handleRegister = async () => {
-    let names = [
-      "John",
-      "Adam",
-      "Brianna",
-      "Corey",
-      "Deanna",
-      "Edward",
-      "Faith",
-      "George",
-      "Helen",
-      "Issac",
-    ];
-    let lastNames = [
-      "Smith",
-      "Jones",
-      "Williams",
-      "Stevens",
-      "Johnson",
-      "Scott",
-      "MacDonald",
-      "Hughes",
-      "Kirk",
-      "Connell",
-    ];
-    const number1 = Math.floor(Math.random() * 10);
-    const number2 = Math.floor(Math.random() * 10);
+    try {
+      const newUserEmail = `${names[number1]}${lastNames[number2][0]}-${randomNumber}@gmail.com`;
+      const newUserPassword = "abc123"; // Consider using a more secure method of generating/storing passwords.
 
-    createUserWithEmailAndPassword(
-      auth,
-      `${names[number1]}${lastNames[number2][0]}-${randomNumber}@gmail.com`,
-      testUser.password
-    )
-      .then(async () => {
-        // Signed in
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        newUserEmail,
+        newUserPassword
+      );
+      const user = userCredential.user;
 
-        const user = auth.currentUser;
-        const createdProfile = await addDoc(fbProfile, {
-          email: user.email,
-          name: `${names[number1]} ${lastNames[number2]}`,
-          avatar: "https://www.w3schools.com/howto/img_avatar.png",
-          stories: [],
-          messages: [],
-          gender: null,
-          dob: null,
-          bio: "Enter your Bio",
-          public: false,
-          userId: user.uid, // Reference to the user ID of the creator
-          createdAt: new Date(), // Optional: track when the post was created
-        });
-
-        console.log("success", createdProfile);
-
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-
-        // ..
+      // Update profile
+      await updateProfile(user, {
+        displayName: `${names[number1]} ${lastNames[number2]}`,
+        photoURL: "https://www.w3schools.com/howto/img_avatar.png",
       });
+
+      // Add document to Firestore
+      const createdProfile = await addDoc(fbProfile, {
+        email: user.email,
+        name: `${names[number1]} ${lastNames[number2]}`,
+        avatar: "https://www.w3schools.com/howto/img_avatar.png",
+        stories: [],
+        messages: [],
+        gender: null,
+        dob: null,
+        bio: "Enter your Bio",
+        public: false,
+        userId: user.uid,
+        createdAt: new Date(),
+      });
+
+      console.log("User profile created successfully", createdProfile);
+    } catch (error) {
+      console.error("Error in user registration or profile creation:", error);
+    }
   };
   // Editing a profile
   const handleEditProfile = async () => {
