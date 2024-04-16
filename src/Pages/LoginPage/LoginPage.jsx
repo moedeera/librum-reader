@@ -28,15 +28,7 @@ export const LoginPage = () => {
     }
   };
 
-  const {
-    imagesSorted,
-    findImageSet,
-
-    setUser,
-    profileInfo,
-    setProfileInfo,
-    loginWithEmailAndPassword,
-  } = useContext(SiteContext);
+  const { imagesSorted, findImageSet, profileInfo } = useContext(SiteContext);
 
   useEffect(() => {
     if (user && user !== null) {
