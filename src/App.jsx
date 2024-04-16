@@ -33,64 +33,68 @@ import { SearchPage } from "./Pages/SearchPage/SearchPage";
 import { UserPage } from "./Pages/UserPage/UserPage";
 import { ProfileSetupPage } from "./Pages/ProfileSetupPage/ProfileSetupPage";
 import AuthPage from "./Pages/AuthPage.js/AuthPage";
+import { AuthProvider } from "./Context/AuthContext";
+import { CreateStory } from "./Pages/CreateStory/CreateStory";
 
 function App() {
   return (
     <SiteContextProvider>
-      <div className="App">
-        <Router>
-          <Navbar />
-          <ScrollToTop>
-            <Routes>
-              <Route path="/*" element={<ErrorPage story={false} />} />
-              <Route
-                path="/story-not-found"
-                element={<ErrorPage story={true} />}
-              />
-              <Route path="/" element={<Homepage />} />
-              <Route path="/home" element={<HomeFeed />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/signin" element={<AuthPage />} />
-
-              <Route path="/write" element={<WritePage />} />
-              <Route path="/storyinfo" element={<StoryInfo />} />
-              <Route path="mystory/:id" element={<PostStory />} />
-              <Route path="mystories" element={<MyStoriesPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/browse/:searchWord" element={<SearchPage />} />
-              <Route
-                path="/profiles"
-                element={<Navigate replace to="/profiles/librum" />}
-              />
-              <Route path="/profiles/:userid" element={<ProfilePage />} />
-              <Route path="/setup" element={<ProfileSetupPage />} />
-              <Route path="/messages" element={<MessagesPage />} />
-              <Route path="/account" element={<AccountPage />} />
-              <Route path="/community" element={<CommunityPage />} />
-              <Route path="/updates" element={<UpdatesPage />} />
-              <Route path="/all" element={<AllComponents />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/stories/:searchWord" element={<SearchPage />} />
-              <Route
-                path="/stories"
-                element={<Navigate replace to="/stories/all" />}
-              />
-              <Route
-                path="/story"
-                element={<Navigate replace to="/stories/all" />}
-              />
-              <Route path="/story/:storyidorslug" element={<StoryPage />} />
-              <Route path="/user/:userid" element={<UserPage />} />
-              <Route path="/messages" element={<MessagesPage />} />
-              <Route path="/testing" element={<Testing />} />
-            </Routes>
-          </ScrollToTop>
-          <Footer />
-        </Router>
-      </div>
+      <AuthProvider>
+        <div className="App">
+          <Router>
+            <Navbar />
+            <ScrollToTop>
+              <Routes>
+                <Route path="/*" element={<ErrorPage story={false} />} />
+                <Route
+                  path="/story-not-found"
+                  element={<ErrorPage story={true} />}
+                />
+                <Route path="/" element={<Homepage />} />
+                <Route path="/home" element={<HomeFeed />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/signin" element={<AuthPage />} />
+                <Route path="/create" element={<CreateStory />} />
+                <Route path="/write" element={<WritePage />} />
+                <Route path="/storyinfo" element={<StoryInfo />} />
+                <Route path="mystory/:id" element={<PostStory />} />
+                <Route path="mystories" element={<MyStoriesPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/browse/:searchWord" element={<SearchPage />} />
+                <Route
+                  path="/profiles"
+                  element={<Navigate replace to="/profiles/librum" />}
+                />
+                <Route path="/profiles/:userid" element={<ProfilePage />} />
+                <Route path="/setup" element={<ProfileSetupPage />} />
+                <Route path="/messages" element={<MessagesPage />} />
+                <Route path="/account" element={<AccountPage />} />
+                <Route path="/community" element={<CommunityPage />} />
+                <Route path="/updates" element={<UpdatesPage />} />
+                <Route path="/all" element={<AllComponents />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/stories/:searchWord" element={<SearchPage />} />
+                <Route
+                  path="/stories"
+                  element={<Navigate replace to="/stories/all" />}
+                />
+                <Route
+                  path="/story"
+                  element={<Navigate replace to="/stories/all" />}
+                />
+                <Route path="/story/:storyidorslug" element={<StoryPage />} />
+                <Route path="/user/:userid" element={<UserPage />} />
+                <Route path="/messages" element={<MessagesPage />} />
+                <Route path="/testing" element={<Testing />} />
+              </Routes>
+            </ScrollToTop>
+            <Footer />
+          </Router>
+        </div>
+      </AuthProvider>
     </SiteContextProvider>
   );
 }
