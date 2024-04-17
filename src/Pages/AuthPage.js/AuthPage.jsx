@@ -20,6 +20,7 @@ import {
   where,
 } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
+import { useAuth } from "@/utils/custom-hooks/useAuth";
 
 let names = [
   "John",
@@ -48,7 +49,7 @@ let lastNames = [
 const number1 = Math.floor(Math.random() * 10);
 const number2 = Math.floor(Math.random() * 10);
 const AuthPage = () => {
-  const { signInWithGoogleFunction } = useContext(SiteContext);
+  const { signInWithGoogleFunction } = useAuth();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,6 +62,7 @@ const AuthPage = () => {
   const [randomNumber, setRandomNumber] = useState(58);
   const auth = getAuth();
   const fbProfile = collection(db, "profile");
+
   // login with email and password
   const handleLogin = async () => {
     signInWithEmailAndPassword(auth, "testing@gmail.com", "abc123")
@@ -128,17 +130,22 @@ const AuthPage = () => {
         newUserPassword
       );
       const user = userCredential.user;
-
+      let identifier = `${user.uid.substring(0, 4)}${user.uid.substring(
+        10,
+        12
+      )}`;
       // Update profile
       await updateProfile(user, {
         displayName: `${names[number1]} ${lastNames[number2]}`,
         photoURL: "https://www.w3schools.com/howto/img_avatar.png",
+        userLink: `${names[number1]}${lastNames[number2][0]}${identifier}`,
       });
 
       // Add document to Firestore
       const createdProfile = await addDoc(fbProfile, {
         email: user.email,
         name: `${names[number1]} ${lastNames[number2]}`,
+        userLink: `${names[number1]}${lastNames[number2][0]}${identifier}`,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
         messages: [],

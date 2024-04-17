@@ -3,9 +3,14 @@ import "./Register.css";
 import { useContext, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 import { Loading } from "../../Components/Loading/Loading";
+import { useAuth } from "@/utils/custom-hooks/useAuth";
+import { AuthContext } from "@/Context/AuthContext";
 export const Register = () => {
-  const { registerWithEmailAndPassword, isEmailValid, setUser } =
-    useContext(SiteContext);
+  const { isEmailValid } = useContext(SiteContext);
+
+  const { user } = useContext(AuthContext);
+
+  const { handleRegister, error } = useAuth();
 
   const [newUser, setNewUser] = useState({
     name: "",
@@ -13,8 +18,9 @@ export const Register = () => {
     password: "",
     passwordRepeat: "",
   });
-  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
@@ -61,20 +67,23 @@ export const Register = () => {
       return;
     }
 
-    const response = registerWithEmailAndPassword(newUser);
-
-    setLoading(true);
-    if (response) {
+    try {
+      setLoading(true);
+      const newUser = await handleRegister(newUser);
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
-      setUser({
-        email: newUser.email,
-        name: newUser.name,
-      });
-      navigate("/profile");
     }
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+    return <Loading />;
+  }
+  if (user) {
+    navigate("/home");
+    return;
+  }
 
   return (
     <div className="container">

@@ -5,6 +5,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   updateProfile,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db, signInWithGoogle } from "../../../firebase-config";
@@ -75,7 +76,7 @@ export const useAuth = () => {
         console.log("error code:", error.code, "error message:", error.message);
       });
   };
-  // login with google
+  // login/register with google
   const signInWithGoogleFunction = async () => {
     const userInfo = await signInWithGoogle();
     console.log(userInfo);
@@ -118,6 +119,65 @@ export const useAuth = () => {
       setCurrentProfile(data);
     }
   };
+  // register with email and password
+  // User Registration/ Create new user profile
+  const handleRegister = async (newUser) => {
+    const { email, password, name } = newUser;
+    setLoading(true);
+    try {
+      const newUserEmail = email;
+      const newUserPassword = password; // Consider using a more secure method of generating/storing passwords.
 
-  return { handleLogin, signInWithGoogleFunction, loading, error, setError };
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        newUserEmail,
+        newUserPassword
+      );
+      const user = userCredential.user;
+
+      let identifier = `${user.uid.substring(0, 4)} + ${user.uid.substring(
+        10,
+        12
+      )}`;
+      // Update profile
+      await updateProfile(user, {
+        displayName: name,
+        photoURL: "https://www.w3schools.com/howto/img_avatar.png",
+        userLink: `${name}${identifier}`,
+      });
+
+      // create and add profile document to Firestore
+      const createdProfile = await addDoc(fbProfile, {
+        email: user.email,
+        name: `${names[number1]} ${lastNames[number2]}`,
+        avatar: "https://www.w3schools.com/howto/img_avatar.png",
+        stories: [],
+        messages: [],
+        gender: null,
+        dob: null,
+        bio: "Enter your Bio",
+        public: false,
+        userId: user.uid,
+        createdAt: new Date(),
+      });
+      console.log("User profile created successfully", createdProfile);
+      return user;
+    } catch (error) {
+      console.error("Error in user registration or profile creation:", error);
+      setError(error);
+      throw new Error("Error in user registration or profile creation");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    handleLogin,
+    signInWithGoogleFunction,
+    loading,
+    error,
+    setError,
+    handleRegister,
+  };
 };
