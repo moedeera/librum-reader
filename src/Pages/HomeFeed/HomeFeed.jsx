@@ -9,34 +9,16 @@ import { AuthContext } from "@/Context/AuthContext";
 import { Loading } from "@/Components/Loading/Loading";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
+import { useStories } from "@/utils/custom-hooks/useStories";
 
 export const HomeFeed = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const { fetchAccount } = useAccount();
+  const [loading, setLoading] = useState(false);
+  const { account, isFetching } = useAccount();
+  const { suggestions, fetchingSuggestions } = useStories();
   const { fetchProfile } = useProfile();
 
   const { user } = useContext(AuthContext);
-  useEffect(() => {
-    const getAccountInfo = async () => {
-      try {
-        setLoading(true);
-        const accountInfo = await fetchAccount();
-        console.log(accountInfo);
-        const profileInfo = await fetchProfile();
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (!user || user === null) {
-      navigate("/");
-    } else {
-      getAccountInfo();
-    }
-  }, [user]);
 
   if (loading) {
     return <Loading />;
@@ -50,8 +32,14 @@ export const HomeFeed = () => {
           <span style={{ color: "goldenrod" }}>{user?.displayName}</span>{" "}
         </h3>
         <div className="home-feed-stories">
-          <h4>Some Stories you might like</h4>
-          <Block1 />
+          {fetchingSuggestions ? (
+            <h4>Loading</h4>
+          ) : (
+            <>
+              <h4>Some Stories you might like</h4>
+              <Block1 input={suggestions} />
+            </>
+          )}
         </div>
         <div className="home-feed-updates">
           <h4>Stay up to date</h4>
