@@ -47,7 +47,6 @@ export const Register = () => {
   const handleSubmit = async () => {
     const checkEmail = isEmailValid(newUser.email);
 
-    console.log(newUser.email);
     if (!checkEmail) {
       alert("invalid email");
       return;
@@ -69,7 +68,8 @@ export const Register = () => {
 
     try {
       setLoading(true);
-      const newUser = await handleRegister(newUser);
+      const createdUser = await handleRegister(newUser);
+      console.log(createdUser);
     } catch (error) {
       console.log(error);
     } finally {

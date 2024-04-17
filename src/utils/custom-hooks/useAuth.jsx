@@ -42,7 +42,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fbProfile = collection(db, "profile");
+  const profileCollection = collection(db, "profile");
   const auth = getAuth();
 
   // login with email and password
@@ -104,7 +104,7 @@ export const useAuth = () => {
           userId: user.uid, // Reference to the user ID of the creator
           createdAt: new Date(), // Optional: track when the post was created
         };
-        await addDoc(fbProfile, newProfile);
+        await addDoc(profileCollection, newProfile);
         setCurrentProfile(newProfile);
       } catch (error) {
         console.log(error);
@@ -122,9 +122,39 @@ export const useAuth = () => {
   // register with email and password
   // User Registration/ Create new user profile
   const handleRegister = async (newUser) => {
+    // Check if there are already 100 'profile' documents
+    const checkProfileLimit = async () => {
+      const profilesQuery = query(profileCollection);
+      const querySnapshot = await getDocs(profilesQuery);
+      if (querySnapshot.docs.length >= 100) {
+        return { error: "Profile limit reached. Cannot create more profiles." };
+      }
+      return { error: null };
+    };
+    //
+    // Check if the URL property is already in use
+    const checkURLAvailability = async (url) => {
+      const searchUrl = url.replace(/\s/g, "").toLocaleLowerCase();
+      const urlQuery = query(profileCollection, where("url", "==", searchUrl));
+      const urlSnapshot = await getDocs(urlQuery);
+      if (urlSnapshot.docs.length > 0) {
+        // URL is in use, modify it by appending a random number
+        const randomNumber = Math.floor(Math.random() * 1001); // random number between 0 and 1000
+        return `${searchUrl}${randomNumber}`;
+      }
+      return searchUrl;
+    };
+
     const { email, password, name } = newUser;
     setLoading(true);
     try {
+      const limitCheck = await checkProfileLimit();
+      if (limitCheck.error) {
+        alert(limitCheck.error);
+        return;
+      }
+
+      const finalUrl = await checkURLAvailability(name);
       const newUserEmail = email;
       const newUserPassword = password; // Consider using a more secure method of generating/storing passwords.
 
@@ -136,28 +166,24 @@ export const useAuth = () => {
       );
       const user = userCredential.user;
 
-      let identifier = `${user.uid.substring(0, 4)} + ${user.uid.substring(
-        10,
-        12
-      )}`;
       // Update profile
       await updateProfile(user, {
         displayName: name,
         photoURL: "https://www.w3schools.com/howto/img_avatar.png",
-        userLink: `${name}${identifier}`,
       });
 
       // create and add profile document to Firestore
-      const createdProfile = await addDoc(fbProfile, {
+      const createdProfile = await addDoc(profileCollection, {
         email: user.email,
-        name: `${names[number1]} ${lastNames[number2]}`,
+        name: name,
+        url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
         messages: [],
         gender: null,
         dob: null,
         bio: "Enter your Bio",
-        public: false,
+        public: true,
         userId: user.uid,
         createdAt: new Date(),
       });
