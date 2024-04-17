@@ -15,23 +15,6 @@ export const AuthProvider = ({ children }) => {
   const [currentProfile, setCurrentProfile] = useState(null);
 
   const auth = getAuth();
-  const profileRef = collection(db, "profile");
-
-  const fetchProfile = async () => {
-    console.log(auth.currentUser.email);
-
-    const profileRef = collection(db, "profile");
-    const q = query(profileRef, where("email", "==", auth.currentUser.email));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      console.log("no such profile");
-    } else {
-      let data = querySnapshot.docs[0].data();
-      console.log(data, querySnapshot.docs[0].id);
-      setCurrentProfile({ avatar: data.avatar, name: data.name });
-    }
-  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

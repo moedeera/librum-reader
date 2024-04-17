@@ -7,17 +7,34 @@ import { block6HomeFeedContent } from "../../Context/Content";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "@/Context/AuthContext";
 import { Loading } from "@/Components/Loading/Loading";
+import { useAccount } from "@/utils/custom-hooks/useAccount";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
 
 export const HomeFeed = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const { fetchAccount } = useAccount();
+  const { fetchProfile } = useProfile();
 
   const { user } = useContext(AuthContext);
   useEffect(() => {
+    const getAccountInfo = async () => {
+      try {
+        setLoading(true);
+        const accountInfo = await fetchAccount();
+        console.log(accountInfo);
+        const profileInfo = await fetchProfile();
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (!user || user === null) {
       navigate("/");
     } else {
-      setLoading(false);
+      getAccountInfo();
     }
   }, [user]);
 

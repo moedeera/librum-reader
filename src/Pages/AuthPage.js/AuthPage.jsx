@@ -56,7 +56,7 @@ const AuthPage = () => {
 
   const [randomNumber, setRandomNumber] = useState(58);
   const auth = getAuth();
-  const fbProfile = collection(db, "profile");
+  const fbProfile = collection(db, "profiles");
 
   // login with email and password
   const handleLogin = async () => {
@@ -93,7 +93,7 @@ const AuthPage = () => {
   const handleFetchProfile = async () => {
     console.log(auth.currentUser.email);
 
-    const profileRef = collection(db, "profile");
+    const profileRef = collection(db, "profiles");
     const q = query(profileRef, where("email", "==", auth.currentUser.email));
     const querySnapshot = await getDocs(q);
 
@@ -160,6 +160,7 @@ const AuthPage = () => {
       await updateProfile(user, {
         displayName: `${names[number1]} ${lastNames[number2]}`,
         photoURL: "https://www.w3schools.com/howto/img_avatar.png",
+        accountInfo: { messages: [], drafts: [], bookmarks: [], genres: [] },
       });
 
       // Add document to Firestore
@@ -169,16 +170,16 @@ const AuthPage = () => {
         url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
-        messages: [],
-        gender: null,
-        dob: null,
         bio: "Enter your Bio",
-        public: false,
         userId: user.uid,
         createdAt: new Date(),
       });
 
-      console.log("User profile created successfully", createdProfile);
+      console.log(
+        "User profile and account created successfully",
+
+        createdProfile
+      );
     } catch (error) {
       console.error("Error in user registration or profile creation:", error);
     }

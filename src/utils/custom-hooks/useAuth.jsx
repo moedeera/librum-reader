@@ -2,14 +2,16 @@ import { useContext, useState } from "react";
 import {
   getAuth,
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
   updateProfile,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db, signInWithGoogle } from "../../../firebase-config";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  checkProfileLimit,
+  checkURLAvailability,
+} from "../functions/functions";
 let names = [
   "John",
   "Adam",
@@ -42,7 +44,7 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const profileCollection = collection(db, "profile");
+  const profileCollection = collection(db, "profiles");
   const auth = getAuth();
 
   // login with email and password
@@ -81,25 +83,19 @@ export const useAuth = () => {
     const userInfo = await signInWithGoogle();
     console.log(userInfo);
     const user = auth.currentUser;
-    const profileRef = collection(db, "profile");
-    const q = query(profileRef, where("email", "==", userInfo.email));
+
+    const q = query(profileCollection, where("email", "==", user.email));
     const querySnapshot = await getDocs(q);
     setLoading(true);
     if (querySnapshot.empty) {
       console.log("no such profile, creating new profile.....");
       try {
         let newProfile = {
-          avatar: userInfo.pic,
+          avatar: user.photoURL,
           bio: "Enter your Bio",
-          age: null,
-          email: userInfo.email,
-          name: userInfo.name,
+          email: user.email,
+          name: user.displayName,
           profileName: userInfo.name,
-          stories: [],
-          messages: [],
-          gender: null,
-          dob: null,
-          intro: false,
           public: true,
           userId: user.uid, // Reference to the user ID of the creator
           createdAt: new Date(), // Optional: track when the post was created
@@ -122,28 +118,8 @@ export const useAuth = () => {
   // register with email and password
   // User Registration/ Create new user profile
   const handleRegister = async (newUser) => {
-    // Check if there are already 100 'profile' documents
-    const checkProfileLimit = async () => {
-      const profilesQuery = query(profileCollection);
-      const querySnapshot = await getDocs(profilesQuery);
-      if (querySnapshot.docs.length >= 100) {
-        return { error: "Profile limit reached. Cannot create more profiles." };
-      }
-      return { error: null };
-    };
     //
     // Check if the URL property is already in use
-    const checkURLAvailability = async (url) => {
-      const searchUrl = url.replace(/\s/g, "").toLocaleLowerCase();
-      const urlQuery = query(profileCollection, where("url", "==", searchUrl));
-      const urlSnapshot = await getDocs(urlQuery);
-      if (urlSnapshot.docs.length > 0) {
-        // URL is in use, modify it by appending a random number
-        const randomNumber = Math.floor(Math.random() * 1001); // random number between 0 and 1000
-        return `${searchUrl}${randomNumber}`;
-      }
-      return searchUrl;
-    };
 
     const { email, password, name } = newUser;
     setLoading(true);
@@ -179,9 +155,7 @@ export const useAuth = () => {
         url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
-        messages: [],
-        gender: null,
-        dob: null,
+
         bio: "Enter your Bio",
         public: true,
         userId: user.uid,
