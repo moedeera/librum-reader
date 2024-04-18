@@ -1,43 +1,40 @@
 import { useContext, useEffect, useState } from "react";
 import "./HomeFeed.css";
 
-import { Block1 } from "../../Components/Block1/Block1";
 import { Block6 } from "../../Components/Block6/Block6";
 import { block6HomeFeedContent } from "../../Context/Content";
-import { useNavigate } from "react-router-dom";
+
 import { AuthContext } from "@/Context/AuthContext";
 import { Loading } from "@/Components/Loading/Loading";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
-import { useProfile } from "@/utils/custom-hooks/useProfile";
-import { useStories } from "@/utils/custom-hooks/useStories";
 
 export const HomeFeed = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [account, setAccount] = useState(null);
   const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState([]);
-  const { account } = useAccount();
-  const { fetchSuggestions } = useStories();
+
+  const { fetchAccount, createAccount } = useAccount();
 
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const getSuggestions = async () => {
+    const fetchTheAccount = async () => {
+      setLoading(true);
       try {
-        setFetchingSuggestions(true);
-        const data = await fetchSuggestions(account);
-        setSuggestions(data);
+        const res = await fetchAccount();
+        console.log(res);
+        setAccount(res);
       } catch (error) {
         console.log(error);
       } finally {
-        setFetchingSuggestions(false);
+        setLoading(false);
       }
     };
-    getSuggestions();
-    console.log(suggestions);
-  }, [account]);
 
-  if (loading) {
+    fetchTheAccount();
+  }, [user]);
+
+  if (loading || account === null) {
     return <Loading />;
   }
 

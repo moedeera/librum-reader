@@ -7,13 +7,20 @@ import { getStorage, ref } from "firebase/storage";
 // import { } from 'firebase/<service>';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBEOTv1kNZ_mjFEKQK2rt8hrNuP5-D5CIo",
-  authDomain: "librum-bb036.firebaseapp.com",
-  projectId: "librum-bb036",
-  storageBucket: "librum-bb036.appspot.com",
-  messagingSenderId: "739289538496",
-  appId: "1:739289538496:web:ac09942d1266644fc9f225",
-  measurementId: "G-JL5FYV0XWL",
+  // apiKey: "AIzaSyBEOTv1kNZ_mjFEKQK2rt8hrNuP5-D5CIo",
+  // authDomain: "librum-bb036.firebaseapp.com",
+  // projectId: "librum-bb036",
+  // storageBucket: "librum-bb036.appspot.com",
+  // messagingSenderId: "739289538496",
+  // appId: "1:739289538496:web:ac09942d1266644fc9f225",
+  // measurementId: "G-JL5FYV0XWL",
+  apiKey: "AIzaSyDUX5OUr3fdH4_fB68JUtGTyR5wRERnsrw",
+  authDomain: "librum-reader.firebaseapp.com",
+  projectId: "librum-reader",
+  storageBucket: "librum-reader.appspot.com",
+  messagingSenderId: "530290234962",
+  appId: "1:530290234962:web:a27d6a8dc2beccfcf7718b",
+  measurementId: "G-J9MQKQHSL5",
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);

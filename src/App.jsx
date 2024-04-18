@@ -51,7 +51,7 @@ function App() {
                   element={<ErrorPage story={true} />}
                 />
                 <Route path="/" element={<Homepage />} />
-                {/* <Route path="/home" element={<HomeFeed />} />
+                <Route path="/home" element={<HomeFeed />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/signin" element={<AuthPage />} />
                 <Route path="/create" element={<CreateStory />} />
@@ -88,7 +88,7 @@ function App() {
                 <Route path="/story/:storyidorslug" element={<StoryPage />} />
                 <Route path="/user/:userid" element={<UserPage />} />
                 <Route path="/messages" element={<MessagesPage />} />
-                <Route path="/testing" element={<Testing />} /> */}
+                <Route path="/testing" element={<Testing />} />
               </Routes>
             </ScrollToTop>
             <Footer />

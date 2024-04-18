@@ -176,7 +176,7 @@ const AuthPage = () => {
       });
 
       console.log(
-        "User profile and account created successfully",
+        "User profile  created successfully",
 
         createdProfile
       );
