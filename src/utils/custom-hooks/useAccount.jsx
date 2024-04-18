@@ -28,7 +28,16 @@ export const useAccount = () => {
       console.log("no user");
       return;
     }
+
     try {
+      const q = query(
+        accountsCollection,
+        where("userId", "==", auth.currentUser.uid)
+      );
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        throw new Error("account already exists");
+      }
       const newUserAccount = await addDoc(accountsCollection, {
         userId: user.uid,
         messages: [],
