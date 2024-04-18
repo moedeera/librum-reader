@@ -14,7 +14,7 @@ import { useAccount } from "./useAccount";
 
 export const useStories = () => {
   const { user } = useContext(AuthContext);
-  const { account } = useAccount();
+
   const [stories, setStories] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [fetchingStories, setFetchingStories] = useState(false);
@@ -27,9 +27,10 @@ export const useStories = () => {
 
   const auth = getAuth();
 
-  const fetchSuggestions = useCallback(async () => {
+  const fetchSuggestions = async (account) => {
+    console.log("called", account);
     if (!account || !account.genres || account.genres.length === 0) return;
-    setFetchingSuggestions(true);
+
     try {
       const firstGenre = account.genres[0];
       const q = query(
@@ -39,15 +40,13 @@ export const useStories = () => {
       );
       const querySnapshot = await getDocs(q);
       const stories = querySnapshot.docs.map((doc) => doc.data());
-      setSuggestions(stories);
+      return stories;
     } catch (error) {
-      setError(`Failed to fetch suggestions: ${error.message}`);
-    } finally {
-      setFetchingSuggestions(false);
+      throw new Error(error);
     }
-  }, [account, storiesCollection]); // Include only necessary dependencies
+  }; // Include only necessary dependencies
 
-  const fetchStories = useCallback(async () => {
+  const fetchStories = async () => {
     setFetchingStories(true);
     try {
       const perPage = 6;
@@ -71,17 +70,14 @@ export const useStories = () => {
     } finally {
       setFetchingStories(false);
     }
-  }, [pagination, storiesCollection, lastVisible]); // Include only necessary dependencies
-  useEffect(() => {
-    fetchSuggestions();
-    fetchStories();
-  }, [fetchSuggestions, fetchStories]); // These functions now only change when necessary
+  }; // Include only necessary dependencies
+  // These functions now only change when necessary
 
   return {
     suggestions,
     stories,
-    fetchingSuggestions,
-    fetchingStories,
+    fetchSuggestions,
+    fetchStories,
     error,
     setPagination,
     pagination,

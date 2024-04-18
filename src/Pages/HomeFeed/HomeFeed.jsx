@@ -14,11 +14,28 @@ import { useStories } from "@/utils/custom-hooks/useStories";
 export const HomeFeed = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { account, isFetching } = useAccount();
-  const { suggestions, fetchingSuggestions } = useStories();
-  const { fetchProfile } = useProfile();
+  const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const { account } = useAccount();
+  const { fetchSuggestions } = useStories();
 
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getSuggestions = async () => {
+      try {
+        setFetchingSuggestions(true);
+        const data = await fetchSuggestions(account);
+        setSuggestions(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setFetchingSuggestions(false);
+      }
+    };
+    getSuggestions();
+    console.log(suggestions);
+  }, [account]);
 
   if (loading) {
     return <Loading />;
@@ -37,7 +54,7 @@ export const HomeFeed = () => {
           ) : (
             <>
               <h4>Some Stories you might like</h4>
-              <Block1 input={suggestions} />
+              {/* <Block1 input={suggestions} /> */}
             </>
           )}
         </div>

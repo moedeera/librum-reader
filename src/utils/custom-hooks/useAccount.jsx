@@ -14,9 +14,10 @@ export const useAccount = () => {
 
   const auth = getAuth();
 
-  const fetchAccount = useCallback(async () => {
+  const fetchAccount = async () => {
+    console.log(user);
     if (!user || !auth.currentUser || user === null) {
-      setError("No user logged in.");
+      console.log("No user logged in.");
       return;
     }
     if (isFetching) return; // Prevent multiple calls
@@ -41,6 +42,7 @@ export const useAccount = () => {
         setAccount(newUserAccount);
       } else {
         let data = querySnapshot.docs[0].data();
+        console.log(data);
         setAccount(data);
       }
     } catch (error) {
@@ -48,11 +50,15 @@ export const useAccount = () => {
     } finally {
       setIsFetching(false);
     }
-  }, [user, isFetching, accountsCollection, auth.currentUser]);
+  };
 
   useEffect(() => {
-    fetchAccount();
-  }, [fetchAccount]);
+    const getAccount = async () => {
+      fetchAccount();
+    };
+    getAccount();
+    console.log(account);
+  }, [user]);
 
   return {
     account,

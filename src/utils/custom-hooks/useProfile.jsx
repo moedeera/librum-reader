@@ -1,16 +1,21 @@
 import { useContext, useState } from "react";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
-import { db, signInWithGoogle } from "../../../firebase-config";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebase-config";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { checkURLAvailability } from "../functions/functions";
 
 export const useProfile = () => {
-  const { setCurrentUser, setCurrentProfile } = useContext(AuthContext);
+  const { setCurrentUser, setCurrentProfile, currentProfile } =
+    useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -54,7 +59,29 @@ export const useProfile = () => {
     }
   };
 
+  const updateProfile = async (documentId, field, newValue) => {
+    //
+    try {
+      const profileRef = doc(db, "profiles", documentId);
+      const updateObject = {};
+      updateObject[field] = newValue;
+
+      await updateDoc(profileRef, updateObject);
+
+      console.log(`Profile ${documentId} updated successfully.`);
+    } catch (error) {
+      console.error("Error updating profile: ", error);
+    }
+  };
+
+  const deleteProfile = async () => {
+    console.log("profile deleted");
+  };
+
   return {
     fetchProfile,
+    updateProfile,
+    deleteProfile,
+    loading,
   };
 };
