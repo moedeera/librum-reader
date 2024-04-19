@@ -20,6 +20,8 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/utils/custom-hooks/useAuth";
+import { useAccount } from "@/utils/custom-hooks/useAccount";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
 
 let names = [
   "John",
@@ -49,13 +51,20 @@ const number1 = Math.floor(Math.random() * 10);
 const number2 = Math.floor(Math.random() * 10);
 const AuthPage = () => {
   const { signInWithGoogleFunction } = useAuth();
-
+  const { updateAccount, fetchAccount } = useAccount();
+  const { updateProfile } = useProfile();
   const [loading, setLoading] = useState(true);
-
   const [currentUser, setCurrentUser] = useState(null);
-
   const [randomNumber, setRandomNumber] = useState(58);
   const auth = getAuth();
+  const [profile, setProfile] = useState({
+    id: "null",
+    name: "john smith",
+  });
+  const [account, setAccount] = useState({
+    id: "null",
+    genres: ["null", "null", "null"],
+  });
   const fbProfile = collection(db, "profiles");
   const accountsCollection = collection(db, "accounts");
   // login with email and password
@@ -101,9 +110,44 @@ const AuthPage = () => {
       console.log("no such profile");
     } else {
       let data = querySnapshot.docs[0].data();
+      setProfile(data);
       console.log(data, querySnapshot.docs[0].id);
     }
   };
+  //// updating profile
+  const handleUpdateProfile = async () => {
+    let newName = `${profile.name} 2`;
+    try {
+      await updateProfile(profile.userId, "name", newName);
+      setProfile({ ...profile, name: newName });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // handle fetch Account
+  const handleFetchAccount = async () => {
+    try {
+      const data = await fetchAccount();
+      setAccount(data);
+      console.log(account);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // updating account
+  const handleUpdateAccount = async () => {
+    try {
+      await updateAccount(account.userId, "genres", [
+        "fiction",
+        "popular",
+        "trending",
+      ]);
+      setAccount({ ...account, genres: ["fiction", "popular", "trending"] });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Logging out authentication session
   const handleLogout = async () => {
     try {
@@ -250,9 +294,65 @@ const AuthPage = () => {
     >
       <h3>Testing</h3>
       {currentUser ? (
-        <button onClick={handleLogout} className="btn">
-          Logout
-        </button>
+        <>
+          {" "}
+          <button onClick={handleLogout} className="btn">
+            Logout
+          </button>
+          <br />
+          <button
+            className="btn"
+            onClick={() => {
+              handleUpdateProfile();
+            }}
+          >
+            Update Profile {}
+          </button>
+          <br />
+          <button
+            className="btn"
+            onClick={() => {
+              handleUpdateAccount();
+            }}
+          >
+            Update Account
+          </button>
+          <br />
+          <div
+            style={{
+              border: "1px solid grey",
+              height: "300px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "10px",
+              maxWidth: "300px",
+            }}
+          >
+            <div> {profile.userId}</div>
+            <div> {profile.name}</div>
+          </div>
+          <br />
+          <div
+            style={{
+              border: "1px solid grey",
+              height: "300px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "10px",
+              maxWidth: "300px",
+            }}
+          >
+            <>{account.userId}</>
+            <small>genres</small>
+            {account.genres.map((genre, index) => (
+              <div key={index}>{genre}</div>
+            ))}
+          </div>
+        </>
       ) : (
         <>
           <button onClick={handleLogin} className="btn">
@@ -286,6 +386,15 @@ const AuthPage = () => {
         }}
       >
         Fetch Profile
+      </button>
+      <br />
+      <button
+        className="btn"
+        onClick={() => {
+          handleFetchAccount();
+        }}
+      >
+        Fetch Account
       </button>
       <div
         style={{ marginTop: "50px", display: "flex", flexDirection: "column" }}

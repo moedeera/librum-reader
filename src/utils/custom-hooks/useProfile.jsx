@@ -59,18 +59,25 @@ export const useProfile = () => {
     }
   };
 
-  const updateProfile = async (documentId, field, newValue) => {
-    //
+  const updateProfile = async (userId, field, newValue) => {
     try {
-      const profileRef = doc(db, "profiles", documentId);
-      const updateObject = {};
-      updateObject[field] = newValue;
+      const q = query(profileCollection, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
 
-      await updateDoc(profileRef, updateObject);
+      if (querySnapshot.empty) {
+        throw new Error("No such account exists");
+      } else {
+        // Use .ref to get the document reference from the query snapshot
+        let accountRef = querySnapshot.docs[0].ref;
 
-      console.log(`Profile ${documentId} updated successfully.`);
+        const updateObject = {};
+        updateObject[field] = newValue;
+        await updateDoc(accountRef, updateObject);
+        console.log(`Account ${userId} updated successfully.`);
+      }
     } catch (error) {
-      console.error("Error updating profile: ", error);
+      console.error("Error updating account: ", error);
+      throw error; // Re-throw to allow further handling by the component
     }
   };
 

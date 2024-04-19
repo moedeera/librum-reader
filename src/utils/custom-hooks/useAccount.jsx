@@ -2,7 +2,15 @@ import { useContext, useEffect, useState, useCallback } from "react";
 import { getAuth } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 
 export const useAccount = () => {
   const { user } = useContext(AuthContext);
@@ -37,7 +45,6 @@ export const useAccount = () => {
       throw new Error(error);
     }
   };
-
   const fetchAccount = async () => {
     console.log(auth.currentUser);
 
@@ -63,8 +70,31 @@ export const useAccount = () => {
     }
   };
 
+  const updateAccount = async (userId, field, newValue) => {
+    try {
+      const q = query(accountsCollection, where("userId", "==", userId));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        throw new Error("No such account exists");
+      } else {
+        // Use .ref to get the document reference from the query snapshot
+        let accountRef = querySnapshot.docs[0].ref;
+
+        const updateObject = {};
+        updateObject[field] = newValue;
+        await updateDoc(accountRef, updateObject);
+        console.log(`Account ${userId} updated successfully.`);
+      }
+    } catch (error) {
+      console.error("Error updating account: ", error);
+      throw error; // Re-throw to allow further handling by the component
+    }
+  };
+
   return {
     createAccount,
     fetchAccount,
+    updateAccount,
   };
 };
