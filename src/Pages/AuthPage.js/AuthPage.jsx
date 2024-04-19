@@ -379,6 +379,24 @@ const AuthPage = () => {
       )}
 
       <div>{currentUser ? <p>Login:true</p> : <p>Login:false</p>}</div>
+      <br />
+      <button
+        className="btn"
+        onClick={() => {
+          handleFetchAccount();
+        }}
+      >
+        create story draft
+      </button>
+      <br />
+      <button
+        className="btn"
+        onClick={() => {
+          handleFetchAccount();
+        }}
+      >
+        Fetch Account
+      </button>
       <button
         className="btn"
         onClick={() => {
