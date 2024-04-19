@@ -45,6 +45,7 @@ export const useAuth = () => {
   const [error, setError] = useState("");
 
   const profileCollection = collection(db, "profiles");
+  const accountsCollection = collection(db, "accounts");
   const auth = getAuth();
 
   // login with email and password
@@ -101,7 +102,20 @@ export const useAuth = () => {
           createdAt: new Date(), // Optional: track when the post was created
         };
         await addDoc(profileCollection, newProfile);
-        setCurrentProfile(newProfile);
+        const newUserAccount = await addDoc(accountsCollection, {
+          userId: user.uid,
+          messages: [],
+          drafts: [],
+          genres: [],
+          bookmarks: [],
+        });
+        console.log(
+          "User profile and account created successfully",
+          newProfile,
+          newUserAccount
+        );
+
+        await setCurrentProfile(newProfile);
       } catch (error) {
         console.log(error);
         setError(error);
@@ -155,13 +169,23 @@ export const useAuth = () => {
         url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
-
         bio: "Enter your Bio",
         public: true,
         userId: user.uid,
         createdAt: new Date(),
       });
-      console.log("User profile created successfully", createdProfile);
+      const newUserAccount = await addDoc(accountsCollection, {
+        userId: user.uid,
+        messages: [],
+        drafts: [],
+        genres: [],
+        bookmarks: [],
+      });
+      console.log(
+        "User profile and account created successfully",
+        createdProfile,
+        newUserAccount
+      );
       return user;
     } catch (error) {
       console.error("Error in user registration or profile creation:", error);

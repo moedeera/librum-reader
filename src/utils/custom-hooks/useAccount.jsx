@@ -4,21 +4,8 @@ import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
-function getFetchCount() {
-  const count = localStorage.getItem("fetch-count");
-  return count ? JSON.parse(count) : 0;
-}
-function checkIfAccountCreated() {
-  const account = localStorage.getItem("account-created");
-  return account ? JSON.parse(account) : false;
-}
-
 export const useAccount = () => {
   const { user } = useContext(AuthContext);
-  const [isFetching, setIsFetching] = useState(false);
-  const [account, setAccount] = useState(null);
-  const [error, setError] = useState(null);
-  const [fetchCount, setFetchCount] = useState(getFetchCount());
 
   const accountsCollection = collection(db, "accounts");
   const auth = getAuth();

@@ -7,13 +7,15 @@ import { block6HomeFeedContent } from "../../Context/Content";
 import { AuthContext } from "@/Context/AuthContext";
 import { Loading } from "@/Components/Loading/Loading";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
+import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { Homepage } from "../Homepage/Homepage";
 
 export const HomeFeed = () => {
   const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState(null);
   const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
 
-  const { fetchAccount, createAccount } = useAccount();
+  const { fetchAccount } = useAccount();
 
   const { user } = useContext(AuthContext);
 
@@ -36,6 +38,10 @@ export const HomeFeed = () => {
 
   if (loading || account === null) {
     return <Loading />;
+  }
+
+  if (!user) {
+    return <Homepage />;
   }
 
   return (

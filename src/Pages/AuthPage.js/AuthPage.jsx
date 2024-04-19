@@ -57,7 +57,7 @@ const AuthPage = () => {
   const [randomNumber, setRandomNumber] = useState(58);
   const auth = getAuth();
   const fbProfile = collection(db, "profiles");
-
+  const accountsCollection = collection(db, "accounts");
   // login with email and password
   const handleLogin = async () => {
     signInWithEmailAndPassword(auth, "testing@gmail.com", "abc123")
@@ -174,11 +174,18 @@ const AuthPage = () => {
         userId: user.uid,
         createdAt: new Date(),
       });
+      const newUserAccount = await addDoc(accountsCollection, {
+        userId: user.uid,
+        messages: [],
+        drafts: [],
+        genres: [],
+        bookmarks: [],
+      });
 
       console.log(
-        "User profile  created successfully",
-
-        createdProfile
+        "User profile & account  created successfully",
+        createdProfile,
+        newUserAccount
       );
     } catch (error) {
       console.error("Error in user registration or profile creation:", error);
