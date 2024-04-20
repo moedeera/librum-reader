@@ -3,6 +3,8 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 
 // Check if the URL property is already in use
 const profileCollection = collection(db, "profiles");
+// Check if the URL property is already in use
+const draftCollection = collection(db, "drafts");
 
 const checkURLAvailability = async (url) => {
   const searchUrl = url.replace(/\s/g, "").toLocaleLowerCase();
@@ -15,6 +17,18 @@ const checkURLAvailability = async (url) => {
   }
   return searchUrl;
 };
+// Check if the story url is already in use
+const checkStorySlugAvailability = async (slug) => {
+  const searchSlug = slug.replace(/\s/g, "").toLocaleLowerCase();
+  const urlQuery = query(draftCollection, where("slug", "==", searchSlug));
+  const urlSnapshot = await getDocs(urlQuery);
+  if (urlSnapshot.docs.length > 0) {
+    // URL is in use, modify it by appending a random number
+    const randomNumber = Math.floor(Math.random() * 10001); // random number between 0 and 1000
+    return `${searchSlug}${randomNumber}`;
+  }
+  return searchSlug;
+};
 
 // Check if there are already 100 'profile' documents
 const checkProfileLimit = async () => {
@@ -26,4 +40,4 @@ const checkProfileLimit = async () => {
   return { error: null };
 };
 
-export { checkURLAvailability, checkProfileLimit };
+export { checkURLAvailability, checkProfileLimit, checkStorySlugAvailability };

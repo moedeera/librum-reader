@@ -91,6 +91,7 @@ export const useAuth = () => {
     if (querySnapshot.empty) {
       console.log("no such profile, creating new profile.....");
       try {
+        const finalUrl = await checkURLAvailability(user.displayName);
         let newProfile = {
           avatar: user.photoURL,
           bio: "Enter your Bio",
@@ -98,6 +99,7 @@ export const useAuth = () => {
           name: user.displayName,
           profileName: userInfo.name,
           public: true,
+          url: finalUrl,
           userId: user.uid, // Reference to the user ID of the creator
           createdAt: new Date(), // Optional: track when the post was created
         };
@@ -175,6 +177,7 @@ export const useAuth = () => {
         createdAt: new Date(),
       });
       const newUserAccount = await addDoc(accountsCollection, {
+        name: name,
         userId: user.uid,
         messages: [],
         drafts: [],

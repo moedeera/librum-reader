@@ -70,7 +70,8 @@ export const useStories = () => {
     } finally {
       setFetchingStories(false);
     }
-  }; // Include only necessary dependencies
+  };
+  // Include only necessary dependencies
   // These functions now only change when necessary
 
   return {

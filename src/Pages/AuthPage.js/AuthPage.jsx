@@ -18,10 +18,15 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAuth } from "@/utils/custom-hooks/useAuth";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
+import { useDraft } from "@/utils/custom-hooks/useDraft";
+import { AuthContext } from "@/Context/AuthContext";
+import { fetchProfile } from "@/assets/APIs/StoriesAPI";
+import { loremIpsum } from "@/Context/Content";
+import { checkStorySlugAvailability } from "@/utils/functions/functions";
 
 let names = [
   "John",
@@ -51,8 +56,10 @@ const number1 = Math.floor(Math.random() * 10);
 const number2 = Math.floor(Math.random() * 10);
 const AuthPage = () => {
   const { signInWithGoogleFunction } = useAuth();
+  const { user } = useContext(AuthContext);
   const { updateAccount, fetchAccount } = useAccount();
-  const { updateProfile } = useProfile();
+  const { createDraft } = useDraft();
+  const { updateUserProfile } = useProfile();
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
   const [randomNumber, setRandomNumber] = useState(58);
@@ -67,6 +74,7 @@ const AuthPage = () => {
   });
   const fbProfile = collection(db, "profiles");
   const accountsCollection = collection(db, "accounts");
+  const draftsCollection = collection(db, "drafts");
   // login with email and password
   const handleLogin = async () => {
     signInWithEmailAndPassword(auth, "testing@gmail.com", "abc123")
@@ -111,14 +119,14 @@ const AuthPage = () => {
     } else {
       let data = querySnapshot.docs[0].data();
       setProfile(data);
-      console.log(data, querySnapshot.docs[0].id);
+      return data;
     }
   };
   //// updating profile
   const handleUpdateProfile = async () => {
     let newName = `${profile.name} 2`;
     try {
-      await updateProfile(profile.userId, "name", newName);
+      await updateUserProfile(profile.userId, "name", newName);
       setProfile({ ...profile, name: newName });
     } catch (error) {
       console.log(error);
@@ -171,6 +179,7 @@ const AuthPage = () => {
     // Check if the URL property is already in use
     const checkURLAvailability = async (url) => {
       const searchUrl = url.replace(/\s/g, "").toLocaleLowerCase();
+      console.log(searchUrl);
       const urlQuery = query(fbProfile, where("url", "==", searchUrl));
       const urlSnapshot = await getDocs(urlQuery);
       if (urlSnapshot.docs.length > 0) {
@@ -219,6 +228,7 @@ const AuthPage = () => {
         createdAt: new Date(),
       });
       const newUserAccount = await addDoc(accountsCollection, {
+        name: `${names[number1]} ${lastNames[number2]}`,
         userId: user.uid,
         messages: [],
         drafts: [],
@@ -266,7 +276,59 @@ const AuthPage = () => {
     }
   };
   // Creating a story
-  const handleCreateStory = async () => {};
+  const handleCreateDraft = async () => {
+    let account;
+    console.log(user);
+    const accountCollection = collection(db, "accounts");
+    try {
+      const q = query(accountCollection, where("userId", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+      setLoading(true);
+      if (querySnapshot.empty) {
+        throw new Error("No such profile");
+      } else {
+        account = querySnapshot.docs[0];
+        console.log(account.data());
+      }
+
+      const profile = await handleFetchProfile();
+      console.log(profile);
+      const finalSlug = checkStorySlugAvailability("A lovely town");
+      let newDraft = {
+        authorName: user.displayName,
+        userId: user.uid,
+        authorPic: user.photoURL,
+        category: "Fiction",
+        authorLink: profile.url,
+        dateCreated: new Date(),
+        title: "A lovely town",
+        synopsis:
+          "A lovely town by the Alpine river encounters a mysterious wizard warning them of impending war",
+        cover:
+          "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
+        slug: finalSlug,
+        story: loremIpsum,
+        promoted: false,
+        wordCount: "",
+        stats: [0, 0, 0],
+      };
+
+      const createdDraft = await addDoc(draftsCollection, newDraft);
+      let updatedDrafts = [
+        ...account.data().drafts,
+        {
+          slug: finalSlug,
+          title: "A lovely town",
+          cover:
+            "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
+        },
+      ];
+      await updateDoc(account.ref, { drafts: updatedDrafts });
+      console.log(createdDraft);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -383,7 +445,7 @@ const AuthPage = () => {
       <button
         className="btn"
         onClick={() => {
-          handleFetchAccount();
+          handleCreateDraft();
         }}
       >
         create story draft

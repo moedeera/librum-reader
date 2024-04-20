@@ -59,7 +59,7 @@ export const useProfile = () => {
     }
   };
 
-  const updateProfile = async (userId, field, newValue) => {
+  const updateUserProfile = async (userId, field, newValue) => {
     try {
       const q = query(profileCollection, where("userId", "==", userId));
       const querySnapshot = await getDocs(q);
@@ -87,7 +87,7 @@ export const useProfile = () => {
 
   return {
     fetchProfile,
-    updateProfile,
+    updateUserProfile,
     deleteProfile,
     loading,
   };
