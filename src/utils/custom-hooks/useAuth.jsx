@@ -105,6 +105,7 @@ export const useAuth = () => {
         };
         await addDoc(profileCollection, newProfile);
         const newUserAccount = await addDoc(accountsCollection, {
+          name: userInfo.name,
           userId: user.uid,
           messages: [],
           drafts: [],

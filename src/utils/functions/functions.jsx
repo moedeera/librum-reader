@@ -17,18 +17,35 @@ const checkURLAvailability = async (url) => {
   }
   return searchUrl;
 };
-// Check if the story url is already in use
-const checkStorySlugAvailability = async (slug) => {
-  const searchSlug = slug.replace(/\s/g, "").toLocaleLowerCase();
-  const urlQuery = query(draftCollection, where("slug", "==", searchSlug));
-  const urlSnapshot = await getDocs(urlQuery);
-  if (urlSnapshot.docs.length > 0) {
-    // URL is in use, modify it by appending a random number
-    const randomNumber = Math.floor(Math.random() * 10001); // random number between 0 and 1000
-    return `${searchSlug}${randomNumber}`;
-  }
-  return searchSlug;
-};
+function appendStringWithDateTime(inputString, inputSlug) {
+  // Create a new Date object for the current time
+  const now = new Date();
+
+  // Extract and format the day
+  const day = now.getDate().toString().padStart(2, "0");
+
+  // Extract and format the month (getMonth returns 0-11, hence add 1)
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
+
+  // Extract and format the year to last two digits
+  const year = now.getFullYear().toString().slice(-2);
+
+  // Extract and format the hours
+  const hours = now.getHours().toString().padStart(2, "0");
+
+  // Extract and format the minutes
+  const minutes = now.getMinutes().toString().padStart(2, "0");
+
+  // Extract and format the seconds
+  const seconds = now.getSeconds().toString().padStart(2, "0");
+
+  // Concatenate all parts with the input string
+  return `${inputString}${day}${month}${year}${hours}${minutes}${seconds}${inputSlug}`;
+}
+
+// Example usage:
+const result = appendStringWithDateTime("hello");
+console.log(result);
 
 // Check if there are already 100 'profile' documents
 const checkProfileLimit = async () => {
@@ -40,4 +57,4 @@ const checkProfileLimit = async () => {
   return { error: null };
 };
 
-export { checkURLAvailability, checkProfileLimit, checkStorySlugAvailability };
+export { checkURLAvailability, checkProfileLimit, appendStringWithDateTime };

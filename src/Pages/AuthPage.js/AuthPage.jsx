@@ -26,7 +26,7 @@ import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { AuthContext } from "@/Context/AuthContext";
 import { fetchProfile } from "@/assets/APIs/StoriesAPI";
 import { loremIpsum } from "@/Context/Content";
-import { checkStorySlugAvailability } from "@/utils/functions/functions";
+import { appendStringWithDateTime } from "@/utils/functions/functions";
 
 let names = [
   "John",
@@ -293,7 +293,9 @@ const AuthPage = () => {
 
       const profile = await handleFetchProfile();
       console.log(profile);
-      const finalSlug = checkStorySlugAvailability("A lovely town");
+      let initialSLug = `alovelyday`;
+
+      const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
       let newDraft = {
         authorName: user.displayName,
         userId: user.uid,
