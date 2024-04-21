@@ -35,6 +35,7 @@ import { ProfileSetupPage } from "./Pages/ProfileSetupPage/ProfileSetupPage";
 import AuthPage from "./Pages/AuthPage.js/AuthPage";
 import { AuthProvider } from "./Context/AuthContext";
 import { CreateStory } from "./Pages/CreateStory/CreateStory";
+import DraftPage from "./Pages/DraftPage/DraftPage";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
                 <Route path="/storyinfo" element={<StoryInfo />} />
                 <Route path="mystory/:id" element={<PostStory />} />
                 <Route path="mystories" element={<MyStoriesPage />} />
+                <Route path="mystories/:draftid" element={<DraftPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProfilePage />} />

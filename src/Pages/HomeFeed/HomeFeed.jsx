@@ -9,6 +9,7 @@ import { Loading } from "@/Components/Loading/Loading";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { Homepage } from "../Homepage/Homepage";
+import { Block1 } from "@/Components/Block1/Block1";
 
 export const HomeFeed = () => {
   const [loading, setLoading] = useState(false);

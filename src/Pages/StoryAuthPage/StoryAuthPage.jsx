@@ -1,4 +1,5 @@
-import React from "react";
+import { useAccount } from "@/utils/custom-hooks/useAccount";
+import React, { useEffect } from "react";
 
 function StoryAuthPage() {
   return (
