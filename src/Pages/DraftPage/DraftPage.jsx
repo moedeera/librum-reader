@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const DraftPage = () => {
-  const { fetchDraft } = useDraft();
+  const { fetchDraftById } = useDraft();
   const { user } = useContext(AuthContext);
   const [story, setStory] = useState({});
   const [loading, setLoading] = useState(false);
@@ -14,10 +14,10 @@ const DraftPage = () => {
   const { draftid } = useParams();
 
   useEffect(() => {
-    const fetchThDraft = async (slug) => {
+    const fetchThDraft = async (id) => {
       try {
         setLoading(true);
-        let res = await fetchDraft(slug);
+        let res = await fetchDraftById(id);
         console.log(res);
         setStory(res);
       } catch (error) {

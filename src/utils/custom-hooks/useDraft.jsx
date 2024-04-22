@@ -6,6 +6,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
@@ -30,7 +31,25 @@ export const useDraft = () => {
     }
   };
 
-  const fetchDraft = async (slug) => {
+  const fetchDraftById = async (draftId) => {
+    try {
+      const draftRef = doc(db, "drafts", draftId); // Create a reference to the draft document
+      const draftDoc = await getDoc(draftRef); // Get the document
+
+      if (draftDoc.exists()) {
+        console.log("Draft data:", draftDoc.data()); // Output the data of the draft
+        return draftDoc.data(); // Return the data for further use
+      } else {
+        console.log("No such draft found!");
+        return null; // Return null or handle as needed if the draft does not exist
+      }
+    } catch (error) {
+      console.error("Error fetching draft:", error);
+      return null; // Return null or throw an error as needed
+    }
+  };
+
+  const fetchDraft = async () => {
     console.log(auth.currentUser, slug);
 
     if (!user || user === null) {
@@ -55,5 +74,6 @@ export const useDraft = () => {
   return {
     createDraft,
     fetchDraft,
+    fetchDraftById,
   };
 };

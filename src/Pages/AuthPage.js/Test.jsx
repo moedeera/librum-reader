@@ -1,84 +1,92 @@
-import { db } from "firebase-config";
+
+import { db } from "../../../firebase-config";
+
+
 import {
-  createUserWithEmailAndPassword,
-  getAuth,
-  updateProfile,
-} from "firebase/auth";
-import { addDoc, collection } from "firebase/firestore";
+  addDoc,
+  collection,
+ 
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useContext,useState } from "react";
 
-let names = [
-  "John",
-  "Adam",
-  "Brianna",
-  "Corey",
-  "Deanna",
-  "Edward",
-  "Faith",
-  "George",
-  "Helen",
-  "Issac",
-];
-let lastNames = [
-  "Smith",
-  "Jones",
-  "Williams",
-  "Stevens",
-  "Johnson",
-  "Scott",
-  "MacDonald",
-  "Hughes",
-  "Kirk",
-  "Connell",
-];
+import { useDraft } from "@/utils/custom-hooks/useDraft";
+import { AuthContext } from "@/Context/AuthContext";
 
-const number1 = Math.floor(Math.random() * 10);
-const number2 = Math.floor(Math.random() * 10);
-const randomNumber = Math.floor(Math.random() * 1001);
-const auth = getAuth();
+import { loremIpsum } from "@/Context/Content";
+import { appendStringWithDateTime } from "@/utils/functions/functions";
+import { handleFetchProfile } from "./Functions";
 
-const testUser = {
-  email: "test-user",
-  password: "abc123",
-  name: "John Smith",
-};
 
-const fbProfile = collection(db, "profile");
+const AuthPage = () => {
 
-const handleRegister = async () => {
-  createUserWithEmailAndPassword(
-    auth,
-    `${names[number1]}${lastNames[number2][0]}-${randomNumber}@gmail.com`,
-    testUser.password
-  )
-    .then(async () => {
-      // Signed in
+  const { user } = useContext(AuthContext);
 
-      const user = auth.currentUser;
-      await updateProfile(user, {
-        displayName: `${names[number1]} ${lastNames[number2]}`,
-        photoURL: "https://www.w3schools.com/howto/img_avatar.png",
-      });
-      const createdProfile = await addDoc(fbProfile, {
-        email: user.email,
-        name: `${names[number1]} ${lastNames[number2]}`,
-        avatar: "https://www.w3schools.com/howto/img_avatar.png",
-        stories: [],
-        messages: [],
-        gender: null,
-        dob: null,
-        bio: "Enter your Bio",
-        public: false,
-        userId: user.uid, // Reference to the user ID of the creator
-        createdAt: new Date(), // Optional: track when the post was created
-      });
+  const { createDraft } = useDraft();
 
-      console.log("success", createdProfile);
+  const [loading, setLoading] = useState(true);
 
-      // ...
-    })
-    .catch((error) => {
-      console.log(error);
 
-      // ..
-    });
-};
+  const draftsCollection = collection(db, "drafts");
+
+const handleCreateDraft = async () => {
+  let account;
+  console.log(user);
+  const accountCollection = collection(db, "accounts");
+  try {
+    const q = query(accountCollection, where("userId", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+    setLoading(true);
+    if (querySnapshot.empty) {
+      throw new Error("No such profile");
+    } else {
+      account = querySnapshot.docs[0];
+      console.log(account.data());
+    }
+
+    const profile = await handleFetchProfile();
+    console.log(profile);
+    let initialSLug = `alpinelife`;
+
+    const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
+    let newDraft = {
+      authorName: user.displayName,
+      userId: user.uid,
+      authorPic: user.photoURL,
+      category: "Fiction",
+      authorLink: profile.url,
+      dateCreated: new Date(),
+      title: "Alpine Life",
+      synopsis:
+        "A lovely town by the Alpine river encounters a mysterious wizard warning them of impending war",
+      cover:
+        "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
+      slug: finalSlug,
+      story: loremIpsum,
+      promoted: false,
+      wordCount: "",
+      stats: [0, 0, 0],
+    };
+
+    const createdDraft = await addDoc(draftsCollection, newDraft);
+    const draftId = await createdDraft.id;
+    console.log(draftId);
+    let updatedDrafts = [
+      ...account.data().drafts,
+      {
+        draftId: draftId,
+        slug: finalSlug,
+        title: "A lovely town",
+        cover:
+          "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
+      },
+    ];
+    await updateDoc(account.ref, { drafts: updatedDrafts });
+    console.log(createdDraft);
+  } catch (error) {
+    console.log(error);
+  }
+}...

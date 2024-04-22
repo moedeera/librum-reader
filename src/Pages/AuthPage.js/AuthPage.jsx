@@ -106,7 +106,6 @@ const AuthPage = () => {
   const handleLoginWithGoogle = async () => {
     signInWithGoogleFunction();
   };
-  //Fetching Profile
   const handleFetchProfile = async () => {
     console.log(auth.currentUser.email);
 
@@ -155,7 +154,6 @@ const AuthPage = () => {
       console.log(error);
     }
   };
-
   // Logging out authentication session
   const handleLogout = async () => {
     try {
@@ -293,7 +291,7 @@ const AuthPage = () => {
 
       const profile = await handleFetchProfile();
       console.log(profile);
-      let initialSLug = `alovelyday`;
+      let initialSLug = `alpinelife`;
 
       const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
       let newDraft = {
@@ -303,7 +301,7 @@ const AuthPage = () => {
         category: "Fiction",
         authorLink: profile.url,
         dateCreated: new Date(),
-        title: "A lovely town",
+        title: "Alpine Life",
         synopsis:
           "A lovely town by the Alpine river encounters a mysterious wizard warning them of impending war",
         cover:
@@ -316,9 +314,12 @@ const AuthPage = () => {
       };
 
       const createdDraft = await addDoc(draftsCollection, newDraft);
+      const draftId = await createdDraft.id;
+      console.log(draftId);
       let updatedDrafts = [
         ...account.data().drafts,
         {
+          draftId: draftId,
           slug: finalSlug,
           title: "A lovely town",
           cover:
