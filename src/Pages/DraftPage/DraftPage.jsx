@@ -36,8 +36,9 @@ const DraftPage = () => {
   }
 
   return (
-    <div className="container">
-      <Editor />
+    <div className="container standard-page">
+      {story.story ? <h3>{story.title}</h3> : <h3>Fetching Story...</h3>}
+      <Editor story={story.story} setStory={setStory} />
     </div>
   );
 };
