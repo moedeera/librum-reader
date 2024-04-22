@@ -16,7 +16,7 @@ export const Editor = ({ title, setStory, story }) => {
 
     const quill = new Quill(editor, {
       theme: "snow",
-      readOnly: true,
+      readOnly: readOnly,
       modules: { toolbar: true },
     });
 
@@ -39,7 +39,16 @@ export const Editor = ({ title, setStory, story }) => {
   return (
     <div className="text-editor-page" style={{ marginTop: "0px" }}>
       <div ref={editorRef} className="text-editor" id="quill-container"></div>
-      <div className="editor-button-container"></div>
+      <div className="editor-button-container">
+        <button
+          className="btn"
+          onClick={() => {
+            setReadOnly(!readOnly);
+          }}
+        >
+          {readOnly ? "EdIt" : "Save"}{" "}
+        </button>
+      </div>
     </div>
   );
 };
