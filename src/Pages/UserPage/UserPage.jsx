@@ -1,21 +1,22 @@
 import { Link, useParams } from "react-router-dom";
 import "./UserPage.css";
 import { useEffect, useState } from "react";
-import { fetchProfile } from "../../assets/APIs/StoriesAPI";
+
 import { Loading } from "../../Components/Loading/Loading";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
 
 export const UserPage = () => {
-  const [profile, setProfile] = useState("");
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const { userid } = useParams();
-
+  const { getProfile } = useProfile();
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        const response = await fetchProfile(userid);
+        const response = await getProfile(userid);
         setProfile(response);
         console.log(response);
       } catch (error) {
@@ -46,7 +47,7 @@ export const UserPage = () => {
           <div className="user-page-info-avatar">
             <img src={profile.avatar} alt="" />
             <p>{profile.name}</p>
-            <small>@{profile.profileName}</small>
+            <small>@{profile.url}</small>
           </div>
           <div className="user-page-info-stats">
             <div className="user-page-info-stat">6 stories</div>

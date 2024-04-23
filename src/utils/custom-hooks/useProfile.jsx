@@ -22,6 +22,21 @@ export const useProfile = () => {
   const profileCollection = collection(db, "profiles");
   const auth = getAuth();
 
+  const getProfile = async (url) => {
+    console.log(url);
+    try {
+      const q = query(profileCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such profile");
+      }
+      let data = querySnapshot.docs[0].data();
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   const fetchProfile = async () => {
     const user = auth.currentUser;
     console.log(user);
@@ -90,5 +105,6 @@ export const useProfile = () => {
     updateUserProfile,
     deleteProfile,
     loading,
+    getProfile,
   };
 };
