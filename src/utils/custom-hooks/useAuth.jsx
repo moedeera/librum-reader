@@ -173,6 +173,7 @@ export const useAuth = () => {
         url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
+        followers: [],
         bio: "Enter your Bio",
         public: true,
         userId: user.uid,

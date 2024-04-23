@@ -58,7 +58,7 @@ export const UserPage = () => {
               {profile.followers.length} followers
             </div>
           </div>{" "}
-          {user.url !== userid && (
+          {user.displayName !== profile.name && (
             <div className="user-page-info-button">
               <button className="btn">Follow</button>
             </div>
