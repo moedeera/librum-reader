@@ -1,7 +1,7 @@
 import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 
-export const Editor = ({ title, setStory, story }) => {
+export const Previewer = ({ title, setStory, story }) => {
   const [readOnly, setReadOnly] = useState(true);
 
   const editorRef = useRef(null);
@@ -16,7 +16,7 @@ export const Editor = ({ title, setStory, story }) => {
 
     const quill = new Quill(editor, {
       theme: "snow",
-      readOnly: false,
+      readOnly: true,
       modules: { toolbar: true },
     });
 
@@ -38,7 +38,7 @@ export const Editor = ({ title, setStory, story }) => {
 
   return (
     <div className="text-editor-page" style={{ marginTop: "0px" }}>
-      <h3>Edit</h3>
+      <h3>Preview</h3>
       <div ref={editorRef} className="text-editor" id="quill-container"></div>
       <div className="editor-button-container"></div>
     </div>

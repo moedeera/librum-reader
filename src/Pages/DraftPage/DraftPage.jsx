@@ -1,5 +1,6 @@
 import { Editor } from "@/Components/Editor/Editor";
 import { Loading } from "@/Components/Loading/Loading";
+import { Previewer } from "@/Components/Previewer/Previewer";
 import { AuthContext } from "@/Context/AuthContext";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useContext, useEffect, useState } from "react";
@@ -10,6 +11,7 @@ const DraftPage = () => {
   const { user } = useContext(AuthContext);
   const [story, setStory] = useState({});
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState("read");
 
   const { draftid } = useParams();
 
@@ -38,7 +40,32 @@ const DraftPage = () => {
   return (
     <div className="container standard-page">
       {story.story ? <h3>{story.title}</h3> : <h3>Fetching Story...</h3>}
-      <Editor story={story.story} setStory={setStory} />
+      {mode === "read" ? (
+        <Previewer story={story.story} setStory={setStory} mode={"read"} />
+      ) : (
+        <Editor story={story.story} setStory={setStory} mode={"write"} />
+      )}
+      {mode === "read" ? (
+        <div
+          className="btn"
+          onClick={() => {
+            setMode("edit");
+            console.log(mode);
+          }}
+        >
+          Edit
+        </div>
+      ) : (
+        <div
+          className="btn"
+          onClick={() => {
+            setMode("read");
+            console.log(mode);
+          }}
+        >
+          Preview
+        </div>
+      )}
     </div>
   );
 };
