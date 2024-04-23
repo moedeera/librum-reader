@@ -18,6 +18,9 @@ const checkURLAvailability = async (url) => {
   return searchUrl;
 };
 function appendStringWithDateTime(inputString, inputSlug) {
+  //
+  const refurbishedString = inputString.replace(/\s/g, "").toLocaleLowerCase();
+
   // Create a new Date object for the current time
   const now = new Date();
 
@@ -40,7 +43,7 @@ function appendStringWithDateTime(inputString, inputSlug) {
   const seconds = now.getSeconds().toString().padStart(2, "0");
 
   // Concatenate all parts with the input string
-  return `${inputString}${day}${month}${year}${hours}${minutes}${seconds}${inputSlug}`;
+  return `${refurbishedString}${day}${month}${year}${hours}${minutes}${seconds}${inputSlug}`;
 }
 
 // Example usage:

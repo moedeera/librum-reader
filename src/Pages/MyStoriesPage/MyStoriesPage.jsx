@@ -27,7 +27,11 @@ export const MyStoriesPage = () => {
         <h3>MyStoriesPage</h3>
         <div className="my-stories-container">
           {account?.drafts?.map((draft, index) => (
-            <Link key={index} className="my-stories-story" to={`${draft.slug}`}>
+            <Link
+              key={index}
+              className="my-stories-story"
+              to={`${draft.draftId}`}
+            >
               <div
                 className="ms-cover-image"
                 style={{ backgroundImage: `url(${draft.cover})` }}

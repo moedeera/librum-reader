@@ -97,7 +97,8 @@ export const useAuth = () => {
           bio: "Enter your Bio",
           email: user.email,
           name: user.displayName,
-          profileName: userInfo.name,
+          stories: [],
+          followers: [],
           public: true,
           url: finalUrl,
           userId: user.uid, // Reference to the user ID of the creator
@@ -105,7 +106,7 @@ export const useAuth = () => {
         };
         await addDoc(profileCollection, newProfile);
         const newUserAccount = await addDoc(accountsCollection, {
-          name: userInfo.name,
+          email: userInfo.email,
           userId: user.uid,
           messages: [],
           drafts: [],
@@ -178,7 +179,7 @@ export const useAuth = () => {
         createdAt: new Date(),
       });
       const newUserAccount = await addDoc(accountsCollection, {
-        name: name,
+        email: user.email,
         userId: user.uid,
         messages: [],
         drafts: [],

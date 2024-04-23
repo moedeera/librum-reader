@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, updateProfile } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
 import {
@@ -20,6 +20,8 @@ export const useProfile = () => {
   const [error, setError] = useState("");
 
   const profileCollection = collection(db, "profiles");
+  const draftCollection = collection(db, "drafts");
+
   const auth = getAuth();
 
   const getProfile = async (url) => {
@@ -54,6 +56,7 @@ export const useProfile = () => {
           url: finalUrl,
           avatar: "https://www.w3schools.com/howto/img_avatar.png",
           stories: [],
+          followers: [],
           bio: "Enter your Bio",
           public: true,
           userId: user.uid,
@@ -88,6 +91,27 @@ export const useProfile = () => {
         const updateObject = {};
         updateObject[field] = newValue;
         await updateDoc(accountRef, updateObject);
+        if (field === "name") {
+          const q = query(draftCollection, where("userId", "==", userId));
+          const querySnapshot = await getDocs(q);
+          if (querySnapshot.empty) {
+            console.log("no draft to update");
+          } else {
+            querySnapshot.forEach(async (draftDoc) => {
+              const draftRef = doc(db, "drafts", draftDoc.id);
+              await updateDoc(draftRef, {
+                authorName: newValue, // Setting the name property to "John Woods"
+              });
+              console.log(`Updated draft ${draftDoc.id} to ${newValue}`);
+            });
+
+            console.log("changing profile auth name...");
+            await updateProfile(auth.currentUser, {
+              displayName: newValue,
+            });
+          }
+        }
+
         console.log(`Account ${userId} updated successfully.`);
       }
     } catch (error) {

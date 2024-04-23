@@ -27,6 +27,7 @@ import { AuthContext } from "@/Context/AuthContext";
 import { fetchProfile } from "@/assets/APIs/StoriesAPI";
 import { loremIpsum } from "@/Context/Content";
 import { appendStringWithDateTime } from "@/utils/functions/functions";
+import { getRandomItem, randomLiterature } from "./Content";
 
 let names = [
   "John",
@@ -55,6 +56,7 @@ let lastNames = [
 const number1 = Math.floor(Math.random() * 10);
 const number2 = Math.floor(Math.random() * 10);
 const AuthPage = () => {
+  const randomStory = getRandomItem(randomLiterature);
   const { signInWithGoogleFunction } = useAuth();
   const { user } = useContext(AuthContext);
   const { updateAccount, fetchAccount } = useAccount();
@@ -123,7 +125,7 @@ const AuthPage = () => {
   };
   //// updating profile
   const handleUpdateProfile = async () => {
-    let newName = `${profile.name} 2`;
+    let newName = `${profile.name} ${number1}${number2}`;
     try {
       await updateUserProfile(profile.userId, "name", newName);
       setProfile({ ...profile, name: newName });
@@ -291,26 +293,24 @@ const AuthPage = () => {
 
       const profile = await handleFetchProfile();
       console.log(profile);
-      let initialSLug = `alpinelife`;
+      let initialSLug = randomStory.title;
 
       const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
       let newDraft = {
         authorName: user.displayName,
         userId: user.uid,
         authorPic: user.photoURL,
-        category: "Fiction",
+        category: randomStory.category,
         authorLink: profile.url,
         dateCreated: new Date(),
-        title: "Alpine Life",
-        synopsis:
-          "A lovely town by the Alpine river encounters a mysterious wizard warning them of impending war",
-        cover:
-          "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
-        slug: finalSlug,
-        story: loremIpsum,
-        promoted: false,
-        wordCount: "",
+        title: randomStory.title,
+        synopsis: randomStory.synopsis,
+        cover: randomStory.cover,
+        story: randomStory.story,
+        promoted: randomStory.promoted,
+        wordCount: randomStory.wordCount,
         stats: [0, 0, 0],
+        tags: randomStory.tags,
       };
 
       const createdDraft = await addDoc(draftsCollection, newDraft);
@@ -321,15 +321,16 @@ const AuthPage = () => {
         {
           draftId: draftId,
           slug: finalSlug,
-          title: "A lovely town",
-          cover:
-            "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Flittle-girl-running-795505_1280.jpg?alt=media&token=c5ba4877-7d6d-40e0-a7c2-c2108c09e5db",
+          title: randomStory.title,
+          cover: randomStory.cover,
         },
       ];
       await updateDoc(account.ref, { drafts: updatedDrafts });
       console.log(createdDraft);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {

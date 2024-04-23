@@ -12,7 +12,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { checkURLAvailability } from "../functions/functions";
+import { randomLiterature, getRandomItem } from "@/Pages/AuthPage.js/Content";
 
 export const useDraft = () => {
   const [loading, setLoading] = useState(false);
@@ -49,7 +49,7 @@ export const useDraft = () => {
     }
   };
 
-  const fetchDraft = async () => {
+  const fetchDraft = async (slug) => {
     console.log(auth.currentUser, slug);
 
     if (!user || user === null) {

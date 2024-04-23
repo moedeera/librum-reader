@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router-dom";
 import "./UserPage.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Loading } from "../../Components/Loading/Loading";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
+import { AuthContext } from "@/Context/AuthContext";
 
 export const UserPage = () => {
   const [profile, setProfile] = useState(null);
@@ -13,12 +14,12 @@ export const UserPage = () => {
   const [error, setError] = useState(false);
   const { userid } = useParams();
   const { getProfile } = useProfile();
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchInfo = async () => {
       try {
         const response = await getProfile(userid);
         setProfile(response);
-        console.log(response);
       } catch (error) {
         console.log(error);
         setError(true);
@@ -27,9 +28,9 @@ export const UserPage = () => {
       }
     };
 
-    console.log(userid);
+    console.log(user, profile);
     fetchInfo();
-  }, []);
+  }, [user]);
 
   if (loading) {
     return <Loading />;
@@ -50,12 +51,18 @@ export const UserPage = () => {
             <small>@{profile.url}</small>
           </div>
           <div className="user-page-info-stats">
-            <div className="user-page-info-stat">6 stories</div>
-            <div className="user-page-info-stat">5 followers</div>
-          </div>
-          <div className="user-page-info-button">
-            <button className="btn">Follow</button>
-          </div>
+            <div className="user-page-info-stat">
+              {profile.stories.length} stories
+            </div>
+            <div className="user-page-info-stat">
+              {profile.followers.length} followers
+            </div>
+          </div>{" "}
+          {user.url !== userid && (
+            <div className="user-page-info-button">
+              <button className="btn">Follow</button>
+            </div>
+          )}
         </div>
       </div>
       <div className="user-page-lower-portion">
