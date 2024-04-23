@@ -26,7 +26,8 @@ export const Editor = ({ title, setStory, story }) => {
 
     quill.on("text-change", (delta, oldDelta, source) => {
       const content = quill.getContents();
-      setStory(content.ops);
+      console.log(content.ops);
+      setStory({ ...story, story: content.ops });
     });
     return () => {
       // Added check to ensure destroy is a function before calling it

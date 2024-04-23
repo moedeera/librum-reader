@@ -26,7 +26,7 @@ export const Previewer = ({ title, setStory, story }) => {
 
     quill.on("text-change", (delta, oldDelta, source) => {
       const content = quill.getContents();
-      setStory(content.ops);
+      // setStory(content.ops);
     });
     return () => {
       // Added check to ensure destroy is a function before calling it
@@ -34,7 +34,7 @@ export const Previewer = ({ title, setStory, story }) => {
         quillRef.current.destroy();
       }
     };
-  }, []);
+  }, [story]);
 
   return (
     <div className="text-editor-page" style={{ marginTop: "0px" }}>

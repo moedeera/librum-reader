@@ -33,6 +33,10 @@ const DraftPage = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    console.log(story.story);
+  }, [story]);
+
   if (loading) {
     return <Loading />;
   }
@@ -40,11 +44,11 @@ const DraftPage = () => {
   return (
     <div className="container standard-page">
       {story.story ? <h3>{story.title}</h3> : <h3>Fetching Story...</h3>}
-      {mode === "read" ? (
-        <Previewer story={story.story} setStory={setStory} mode={"read"} />
-      ) : (
-        <Editor story={story.story} setStory={setStory} mode={"write"} />
-      )}
+
+      <Previewer story={story.story} setStory={setStory} mode={"read"} />
+
+      <Editor story={story.story} setStory={setStory} mode={"write"} />
+
       {mode === "read" ? (
         <div
           className="btn"
