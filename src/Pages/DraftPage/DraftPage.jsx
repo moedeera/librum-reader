@@ -5,6 +5,7 @@ import { AuthContext } from "@/Context/AuthContext";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import "./DraftPage.css";
 
 const DraftPage = () => {
   const { fetchDraftById } = useDraft();
@@ -45,31 +46,35 @@ const DraftPage = () => {
     <div className="container standard-page">
       {story.story ? <h3>{story.title}</h3> : <h3>Fetching Story...</h3>}
 
-      <Previewer story={story.story} setStory={setStory} mode={"read"} />
-
-      <Editor story={story.story} setStory={setStory} mode={"write"} />
-
-      {mode === "read" ? (
-        <div
-          className="btn"
-          onClick={() => {
-            setMode("edit");
-            console.log(mode);
-          }}
-        >
-          Edit
+      {/* <Editor story={story.story} setStory={setStory} mode={"write"} /> */}
+      <div className="draft-container">
+        <div className="draft-cover">
+          <div
+            className="draft-cover-image"
+            style={{ backgroundImage: `url(${story.cover})` }}
+          >
+            <button className="btn">Change Cover</button>
+          </div>
         </div>
-      ) : (
-        <div
-          className="btn"
-          onClick={() => {
-            setMode("read");
-            console.log(mode);
-          }}
-        >
-          Preview
+        <div className="draft-main">
+          <div>
+            <p>Synopsis</p>
+            <small>{story.synopsis}</small>
+          </div>
+
+          <div className="draft-buttons-container">
+            <button className="btn">
+              <small>Read</small>
+            </button>
+            <button className="btn">
+              <small>Edit Details</small>
+            </button>
+            <button className="btn">
+              <small>Edit Story</small>
+            </button>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

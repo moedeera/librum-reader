@@ -119,6 +119,67 @@ const randomLiterature = [
       "Nora, drawn back to her coastal hometown, becomes embroiled in uncovering the past of the abandoned lighthouse, where a lightkeeper's forgotten logs reveal a mysterious tale.",
     wordCount: 145,
   },
+
+  {
+    category: "Fiction",
+    title: "Neon Dreams",
+    tag: ["sci-fi", "urban", "future"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fneonedreams.webp?alt=media&token=e275a70d-cad7-42f8-a46f-02491a8b6d7f",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      { attributes: { bold: true }, insert: "Neon Dreams" },
+      { attributes: { header: 3 }, insert: "\n" },
+      {
+        insert:
+          "In the city of tomorrow, bathed in neon lights and perpetual night, a young hacker named Ava uncovers a conspiracy that could alter the fabric of society.",
+      },
+    ],
+    synopsis:
+      "Ava, a skilled young hacker in a neon-soaked metropolis, navigates through digital espionage to uncover a truth that's been hidden right before everyone’s eyes.",
+    wordCount: 100,
+  },
+  {
+    category: "Fiction",
+    title: "The Faerie Glade",
+    tag: ["fantasy", "adventure", "mystical"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fneonedreams.webp?alt=media&token=e275a70d-cad7-42f8-a46f-02491a8b6d7f",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      { attributes: { bold: true }, insert: "The Faerie Glade" },
+      { attributes: { header: 3 }, insert: "\n" },
+      {
+        insert:
+          "Deep in an ancient forest, Ellie discovers a hidden glade where faeries dance under the moonlight. Her arrival marks the first human steps there in centuries.",
+      },
+    ],
+    synopsis:
+      "Ellie stumbles upon a secret glade home to mystical creatures. As the first human to enter in ages, she becomes pivotal to the survival of magic itself.",
+    wordCount: 115,
+  },
+  {
+    category: "Fiction",
+    title: "The Keeper of Secrets",
+    tag: ["mystery", "historical", "thriller"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2FkeeperofSecrets.webp?alt=media&token=d0b275b7-f598-477f-9b6f-9592ba8a975b",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      { attributes: { bold: true }, insert: "The Keeper of Secrets" },
+      { attributes: { header: 3 }, insert: "\n" },
+      {
+        insert:
+          "Julian, a history student, stumbles upon a hidden passage in an ancient library that leads him to a forgotten chamber of books revealing earth-shaking secrets.",
+      },
+    ],
+    synopsis:
+      "In an ancient library, Julian uncovers a secret passage that leads to historical truths that could rewrite everything known about human history.",
+    wordCount: 130,
+  },
 ];
 function getRandomItem(arr) {
   if (!Array.isArray(arr) || arr.length === 0) {
