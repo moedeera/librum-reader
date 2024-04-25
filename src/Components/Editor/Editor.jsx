@@ -39,9 +39,10 @@ export const Editor = ({ title, setStory, story }) => {
 
   return (
     <div className="text-editor-page" style={{ marginTop: "0px" }}>
-      <h3>Edit</h3>
       <div ref={editorRef} className="text-editor" id="quill-container"></div>
-      <div className="editor-button-container"></div>
+      <div className="editor-button-container">
+        <button className="btn">Save Changes</button>
+      </div>
     </div>
   );
 };

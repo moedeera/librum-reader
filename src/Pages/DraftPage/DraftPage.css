@@ -1,7 +1,8 @@
 .draft-container {
   display: grid;
-  max-width: 900px;
-  min-height: 400px;
+  max-width: 1100px;
+  min-height: 450px;
+  transition: all 0.4s ease-in-out;
 }
 .draft-cover-image {
   border: 1px solid rgba(128, 128, 128, 0.5);
@@ -69,10 +70,16 @@
 .draft-header > div {
   cursor: pointer;
 }
+.draft.main.story {
+  justify-content: flex-start;
+}
 @media only screen and (min-width: 900px) {
   .draft-container {
     grid-template-columns: 1fr 2fr;
     grid-gap: 20px;
+  }
+  .story-editor {
+    max-width: 1300px;
   }
   .draft-buttons-container {
     display: flex;
