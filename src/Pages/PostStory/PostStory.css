@@ -1,9 +1,9 @@
 .text-editor-page {
-  padding-top: var(--padding-top-md);
+  /* padding-top: var(--padding-top-md); */
   width: 95%;
   max-width: var(--max-width-main);
 
-  padding-bottom: 50px;
+  /* padding-bottom: 50px; */
 }
 
 .text-editor {

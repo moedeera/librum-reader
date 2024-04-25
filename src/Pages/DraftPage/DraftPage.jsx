@@ -47,11 +47,11 @@ const DraftPage = () => {
     console.log(story?.tags[0]);
   }, [story]);
 
-  if (loading) {
+  if (loading || !story || story === null || story.story === null) {
     return <Loading />;
   }
 
-  if (error || !story || story === null || story.story === null) {
+  if (error) {
     return <ErrorPage />;
   }
   return (
