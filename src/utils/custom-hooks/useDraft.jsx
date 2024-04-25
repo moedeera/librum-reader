@@ -41,11 +41,11 @@ export const useDraft = () => {
         return draftDoc.data(); // Return the data for further use
       } else {
         console.log("No such draft found!");
-        return null; // Return null or handle as needed if the draft does not exist
+        throw new Error("Error Fetching draft"); // Return null or handle as needed if the draft does not exist
       }
     } catch (error) {
       console.error("Error fetching draft:", error);
-      return null; // Return null or throw an error as needed
+      throw new Error("Error Fetching draft"); // Return null or throw an error as needed
     }
   };
 

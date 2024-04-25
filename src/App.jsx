@@ -61,6 +61,7 @@ function App() {
                 <Route path="mystory/:id" element={<PostStory />} />
                 <Route path="mystories" element={<MyStoriesPage />} />
                 <Route path="mystories/:draftid" element={<DraftPage />} />
+                <Route path="edit/:draftid" element={<DraftPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProfilePage />} />

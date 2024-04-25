@@ -314,13 +314,13 @@ const AuthPage = () => {
       };
 
       const createdDraft = await addDoc(draftsCollection, newDraft);
-      const draftId = await createdDraft.id;
+      const draftId = createdDraft.id;
       console.log(draftId);
       let updatedDrafts = [
         ...account.data().drafts,
         {
           draftId: draftId,
-          slug: finalSlug,
+          dateCreated: new Date(),
           title: randomStory.title,
           cover: randomStory.cover,
         },

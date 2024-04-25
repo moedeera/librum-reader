@@ -1,21 +1,25 @@
 .my-stories-container {
-  border: 1px solid grey;
+  padding: 5px;
 }
 .my-stories-story {
   display: grid;
-  grid-template-rows: 6fr 1fr;
-  border: 1px solid red;
-  max-width: 300px;
+  grid-template-rows: 6fr 0.5fr 0.5fr;
+  border: 1px solid grey;
+  max-width: 350px;
+  height: 350px;
+  border-radius: 5px;
+  grid-gap: 10px;
+  padding: 5px;
 }
 .ms-cover-image {
-  border: 1px solid green;
   background-position: center;
   background-size: cover;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (min-width: 900px) {
   .my-stories-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
   }
 }

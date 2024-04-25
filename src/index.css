@@ -125,6 +125,9 @@ body {
   text-align: center;
   text-transform: none;
 }
+.btn-danger {
+  background-color: salmon;
+}
 .btn-google p {
   display: flex;
   align-items: center;
@@ -151,6 +154,7 @@ body {
   max-width: var(--max-width-main);
   margin: 0 auto;
   padding: var(--padding-top-sm) 0;
+  padding-left: 5px;
 }
 
 .title-span {
@@ -192,7 +196,11 @@ textarea {
   align-items: center;
   text-align: center;
 }
-
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .App {
   position: relative;
 }

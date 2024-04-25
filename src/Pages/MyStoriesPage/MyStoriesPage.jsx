@@ -21,23 +21,28 @@ export const MyStoriesPage = () => {
 
     fetchUserAccount();
   }, [user]);
+
   return (
     <div className="container standard-page">
       <div className="my-story-page">
-        <h3>MyStoriesPage</h3>
+        <h3>Your Stories</h3>
         <div className="my-stories-container">
           {account?.drafts?.map((draft, index) => (
-            <Link
-              key={index}
-              className="my-stories-story"
-              to={`${draft.draftId}`}
-            >
+            <div key={index} className="my-stories-story">
               <div
                 className="ms-cover-image"
                 style={{ backgroundImage: `url(${draft.cover})` }}
               ></div>
               {draft.title}
-            </Link>
+              <div className="button-container">
+                <Link className="btn" to={`${draft.draftId}`}>
+                  <small>Edit</small>
+                </Link>
+                <button className="btn btn-danger">
+                  <small> Delete</small>
+                </button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
