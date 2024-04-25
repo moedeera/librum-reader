@@ -26,6 +26,7 @@ export const MyStoriesPage = () => {
     <div className="container standard-page">
       <div className="my-story-page">
         <h3>Your Stories</h3>
+        <h5>Drafts</h5>
         <div className="my-stories-container">
           {account?.drafts?.map((draft, index) => (
             <div key={index} className="my-stories-story">
@@ -34,6 +35,18 @@ export const MyStoriesPage = () => {
                 style={{ backgroundImage: `url(${draft.cover})` }}
               ></div>
               {draft.title}
+              <div>
+                <small>
+                  <strong>Created </strong>
+                  {draft?.dateCreated ? draft.dateCreated : "April 23 2024"}
+                </small>
+              </div>
+              <div>
+                <small>
+                  <strong> Last Edited </strong>
+                  {draft?.lastEdited ? draft.lastEdited : "April 24 2024"}
+                </small>
+              </div>
               <div className="button-container">
                 <Link className="btn" to={`${draft.draftId}`}>
                   <small>Edit</small>

@@ -112,8 +112,8 @@ const DraftPage = () => {
             </div>
 
             <div className="draft-buttons-container">
-              <button className="btn">
-                <small>Read</small>
+              <button className="btn btn-green">
+                <small>Publish</small>
               </button>
 
               <button className="btn">

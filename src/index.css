@@ -101,7 +101,8 @@ body {
   text-align: center;
 }
 
-.btn-green {
+.btn-green,
+.btn-green small {
   background-color: rgb(96, 151, 96);
   color: white;
 }

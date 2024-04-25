@@ -4,7 +4,7 @@
 .my-stories-story {
   display: grid;
   grid-template-rows: 6fr 0.5fr 0.5fr;
-  border: 1px solid grey;
+  border: 1px solid rgba(128, 128, 128, 0.25);
   max-width: 350px;
   height: 350px;
   border-radius: 5px;
