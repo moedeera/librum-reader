@@ -7,6 +7,8 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DraftPage.css";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
+import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
+import StoryMain from "@/Components/StoryMain/StoryMain";
 
 const DraftPage = () => {
   const { fetchDraftById } = useDraft();
@@ -75,119 +77,27 @@ const DraftPage = () => {
 
         <div className={mode === "story" ? "draft-main story" : "draft-main"}>
           <div className="draft-header">
-            <div
-              style={
-                mode === "main"
-                  ? {
-                      fontWeight: "bold",
-                      textDecoration: "underline",
-                    }
-                  : {}
-              }
-              onClick={() => {
-                setMode("main");
-              }}
-            >
-              Main
-            </div>
-            <div
-              style={
-                mode === "details"
-                  ? {
-                      fontWeight: "bold",
-                      textDecoration: "underline",
-                    }
-                  : {}
-              }
-              onClick={() => {
-                setMode("details");
-              }}
-            >
-              Details
-            </div>
-            <div
-              style={
-                mode === "story"
-                  ? {
-                      fontWeight: "bold",
-                      textDecoration: "underline",
-                    }
-                  : {}
-              }
-              onClick={() => {
-                setMode("story");
-              }}
-            >
-              Story
-            </div>
+            {modes.map((currentMode) => (
+              <div
+                style={
+                  currentMode.mode === mode
+                    ? {
+                        fontWeight: "bold",
+                        textDecoration: "underline",
+                      }
+                    : {}
+                }
+                onClick={() => {
+                  setMode(currentMode.mode);
+                }}
+                key={currentMode.id}
+              >
+                {currentMode.name}
+              </div>
+            ))}
           </div>
-          {mode === "main" && (
-            <>
-              {" "}
-              <div>
-                <h4>Synopsis</h4>
-                <p>{story?.synopsis}</p>
-              </div>
-              <div className="draft-tags">
-                {"Tags: "}
-                {story?.tags.map((tag, index) => (
-                  <small key={index}>
-                    {tag}
-                    {index < story.tags.length && ", "}
-                  </small>
-                ))}
-              </div>
-              <div className="draft-buttons-container">
-                <button className="btn btn-green">
-                  <small>Publish</small>
-                </button>
-
-                <button
-                  className="btn"
-                  onClick={() => {
-                    setMode("edit");
-                  }}
-                >
-                  <small>Edit Story</small>
-                </button>
-              </div>
-            </>
-          )}
-          {mode === "details" && (
-            <>
-              <div>
-                <h4>Synopsis</h4>
-                <textarea
-                  name=""
-                  id=""
-                  rows="10"
-                  value={story.synopsis}
-                ></textarea>
-              </div>
-              <div className="draft-tags">
-                {"Tags: "}
-
-                {story?.tags.map((tag, index) => (
-                  <div className="draft-tag-edit" key={index}>
-                    {tag}
-                    <div className="draft-tag-delete">x</div>
-                  </div>
-                ))}
-              </div>
-              <div>
-                <div>Add Tag</div>
-                <input type="text" />
-              </div>
-              <div className="draft-buttons-container">
-                <button className="btn">
-                  <small>Save</small>
-                </button>
-                <button className="btn btn-danger">
-                  <small style={{ color: "white" }}>Cancel</small>
-                </button>
-              </div>
-            </>
-          )}{" "}
+          {mode === "main" && <StoryMain story={story} setMode={setMode} />}
+          {mode === "details" && <StoryDetails story={story} />}{" "}
           {mode === "story" && (
             <>
               <Editor story={story?.story} />
