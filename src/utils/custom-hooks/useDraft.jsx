@@ -5,6 +5,7 @@ import { db } from "../../../firebase-config";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -71,9 +72,24 @@ export const useDraft = () => {
     }
   };
 
+  const deleteDraft = async (draftId) => {
+    try {
+      setLoading(true);
+      const draftRef = doc(db, "drafts", draftId);
+      await deleteDoc(draftRef);
+      console.log("Successfully deleted draft");
+      setLoading(false);
+    } catch (error) {
+      setError("Failed to delete draft: " + error.message);
+      setLoading(false);
+      throw new Error(error);
+    }
+  };
+
   return {
     createDraft,
     fetchDraft,
     fetchDraftById,
+    deleteDraft,
   };
 };

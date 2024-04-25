@@ -9,6 +9,8 @@ import {
   where,
   limit,
   startAfter,
+  addDoc,
+  getDoc,
 } from "firebase/firestore";
 import { useAccount } from "./useAccount";
 
@@ -26,6 +28,21 @@ export const useStories = () => {
   const storiesCollection = collection(db, "stories");
 
   const auth = getAuth();
+
+  const createStory = async (newStory) => {
+    try {
+      const createdStoryRef = await addDoc(storiesCollection, newStory);
+      console.log("successfully created story");
+      const createdStory = await getDoc(createdStoryRef);
+      if (createStory.exists()) {
+        return createdStory.data();
+      } else {
+        throw new Error("Failed to Fetch Document");
+      }
+    } catch (error) {
+      throw new Error("Failed to Create Document", error);
+    }
+  };
 
   const fetchSuggestions = async (account) => {
     console.log("called", account);
@@ -75,12 +92,13 @@ export const useStories = () => {
   // These functions now only change when necessary
 
   return {
-    suggestions,
-    stories,
-    fetchSuggestions,
-    fetchStories,
-    error,
-    setPagination,
-    pagination,
+    // suggestions,
+    // stories,
+    // fetchSuggestions,
+    // fetchStories,
+    // error,
+    // setPagination,
+    // pagination,
+    createStory,
   };
 };
