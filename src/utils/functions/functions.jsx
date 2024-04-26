@@ -59,5 +59,46 @@ const checkProfileLimit = async () => {
   }
   return { error: null };
 };
+function checkForRestrictedWords(word) {
+  const input = word.toLowerCase(); // Convert input to lowercase to make the check case-insensitive
+  const restrictedWords = [
+    "fuck",
+    "sex",
+    "ass ",
+    "tits",
+    "dick",
+    "penis",
+    "shit",
+    "bitch",
+    "hoe ",
+    "boobs",
+    "pussy",
+    "vagina",
+    "porn",
+    "butt ",
+    "booty",
+    "cock ",
+    "titties",
+    "suck",
+    "blowjob",
+    "handjob",
+    "buttfuck",
+    "cocksucker",
+    "asslick",
+  ];
 
-export { checkURLAvailability, checkProfileLimit, appendStringWithDateTime };
+  // Check if any restricted word is in the input
+  const isRestricted = restrictedWords.some((word) => input.includes(word));
+  if (isRestricted) {
+    return "Error: The input contains restricted words.";
+  } else {
+    return "Input is valid.";
+  }
+}
+
+export {
+  checkURLAvailability,
+  checkProfileLimit,
+  appendStringWithDateTime,
+  checkForRestrictedWords,
+};

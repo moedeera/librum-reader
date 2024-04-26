@@ -203,14 +203,14 @@ export const SiteContextProvider = ({ children }) => {
     }
   };
   // Update story
-  useEffect(() => {
-    console.log("updating value....");
-    localStorage.setItem("created-story-info", JSON.stringify(story));
-  }, [story]);
+  // useEffect(() => {
+  //   console.log("updating value....");
+  //   localStorage.setItem("created-story-info", JSON.stringify(story));
+  // }, [story]);
 
-  useEffect(() => {
-    console.log(storyImage);
-  }, [storyImage]);
+  // useEffect(() => {
+  //   console.log(storyImage);
+  // }, [storyImage]);
 
   return (
     <SiteContext.Provider

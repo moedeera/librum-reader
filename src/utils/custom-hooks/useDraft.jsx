@@ -38,7 +38,7 @@ export const useDraft = () => {
       const draftDoc = await getDoc(draftRef); // Get the document
 
       if (draftDoc.exists()) {
-        console.log("Draft data:", draftDoc.data()); // Output the data of the draft
+        // Output the data of the draft
         return draftDoc.data(); // Return the data for further use
       } else {
         console.log("No such draft found!");

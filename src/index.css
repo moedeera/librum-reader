@@ -126,8 +126,10 @@ body {
   text-align: center;
   text-transform: none;
 }
-.btn-danger {
+.btn-danger,
+.btn-danger small {
   background-color: salmon;
+  color: white;
 }
 .btn-google p {
   display: flex;

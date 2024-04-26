@@ -31,6 +31,20 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.story-tags-add {
+  display: flex;
+  flex-direction: column;
+  color: salmon;
+}
+.story-tags-add small {
+  color: crimson;
+  font-weight: bold;
+  margin-top: 5px;
+}
 .story-details textarea {
   font-family: "Poppins", sans-serif;
+}
+.story-details input {
+  max-width: 10rem;
 }

@@ -31,7 +31,7 @@ const DraftPage = () => {
       try {
         setLoading(true);
         let res = await fetchDraftById(id);
-        console.log(res);
+
         setStory(res);
       } catch (error) {
         setError(true);
@@ -44,10 +44,6 @@ const DraftPage = () => {
       fetchThDraft(draftid);
     }
   }, [user]);
-
-  useEffect(() => {
-    console.log(story?.tags[0]);
-  }, [story]);
 
   if (loading || !story || story === null || story.story === null) {
     return <Loading />;
