@@ -86,10 +86,29 @@ export const useDraft = () => {
     }
   };
 
+  const updateDraft = async (draftId, updates) => {
+    try {
+      setLoading(true); // Set loading to true at the start of the operation
+      const draftRef = doc(draftCollection, draftId); // Create a reference to the draft document
+      const draftDoc = await getDoc(draftRef); // Get the document snapshot
+
+      if (!draftDoc.exists()) {
+        throw new Error("No such draft exists");
+      } else {
+        await updateDoc(draftRef, updates); // Pass the updates object directly
+        console.log(`Draft ${draftId} updated successfully.`);
+      }
+    } catch (error) {
+      // Update error state with the error message
+      throw error("Error updating draft: " + error.message); // Re-throw the error for further handling
+    }
+  };
+
   return {
     createDraft,
     fetchDraft,
     fetchDraftById,
     deleteDraft,
+    updateDraft,
   };
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./DropDown.css";
 
-export const DropDown = ({ selections, setValue, storyInfo }) => {
+export const DropDown = ({ selections, setValue }) => {
   const [values, setValues] = useState(["Fiction", "Sci-fi", "Fantasy"]);
 
   useEffect(() => {
@@ -11,10 +11,13 @@ export const DropDown = ({ selections, setValue, storyInfo }) => {
   }, []);
 
   const [dropDown, showDropDown] = useState(false);
-  const [selected, setSelected] = useState("Please select a Category");
+  const [selected, setSelected] = useState("Select a Category");
   return (
     <div className="drop-down-container">
-      <h4>Category</h4>
+      <p>
+        {" "}
+        <strong>Category</strong>{" "}
+      </p>
       <div
         className="drop-down-list"
         style={
@@ -40,8 +43,7 @@ export const DropDown = ({ selections, setValue, storyInfo }) => {
             onClick={() => {
               showDropDown(false);
               setSelected(value);
-              setValue({ ...storyInfo, category: value });
-              console.log(storyInfo);
+              setValue(value);
             }}
           >
             {value}

@@ -9,9 +9,8 @@ import "./DraftPage.css";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
 import StoryMain from "@/Components/StoryMain/StoryMain";
-
 const DraftPage = () => {
-  const { fetchDraftById } = useDraft();
+  const { fetchDraftById, updateDraft } = useDraft();
   const { user } = useContext(AuthContext);
   const [story, setStory] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -25,6 +24,18 @@ const DraftPage = () => {
     { id: 2, name: "Details", mode: "details" },
     { id: 3, name: "Story", mode: "story" },
   ];
+
+  const handleDetailUpdate = async (update) => {
+    try {
+      setLoading(true);
+      await updateDraft(draftid, update);
+      console.log("success");
+    } catch (error) {
+      console.log("failed to update", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchThDraft = async (id) => {
@@ -93,7 +104,13 @@ const DraftPage = () => {
             ))}
           </div>
           {mode === "main" && <StoryMain story={story} setMode={setMode} />}
-          {mode === "details" && <StoryDetails story={story} />}{" "}
+          {mode === "details" && (
+            <StoryDetails
+              story={story}
+              onSave={handleDetailUpdate}
+              setStory={setStory}
+            />
+          )}{" "}
           {mode === "story" && (
             <>
               <Editor story={story?.story} />
