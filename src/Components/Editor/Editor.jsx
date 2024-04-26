@@ -1,7 +1,7 @@
 import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 
-export const Editor = ({ title, setStory, story }) => {
+export const Editor = ({ title, setStory, story, onSave }) => {
   const [readOnly, setReadOnly] = useState(true);
 
   const editorRef = useRef(null);

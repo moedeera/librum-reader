@@ -25,7 +25,7 @@ const DraftPage = () => {
     { id: 3, name: "Story", mode: "story" },
   ];
 
-  const handleDetailUpdate = async (update) => {
+  const handleUpdate = async (update) => {
     try {
       await updateDraft(draftid, update);
       console.log("success");
@@ -105,13 +105,13 @@ const DraftPage = () => {
           {mode === "details" && (
             <StoryDetails
               story={story}
-              onSave={handleDetailUpdate}
+              onSave={handleUpdate}
               setStory={setStory}
             />
           )}{" "}
           {mode === "story" && (
             <>
-              <Editor story={story?.story} />
+              <Editor story={story?.story} onSave={handleUpdate} />
             </>
           )}
         </div>
