@@ -27,13 +27,11 @@ const DraftPage = () => {
 
   const handleDetailUpdate = async (update) => {
     try {
-      setLoading(true);
       await updateDraft(draftid, update);
       console.log("success");
     } catch (error) {
       console.log("failed to update", error);
-    } finally {
-      setLoading(false);
+      throw new Error(error);
     }
   };
 

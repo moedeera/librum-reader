@@ -5,9 +5,11 @@ import { checkForRestrictedWords } from "@/utils/functions/functions";
 import { DropDown } from "../DropDown/DropDown";
 
 export const StoryDetails = ({ story, onSave, setStory }) => {
+  const [loading, setLoading] = useState(false);
   const [synopsis, setSynopsis] = useState(story?.synopis);
   const [tags, setTags] = useState([...story?.tags]);
   const [newTag, setNewTag] = useState("");
+  const [updateError, setUpdateError] = useState(null);
   const [newTagError, setNewTagError] = useState(null);
   const [category, setCategory] = useState(story?.category);
   const primaryCategories = ["Fiction", "Non-Fiction", "Article"];
@@ -21,13 +23,19 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
   const deleteTag = (tagToDelete) => {
     let newTags = tags.filter((tag) => tag !== tagToDelete);
     setTags(newTags);
-    console.log(newTags);
   };
-
-  useEffect(() => {
-    console.log(category);
-  }, [category]);
-
+  const handleUpdate = async () => {
+    setLoading(true);
+    try {
+      await onSave({ synopsis, tags, category });
+      setStory({ ...story, synopsis, tags, category });
+    } catch (error) {
+      console.log(error);
+      setUpdateError("Error Updating Draft");
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleTagInputChange = (e) => {
     const input = e.target.value;
     const wordResult = checkForRestrictedWords(input);
@@ -62,8 +70,8 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
     setNewTag("");
   };
 
-  if (!story) {
-    return <Loading />;
+  if (!story || loading) {
+    return <Loading mini={true} />;
   }
 
   return (
@@ -119,13 +127,16 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
           <small>Add tag</small>
         </button>
       </div>
-      <DropDown selections={primaryCategories} setValue={setCategory} />
+      <DropDown
+        selections={primaryCategories}
+        setValue={setCategory}
+        current={story.category}
+      />
       <div className="story-buttons-container">
         <button
           className="btn"
           onClick={() => {
-            onSave({ synopsis, tags, category });
-            setStory({ ...story, synopsis, tags, category });
+            handleUpdate();
           }}
         >
           <small>Save Changes</small>

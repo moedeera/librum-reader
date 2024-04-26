@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./DropDown.css";
 
-export const DropDown = ({ selections, setValue }) => {
+export const DropDown = ({ selections, setValue, current }) => {
   const [values, setValues] = useState(["Fiction", "Sci-fi", "Fantasy"]);
 
   useEffect(() => {
@@ -11,7 +11,9 @@ export const DropDown = ({ selections, setValue }) => {
   }, []);
 
   const [dropDown, showDropDown] = useState(false);
-  const [selected, setSelected] = useState("Select a Category");
+  const [selected, setSelected] = useState(
+    current ? current : "Select a Category"
+  );
   return (
     <div className="drop-down-container">
       <p>
