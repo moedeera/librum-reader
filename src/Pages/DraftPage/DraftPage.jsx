@@ -81,7 +81,11 @@ const DraftPage = () => {
           </div>
         </div> */}
         <div style={{ marginBottom: "25px" }}>
-          <ImageBox prevImage={story?.cover} />
+          <ImageBox
+            prevImage={story?.cover}
+            setStory={setStory}
+            story={story}
+          />
         </div>
 
         <div className={mode === "story" ? "draft-main story" : "draft-main"}>
