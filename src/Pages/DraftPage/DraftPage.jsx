@@ -85,6 +85,7 @@ const DraftPage = () => {
             prevImage={story?.cover}
             setStory={setStory}
             story={story}
+            id={draftid}
           />
         </div>
 
