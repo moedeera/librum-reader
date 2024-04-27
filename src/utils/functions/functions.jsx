@@ -106,10 +106,40 @@ function arraysEqual(a, b) {
   return true;
 }
 
+function getCurrentDateFormatted() {
+  const date = new Date();
+
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()]; // Get month name from array
+  const day = date.getDate().toString().padStart(2, "0"); // Get day and pad with zero if needed
+  const year = date.getFullYear().toString().slice(-2); // Get last two digits of year
+
+  const hours = date.getHours().toString().padStart(2, "0"); // Get hours and pad with zero if needed
+  const minutes = date.getMinutes().toString().padStart(2, "0"); // Get minutes and pad with zero if needed
+
+  return `${month} ${day} ${year} at ${hours} ${minutes}`; // Construct the string in desired format
+}
+
+console.log(getCurrentDateFormatted());
+
 export {
   checkURLAvailability,
   checkProfileLimit,
   appendStringWithDateTime,
   checkForRestrictedWords,
   arraysEqual,
+  getCurrentDateFormatted,
 };

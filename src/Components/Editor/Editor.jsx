@@ -1,11 +1,15 @@
+import { getCurrentDateFormatted } from "@/utils/functions/functions";
 import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
+import { Loading } from "../Loading/Loading";
 
-export const Editor = ({ title, setStory, story, onSave }) => {
+export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
   const [readOnly, setReadOnly] = useState(true);
   const [loading, setLoading] = useState(false);
   const [editedStory, setEditedStory] = useState(story);
   const [updateError, setUpdateError] = useState(null);
+  const [updateSuccess, setUpdateSuccess] = useState(null);
+  const [time, setTime] = useState(null);
   const [reset, setReset] = useState(0);
 
   const editorRef = useRef(null);
@@ -15,7 +19,9 @@ export const Editor = ({ title, setStory, story, onSave }) => {
     setLoading(true);
     try {
       await onSave({ story: editedStory });
-      setStory({ ...story, story: editedStory });
+      setStory({ ...prevStoryInfo, story: editedStory });
+      setUpdateSuccess(true);
+      setTime(getCurrentDateFormatted());
     } catch (error) {
       console.log(error);
       setUpdateError("Error Updating Draft");
@@ -23,7 +29,7 @@ export const Editor = ({ title, setStory, story, onSave }) => {
       setLoading(false);
     }
   };
-
+  console.log(story);
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -52,14 +58,30 @@ export const Editor = ({ title, setStory, story, onSave }) => {
         quillRef.current.destroy();
       }
     };
-  }, [reset]);
+  }, [reset, updateSuccess, updateError]);
+
+  if (loading) {
+    return <Loading mini={true} />;
+  }
 
   return (
     <div className="text-editor-page" style={{ marginTop: "0px" }}>
       <div ref={editorRef} className="text-editor" id="quill-container"></div>
       <div>{updateError && <p style={{ color: "crimson" }}>Error</p>}</div>
+      <div>
+        {updateSuccess && (
+          <p style={{ color: "green" }}>Successfully updated at {time}</p>
+        )}
+      </div>
       <div className="editor-button-container">
-        <button className="btn">Save Changes</button>
+        <button
+          className="btn"
+          onClick={() => {
+            handleUpdate();
+          }}
+        >
+          Save Changes
+        </button>
         <button
           className="btn btn-danger"
           onClick={() => {

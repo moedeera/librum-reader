@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { SiteContext } from "../../Context/Context";
 import blank from "./blank.png";
 
-const ImageBox = ({ setError }) => {
+const ImageBox = ({ setError, prevImage }) => {
   const { setStoryImage } = useContext(SiteContext);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -34,8 +34,9 @@ const ImageBox = ({ setError }) => {
   return (
     <div
       style={{
-        height: "400px",
-        width: "90%",
+        height: "100%",
+        minHeight: "400px",
+        width: "100%",
         padding: "5px",
         minWidth: "270px",
         borderRadius: "5px",
@@ -48,10 +49,10 @@ const ImageBox = ({ setError }) => {
     >
       <div
         style={{
-          height: "250px",
-          width: "80%",
+          height: "100%",
+          width: "100%",
           backgroundColor: "gray", // Default background color
-          backgroundImage: image ? `url(${image})` : `url(${blank})`,
+          backgroundImage: prevImage ? `url(${prevImage})` : `url(${blank})`,
           backgroundPosition: "center center", // Center the background image
           backgroundSize: "cover", // Ensure the image covers the area without distorting its aspect ratio
           backgroundRepeat: "no-repeat", // Do not repeat the image

@@ -9,6 +9,7 @@ import "./DraftPage.css";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
 import StoryMain from "@/Components/StoryMain/StoryMain";
+import ImageBox from "../StoryInfo/ImageUploader";
 const DraftPage = () => {
   const { fetchDraftById, updateDraft } = useDraft();
   const { user } = useContext(AuthContext);
@@ -71,13 +72,16 @@ const DraftPage = () => {
           mode === "story" ? "draft-container story-editor" : "draft-container"
         }
       >
-        <div className="draft-cover">
+        {/* <div className="draft-cover">
           <div
             className="draft-cover-image"
             style={{ backgroundImage: `url(${story?.cover})` }}
           >
             <button className="btn">Change Cover</button>
           </div>
+        </div> */}
+        <div style={{ marginBottom: "25px" }}>
+          <ImageBox prevImage={story?.cover} />
         </div>
 
         <div className={mode === "story" ? "draft-main story" : "draft-main"}>
@@ -111,7 +115,12 @@ const DraftPage = () => {
           )}{" "}
           {mode === "story" && (
             <>
-              <Editor story={story?.story} onSave={handleUpdate} />
+              <Editor
+                story={story?.story}
+                onSave={handleUpdate}
+                setStory={setStory}
+                prevStoryInfo={story}
+              />
             </>
           )}
         </div>
