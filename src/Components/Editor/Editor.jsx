@@ -3,9 +3,24 @@ import { useEffect, useRef, useState } from "react";
 
 export const Editor = ({ title, setStory, story, onSave }) => {
   const [readOnly, setReadOnly] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [editedStory, setEditedStory] = useState;
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
+
+  const handleUpdate = async () => {
+    setLoading(true);
+    try {
+      await onSave({ synopsis, tags, category });
+      setStory({ ...story, synopsis, tags, category });
+    } catch (error) {
+      console.log(error);
+      setUpdateError("Error Updating Draft");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!editorRef.current) return;
