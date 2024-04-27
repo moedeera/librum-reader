@@ -14,6 +14,11 @@ export const DropDown = ({ selections, setValue, current }) => {
   const [selected, setSelected] = useState(
     current ? current : "Select a Category"
   );
+
+  useEffect(() => {
+    setSelected(current);
+  }, [current]);
+
   return (
     <div className="drop-down-container">
       <p>

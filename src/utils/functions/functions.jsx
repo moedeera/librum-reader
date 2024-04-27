@@ -85,6 +85,8 @@ function checkForRestrictedWords(word) {
     "buttfuck",
     "cocksucker",
     "asslick",
+    "nigger",
+    "nigga",
   ];
 
   // Check if any restricted word is in the input
@@ -96,9 +98,18 @@ function checkForRestrictedWords(word) {
   }
 }
 
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
 export {
   checkURLAvailability,
   checkProfileLimit,
   appendStringWithDateTime,
   checkForRestrictedWords,
+  arraysEqual,
 };

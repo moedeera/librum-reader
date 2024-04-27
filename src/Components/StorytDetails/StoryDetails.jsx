@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import "./StoryDetails.css";
 import { Loading } from "../Loading/Loading";
-import { checkForRestrictedWords } from "@/utils/functions/functions";
+import {
+  arraysEqual,
+  checkForRestrictedWords,
+} from "@/utils/functions/functions";
 import { DropDown } from "../DropDown/DropDown";
 
 export const StoryDetails = ({ story, onSave, setStory }) => {
   const [loading, setLoading] = useState(false);
-  const [synopsis, setSynopsis] = useState(story?.synopis);
+  const [synopsis, setSynopsis] = useState(story?.synopsis);
   const [tags, setTags] = useState([...story?.tags]);
   const [newTag, setNewTag] = useState("");
   const [updateError, setUpdateError] = useState(null);
   const [newTagError, setNewTagError] = useState(null);
   const [category, setCategory] = useState(story?.category);
+  const [changedOnce, setChangedOnce] = useState(false);
   const primaryCategories = ["Fiction", "Non-Fiction", "Article"];
 
   // Effect to update state when the `story` prop changes
@@ -130,7 +134,7 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
       <DropDown
         selections={primaryCategories}
         setValue={setCategory}
-        current={story.category}
+        current={category}
       />
       <div className="story-buttons-container">
         <button
@@ -142,9 +146,11 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
           <small>Save Changes</small>
         </button>
         <button
-          className="btn btn-danger"
+          className={"btn btn-danger "}
           onClick={() => {
-            console.log(synopsis, tags, category);
+            setCategory(story?.category);
+            setSynopsis(story?.synopsis);
+            setTags(story?.tags);
           }}
         >
           <small>Discard Changes</small>
