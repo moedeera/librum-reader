@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
-import { db } from "../../../firebase-config";
+import { db, storage } from "../../../firebase-config";
 import {
   addDoc,
   collection,
@@ -14,6 +14,8 @@ import {
   where,
 } from "firebase/firestore";
 import { randomLiterature, getRandomItem } from "@/Pages/AuthPage.js/Content";
+import { getPathFromUrl } from "../functions/functions";
+import { deleteObject, ref } from "firebase/storage";
 
 export const useDraft = () => {
   const [loading, setLoading] = useState(false);
@@ -104,11 +106,23 @@ export const useDraft = () => {
     }
   };
 
+  const deleteImage = async (imageUrl) => {
+    try {
+      const imagePath = getPathFromUrl(imageUrl);
+      const imageRef = ref(storage, imagePath);
+      await deleteObject(imageRef);
+      console.log("File deleted successfully");
+    } catch (error) {
+      console.error("Error removing file: ", error);
+    }
+  };
+
   return {
     createDraft,
     fetchDraft,
     fetchDraftById,
     deleteDraft,
     updateDraft,
+    deleteImage,
   };
 };

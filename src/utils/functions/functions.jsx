@@ -133,7 +133,13 @@ function getCurrentDateFormatted() {
   return `${month} ${day} ${year} at ${hours} ${minutes}`; // Construct the string in desired format
 }
 
-console.log(getCurrentDateFormatted());
+const getPathFromUrl = (url) => {
+  const path = new URL(url).pathname;
+  // Assuming URL format: https://firebasestorage.googleapis.com/v0/b/YOUR_PROJECT.appspot.com/o/IMAGES_PATH%2FimageName.jpg?...
+  // Extract the path after '/o/'
+  const decodedPath = decodeURIComponent(path); // Handle URL encoding
+  return decodedPath.split("/").slice(3).join("/").split("?")[0]; // Adjust slicing based on your actual URL structure
+};
 
 export {
   checkURLAvailability,
@@ -142,4 +148,5 @@ export {
   checkForRestrictedWords,
   arraysEqual,
   getCurrentDateFormatted,
+  getPathFromUrl,
 };

@@ -5,8 +5,11 @@ import blank from "./blank.png";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase-config";
 import { Loading } from "@/Components/Loading/Loading";
+import { useDraft } from "@/utils/custom-hooks/useDraft";
 
-const ImageBox = ({ prevImage, onSave, setStory, story }) => {
+const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
+  const { updateDraft, deleteImage } = useDraft();
+
   const [storyImage, setStoryImage] = useState(prevImage ? prevImage : blank);
   const fileInputRef = useRef(null);
   const [Error, setError] = useState(null);
@@ -14,50 +17,50 @@ const ImageBox = ({ prevImage, onSave, setStory, story }) => {
   const [changeImage, setChangeImage] = useState(false);
   const [imageSelected, setImageSelected] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const uploadImage = async () => {
-    if (storyImage === null) return;
+    if (!storyImage) return;
+    setLoading(true);
     const imageRef = ref(storage, `images/${storyImage.name}`);
-    uploadBytes(imageRef, storyImage).then(async () => {
-      try {
-        setLoading(true);
-        const url = await getDownloadURL(imageRef);
-        console.log(url);
-        setStory({ ...story, cover: url });
-        console.log(story);
-        setChangeImage(false); // Reset button label after upload
-        fileInputRef.current.value = null; // Clear the file
-        setUploadSuccess(true);
-        console.log(story);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    });
+
+    try {
+      await uploadBytes(imageRef, storyImage);
+      const url = await getDownloadURL(imageRef);
+      console.log("successfully uploaded image", url);
+      await updateDraft(id, { cover: url });
+      // await deleteImage(story?.cover);
+      setStory({ ...story, cover: url });
+      setChangeImage(false);
+      setUploadSuccess(true);
+      if (fileInputRef.current) fileInputRef.current.value = ""; // Clear the file input if necessary
+    } catch (error) {
+      setError("Failed to upload image: " + error.message);
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log(file.size);
-
+      console.log(file.name);
       // Check if file size is greater than 900KB (900 * 1024 bytes)
       if (file.size > 900 * 1024) {
         setError("Image size should not be larger than 900KB");
         setLoading(false); // Ensure loading is set to false as no loading process will occur
         return; // Prevent further execution
       }
-
       setLoading(true);
       setError(""); // Reset error state on a new file selection
       setStoryImage(file); // Store the file for later upload
 
       const reader = new FileReader();
       reader.onloadend = () => {
-        setStoryImage(reader.result);
+        setPreviewImage(reader.result);
         setImageSelected(true);
-        console.log(reader.result);
+        // console.log(reader.result);
         setLoading(false);
       };
       reader.readAsDataURL(file);
@@ -89,7 +92,7 @@ const ImageBox = ({ prevImage, onSave, setStory, story }) => {
           height: "100%",
           width: "100%",
           backgroundColor: "gray", // Default background color
-          backgroundImage: `url(${storyImage})`,
+          backgroundImage: `url(${previewImage ? previewImage : storyImage})`,
           backgroundPosition: "center center", // Center the background image
           backgroundSize: "cover", // Ensure the image covers the area without distorting its aspect ratio
           backgroundRepeat: "no-repeat", // Do not repeat the image
@@ -154,6 +157,7 @@ const ImageBox = ({ prevImage, onSave, setStory, story }) => {
               className="btn btn-danger"
               onClick={() => {
                 setStoryImage(prevImage);
+                setPreviewImage(null);
                 fileInputRef.current.value = null;
                 setImageSelected(false);
               }}
