@@ -1,6 +1,5 @@
 import { useContext, useRef, useState } from "react";
 
-import { SiteContext } from "../../Context/Context";
 import blank from "./blank.png";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../../firebase-config";
