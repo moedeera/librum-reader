@@ -74,19 +74,19 @@ export const useDraft = () => {
     }
   };
 
-  const deleteDraft = async (draftId) => {
-    try {
-      setLoading(true);
-      const draftRef = doc(db, "drafts", draftId);
-      await deleteDoc(draftRef);
-      console.log("Successfully deleted draft");
-      setLoading(false);
-    } catch (error) {
-      setError("Failed to delete draft: " + error.message);
-      setLoading(false);
-      throw new Error(error);
-    }
-  };
+  // const deleteDraft = async (draftId) => {
+  //   try {
+  //     setLoading(true);
+  //     const draftRef = doc(db, "drafts", draftId);
+  //     await deleteDoc(draftRef);
+  //     console.log("Successfully deleted draft");
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setError("Failed to delete draft: " + error.message);
+  //     setLoading(false);
+  //     throw new Error(error);
+  //   }
+  // };
 
   const updateDraft = async (draftId, updates) => {
     try {
@@ -114,6 +114,18 @@ export const useDraft = () => {
       console.log("File deleted successfully");
     } catch (error) {
       console.error("Error removing file: ", error);
+    }
+  };
+
+  const deleteDraft = async (draftId) => {
+    try {
+      const draftRef = doc(db, "drafts", draftId);
+      await deleteDoc(draftRef);
+      console.log("Draft deleted successfully!");
+      // Optionally, you can handle any post-deletion logic here (e.g., updating state or UI)
+    } catch (error) {
+      console.error("Error deleting draft:", error);
+      // Optionally, handle errors in UI, such as displaying an error message
     }
   };
 

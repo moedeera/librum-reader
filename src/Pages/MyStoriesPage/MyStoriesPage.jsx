@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "@/Context/AuthContext";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { formatTimestamp } from "@/utils/functions/functions";
+import { useDraft } from "@/utils/custom-hooks/useDraft";
 
 export const MyStoriesPage = () => {
   const { user } = useContext(AuthContext);
@@ -12,7 +13,27 @@ export const MyStoriesPage = () => {
 
   const navigate = useNavigate();
   const { updateAccount, fetchAccount } = useAccount();
+  const { deleteDraft } = useDraft();
 
+  //   const handleOnDeleteClick = async() => {
+  //   alert
+  // }
+
+  const handleOnDelete = async (id) => {
+    console.log(id);
+    try {
+      await deleteDraft(id);
+      let updatedAccount = {
+        ...account,
+        drafts: account.drafts.filter((draft) => draft.draftId !== id && draft),
+      };
+      console.log(updatedAccount);
+      await updateAccount(account.userId, "drafts", updatedAccount.drafts);
+      setAccount(updateAccount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     const fetchUserAccount = async () => {
       const data = await fetchAccount();
@@ -41,7 +62,12 @@ export const MyStoriesPage = () => {
                 <Link className="btn" to={`${draft.draftId}`}>
                   <small>Edit</small>
                 </Link>
-                <button className="btn btn-danger">
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleOnDelete(draft.draftId);
+                  }}
+                >
                   <small> Delete</small>
                 </button>
               </div>

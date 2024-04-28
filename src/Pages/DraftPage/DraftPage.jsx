@@ -102,7 +102,9 @@ const DraftPage = () => {
               </div>
             ))}
           </div>
-          {mode === "main" && <StoryMain story={story} setMode={setMode} />}
+          {mode === "main" && (
+            <StoryMain story={story} setMode={setMode} draftId={draftid} />
+          )}
           {mode === "details" && (
             <StoryDetails
               story={story}

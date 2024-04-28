@@ -11,12 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
+import { useDraft } from "@/utils/custom-hooks/useDraft";
 
-const StoryMain = ({ story, setMode, onPublish }) => {
+const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const [loading, setLoading] = useState(false);
   const { createStory } = useStories();
   const { createSummary } = useSummaries();
   const { updateUserProfile, fetchProfile } = useProfile();
+  const { deleteDraft } = useDraft();
   const navigate = useNavigate();
 
   const handleClick = async () => {
@@ -63,6 +65,7 @@ const StoryMain = ({ story, setMode, onPublish }) => {
         "stories",
         updatedUserProfileStories
       );
+      await deleteDraft(draftId);
     } catch (error) {
       console.log(error);
     } finally {

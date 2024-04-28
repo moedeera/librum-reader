@@ -25,7 +25,9 @@ export const useStories = () => {
   const [error, setError] = useState("");
   const [pagination, setPagination] = useState(1);
   const [lastVisible, setLastVisible] = useState(null);
+  const { user } = useContext(AuthContext);
 
+  // create a story
   const createStory = async (newStory) => {
     try {
       const createdStoryRef = await addDoc(storiesCollection, newStory);
@@ -35,27 +37,27 @@ export const useStories = () => {
     }
   };
 
-  const fetchSuggestions = async (account) => {
-    console.log("called", account);
-    if (!account || !account.genres || account.genres.length === 0) return;
+  // fetch a story by the url
+  const fetchStory = async (url) => {
+    console.log(auth.currentUser, url);
 
-    try {
-      const firstGenre = account.genres[0];
-      const q = query(
-        storiesCollection,
-        where("genres", "array-contains", firstGenre),
-        limit(3)
-      );
-      const querySnapshot = await getDocs(q);
-      const stories = querySnapshot.docs.map((doc) => doc.data());
-      return stories;
-    } catch (error) {
-      throw new Error(error);
+    if (!user || user === null) {
+      console.log("no user");
+      return;
     }
-  }; // Include only necessary dependencies
-
-  const getStories = async () => {
-    const querySnapshot = await getDocs();
+    console.log(auth.currentUser);
+    try {
+      const q = query(storiesCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such draft exists");
+      } else {
+        let data = querySnapshot.docs[0].data();
+        return data;
+      }
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   // Include only necessary dependencies
@@ -64,6 +66,7 @@ export const useStories = () => {
   return {
     // suggestions,
     stories,
+    fetchStory,
     // fetchSuggestions,
     // fetchStories,
     // error,
