@@ -1,4 +1,7 @@
-import { getCurrentDateFormatted } from "@/utils/functions/functions";
+import {
+  getCurrentDateFormatted,
+  getWordCount,
+} from "@/utils/functions/functions";
 import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 import { Loading } from "../Loading/Loading";
@@ -6,19 +9,20 @@ import { Loading } from "../Loading/Loading";
 export const Editor = ({
   title,
   setStory,
-  story,
+  storyText,
   onSave,
   prevStoryInfo,
   setMode,
 }) => {
   const [readOnly, setReadOnly] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [editedStory, setEditedStory] = useState(story);
+  const [editedStory, setEditedStory] = useState(storyText);
   const [updateError, setUpdateError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(null);
   const [time, setTime] = useState(null);
   const [reset, setReset] = useState(0);
   const [startedEditing, setStartedEditing] = useState(false);
+  const [wordCount, setWordCount] = useState(prevStoryInfo.wordCount);
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
@@ -26,8 +30,8 @@ export const Editor = ({
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await onSave({ story: editedStory });
-      setStory({ ...prevStoryInfo, story: editedStory });
+      await onSave({ story: editedStory, wordCount });
+      setStory({ ...prevStoryInfo, story: editedStory, wordCount });
       setUpdateSuccess(true);
       setTime(getCurrentDateFormatted());
     } catch (error) {
@@ -38,7 +42,7 @@ export const Editor = ({
       setStartedEditing(false);
     }
   };
-  console.log(story);
+  console.log(wordCount);
   useEffect(() => {
     if (!editorRef.current) return;
 
@@ -52,13 +56,16 @@ export const Editor = ({
       modules: { toolbar: true },
     });
 
-    quill.setContents(story);
+    quill.setContents(storyText);
 
     quillRef.current = quill;
 
     quill.on("text-change", (delta, oldDelta, source) => {
       const content = quill.getContents();
-      console.log(content.ops);
+      const newWordCount = getWordCount(quill);
+      setStory({ ...prevStoryInfo, wordCount: newWordCount });
+      setWordCount(newWordCount);
+      // console.log(content.ops);
       if (!startedEditing) {
         setStartedEditing(true);
       }
@@ -84,6 +91,9 @@ export const Editor = ({
         {updateSuccess && (
           <p style={{ color: "green" }}>Successfully updated at {time}</p>
         )}
+      </div>
+      <div>
+        <small>Word count : {wordCount}</small>
       </div>
       {startedEditing ? (
         <div className="draft-buttons-container">

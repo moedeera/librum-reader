@@ -4,6 +4,7 @@ import "./MyStoriesPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "@/Context/AuthContext";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
+import { formatTimestamp } from "@/utils/functions/functions";
 
 export const MyStoriesPage = () => {
   const { user } = useContext(AuthContext);
@@ -35,18 +36,7 @@ export const MyStoriesPage = () => {
                 style={{ backgroundImage: `url(${draft.cover})` }}
               ></div>
               {draft.title}
-              <div>
-                <small>
-                  <strong>Created </strong>
-                  {draft?.dateCreated ? draft.dateCreated : "April 23 2024"}
-                </small>
-              </div>
-              <div>
-                <small>
-                  <strong> Last Edited </strong>
-                  {draft?.lastEdited ? draft.lastEdited : "April 24 2024"}
-                </small>
-              </div>
+
               <div className="button-container">
                 <Link className="btn" to={`${draft.draftId}`}>
                   <small>Edit</small>

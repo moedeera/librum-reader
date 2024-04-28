@@ -141,6 +141,64 @@ const getPathFromUrl = (url) => {
   return decodedPath.split("/").slice(3).join("/").split("?")[0]; // Adjust slicing based on your actual URL structure
 };
 
+let x = {
+  seconds: 1714289077,
+  nanoseconds: 769000000,
+};
+
+function formatTimestamp(timestamp) {
+  // Convert the timestamp to a JavaScript Date object
+  const date = new Date(
+    timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+  );
+
+  // Helper to add leading zeros
+  const pad = (num) => (num < 10 ? "0" + num : num);
+
+  // Extract components from the date
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  const currentYear = new Date().getFullYear();
+  const hour = date.getHours();
+  const minute = pad(date.getMinutes());
+  const ampm = hour >= 12 ? "PM" : "AM";
+  const hourFormatted = hour % 12 || 12; // Convert 24h to 12h format and adjust 0 o'clock to 12
+
+  // Format "Month Day Year at Hour:Minute AM/PM"
+  let formattedDate = `${month} ${day}`;
+  if (year !== currentYear) {
+    formattedDate += ` ${year}`;
+  }
+  formattedDate += ` at ${hourFormatted}:${minute} ${ampm}`;
+
+  return formattedDate;
+}
+function getWordCount(quill) {
+  const text = quill.getText(); // Get the plain text
+  const trimmedText = text.trim(); // Trim leading and trailing whitespace
+  if (trimmedText.length === 0) {
+    return 0; // Return zero if the text is empty
+  }
+  // Split the text by whitespace and count the resulting array elements
+  const words = trimmedText.split(/\s+/);
+  return words.length;
+}
+
 export {
   checkURLAvailability,
   checkProfileLimit,
@@ -149,4 +207,6 @@ export {
   arraysEqual,
   getCurrentDateFormatted,
   getPathFromUrl,
+  formatTimestamp,
+  getWordCount,
 };

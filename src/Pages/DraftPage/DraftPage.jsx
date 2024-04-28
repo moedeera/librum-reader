@@ -41,7 +41,7 @@ const DraftPage = () => {
       try {
         setLoading(true);
         let res = await fetchDraftById(id);
-        console.log(res);
+        // console.log(res);
         setStory(res);
       } catch (error) {
         setError(true);
@@ -72,14 +72,6 @@ const DraftPage = () => {
           mode === "story" ? "draft-container story-editor" : "draft-container"
         }
       >
-        {/* <div className="draft-cover">
-          <div
-            className="draft-cover-image"
-            style={{ backgroundImage: `url(${story?.cover})` }}
-          >
-            <button className="btn">Change Cover</button>
-          </div>
-        </div> */}
         <div style={{ marginBottom: "25px", width: "100%" }}>
           <ImageBox
             prevImage={story?.cover}
@@ -121,7 +113,7 @@ const DraftPage = () => {
           {mode === "story" && (
             <>
               <Editor
-                story={story?.story}
+                storyText={story?.story}
                 onSave={handleUpdate}
                 setStory={setStory}
                 prevStoryInfo={story}

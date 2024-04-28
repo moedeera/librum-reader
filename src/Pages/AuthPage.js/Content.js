@@ -123,7 +123,7 @@ const randomLiterature = [
   {
     category: "Fiction",
     title: "Neon Dreams",
-    tag: ["sci-fi", "urban", "future"],
+    tags: ["sci-fi", "urban", "future"],
     cover:
       "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fneonedreams.webp?alt=media&token=e275a70d-cad7-42f8-a46f-02491a8b6d7f",
     promoted: false,
@@ -143,7 +143,7 @@ const randomLiterature = [
   {
     category: "Fiction",
     title: "The Faerie Glade",
-    tag: ["fantasy", "adventure", "mystical"],
+    tags: ["fantasy", "adventure", "mystical"],
     cover:
       "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fneonedreams.webp?alt=media&token=e275a70d-cad7-42f8-a46f-02491a8b6d7f",
     promoted: false,
@@ -163,7 +163,7 @@ const randomLiterature = [
   {
     category: "Fiction",
     title: "The Keeper of Secrets",
-    tag: ["mystery", "historical", "thriller"],
+    tags: ["mystery", "historical", "thriller"],
     cover:
       "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2FkeeperofSecrets.webp?alt=media&token=d0b275b7-f598-477f-9b6f-9592ba8a975b",
     promoted: false,

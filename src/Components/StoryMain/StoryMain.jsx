@@ -1,5 +1,34 @@
+import { formatTimestamp } from "@/utils/functions/functions";
 import "./StoryMain.css";
-const StoryMain = ({ story, setMode, function2 }) => {
+import { useState } from "react";
+
+import { Loading } from "../Loading/Loading";
+import { useNavigate } from "react-router-dom";
+
+import { useStories } from "@/utils/custom-hooks/useStories";
+const StoryMain = ({ story, setMode, onPublish }) => {
+  const [loading, setLoading] = useState(false);
+  const { createStory } = useStories();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    let publishedStory = {};
+    // try {
+    //   setLoading(true);
+    //   await onPublish()
+    //   setTimeout(() => {
+    //     navigate(path);
+    //   }, 3000);
+
+    // } catch (error) {
+    //   setLoading(false)
+    // }
+  };
+
+  if (loading) {
+    return <Loading mini={true} />;
+  }
+
   return (
     <>
       {" "}
@@ -16,7 +45,9 @@ const StoryMain = ({ story, setMode, function2 }) => {
         {" "}
         <small>
           Last Edited{" "}
-          {story?.lastEdited ? story.lastEdited : "12:35 April 27 2023 "}
+          {story?.lastEdited
+            ? formatTimestamp(story.lastEdited)
+            : "12:35 April 27 2023 "}
         </small>
       </div>
       <div className="story-tags">
@@ -24,12 +55,17 @@ const StoryMain = ({ story, setMode, function2 }) => {
         {story?.tags.map((tag, index) => (
           <small key={index}>
             {tag}
-            {index < story.tags.length && ", "}
+            {index < story?.tags.length && ", "}
           </small>
         ))}
       </div>
       <div className="story-buttons-container">
-        <button className="btn btn-green">
+        <button
+          className="btn btn-green"
+          onClick={() => {
+            handleClick("/");
+          }}
+        >
           <small>Publish</small>
         </button>
 

@@ -303,6 +303,7 @@ const AuthPage = () => {
         category: randomStory.category,
         authorLink: profile.url,
         dateCreated: new Date(),
+        lastEdited: new Date(),
         title: randomStory.title,
         synopsis: randomStory.synopsis,
         cover: randomStory.cover,

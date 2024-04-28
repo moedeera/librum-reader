@@ -31,7 +31,8 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await onSave({ synopsis, tags, category });
+      let currentDate = new Date();
+      await onSave({ synopsis, tags, category, lastEdited: currentDate });
       setStory({ ...story, synopsis, tags, category });
     } catch (error) {
       console.log(error);
