@@ -73,7 +73,7 @@ export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
           <p style={{ color: "green" }}>Successfully updated at {time}</p>
         )}
       </div>
-      <div className="editor-button-container">
+      <div className="draft-button-container">
         <button
           className="btn"
           onClick={() => {

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import blank from "./blank.png";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -6,10 +6,13 @@ import { storage } from "../../../firebase-config";
 import { Loading } from "@/Components/Loading/Loading";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 
+import { useAccount } from "@/utils/custom-hooks/useAccount";
+
 const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
   const { updateDraft, deleteImage } = useDraft();
+  const { fetchAccount, updateAccount } = useAccount();
 
-  const [storyImage, setStoryImage] = useState(prevImage ? prevImage : blank);
+  const [storyImage, setStoryImage] = useState(null);
   const fileInputRef = useRef(null);
   const [Error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +20,19 @@ const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
   const [imageSelected, setImageSelected] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
+
+  useEffect(() => {
+    setStoryImage(prevImage ? prevImage : blank);
+  }, [prevImage]);
+
+  useEffect(() => {
+    if (uploadSuccess === false) {
+      return;
+    }
+    setTimeout(() => {
+      setUploadSuccess(false);
+    }, 3000);
+  }, [uploadSuccess]);
 
   const uploadImage = async () => {
     if (!storyImage) return;
@@ -28,6 +44,14 @@ const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
       const url = await getDownloadURL(imageRef);
       console.log("successfully uploaded image", url);
       await updateDraft(id, { cover: url });
+      const account = await fetchAccount();
+      const updatedAccount = {
+        ...account,
+        drafts: account.drafts.map((draft) =>
+          draft.draftId === id ? { ...draft, cover: url } : draft
+        ),
+      };
+      await updateAccount(story?.userId, "drafts", updatedAccount.drafts);
       // await deleteImage(story?.cover);
       setStory({ ...story, cover: url });
       setChangeImage(false);
@@ -132,12 +156,15 @@ const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
           )
         ) : (
           <button
-            className="btn"
+            className={uploadSuccess ? "btn btn-green" : "btn"}
             onClick={() => {
+              if (uploadSuccess) {
+                return;
+              }
               setChangeImage(true);
             }}
           >
-            Change Cover
+            {uploadSuccess ? "Successfully Uploaded " : "Change Cover"}
           </button>
         )}
 

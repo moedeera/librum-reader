@@ -41,7 +41,7 @@ const DraftPage = () => {
       try {
         setLoading(true);
         let res = await fetchDraftById(id);
-
+        console.log(res);
         setStory(res);
       } catch (error) {
         setError(true);
@@ -80,7 +80,7 @@ const DraftPage = () => {
             <button className="btn">Change Cover</button>
           </div>
         </div> */}
-        <div style={{ marginBottom: "25px" }}>
+        <div style={{ marginBottom: "25px", width: "100%" }}>
           <ImageBox
             prevImage={story?.cover}
             setStory={setStory}
