@@ -138,6 +138,10 @@ export const StoryPage = () => {
             className="story-page"
             ref={wrapperRef}
             id="quill-container"
+            style={{
+              border: "1px solid rgba(128, 128, 128, 0.25)",
+              background: "whitesmoke",
+            }}
           ></div>
           <div className="story-side-info">
             <div className="story-info-summary">

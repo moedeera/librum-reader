@@ -15,7 +15,8 @@
   margin-top: 0;
   border-color: transparent;
 }
-
+.story-page {
+}
 .story-page-header {
   text-align: center;
 }
@@ -111,8 +112,11 @@
   .story-stats {
     display: flex;
     flex-direction: column;
-
+    border: 1px solid rgba(128, 128, 128, 0.25);
     gap: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    height: max-content;
   }
   .single-story-stat {
     display: flex;
