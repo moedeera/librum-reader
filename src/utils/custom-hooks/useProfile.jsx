@@ -41,7 +41,7 @@ export const useProfile = () => {
 
   const fetchProfile = async () => {
     const user = auth.currentUser;
-    console.log(user);
+    // console.log(user);
 
     const q = query(profileCollection, where("email", "==", user.email));
     const querySnapshot = await getDocs(q);
@@ -63,6 +63,7 @@ export const useProfile = () => {
           createdAt: new Date(),
         });
         console.log(createdProfile);
+        return createdProfile;
       } catch (error) {
         console.log(error);
         setError(error);
@@ -74,6 +75,7 @@ export const useProfile = () => {
     } else {
       let data = querySnapshot.docs[0].data();
       console.log(data);
+      return data;
     }
   };
 

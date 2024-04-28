@@ -94,7 +94,7 @@ const randomLiterature = [
     title: "The Last Lightkeeper",
     tags: ["drama", "mystery", "fantasy"],
     cover:
-      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2FThe%20Last%20Lightkeeper.webp?alt=media&token=ff36487a-4b6d-4b60-ad91-f9c5dabab762",
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2FThe%20Last%20Lightkeeper.webp?alt=media&token=61a0cf2c-7578-404e-b907-0f1005740408",
     promoted: false,
     stats: [0, 0, 0],
     story: [

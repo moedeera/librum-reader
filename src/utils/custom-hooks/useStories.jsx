@@ -15,7 +15,8 @@ import {
 import { useAccount } from "./useAccount";
 
 export const useStories = () => {
-  const { user } = useContext(AuthContext);
+  const storiesCollection = collection(db, "stories");
+  const auth = getAuth();
 
   const [stories, setStories] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
@@ -25,20 +26,10 @@ export const useStories = () => {
   const [pagination, setPagination] = useState(1);
   const [lastVisible, setLastVisible] = useState(null);
 
-  const storiesCollection = collection(db, "stories");
-
-  const auth = getAuth();
-
   const createStory = async (newStory) => {
     try {
       const createdStoryRef = await addDoc(storiesCollection, newStory);
       console.log("successfully created story");
-      const createdStory = await getDoc(createdStoryRef);
-      if (createStory.exists()) {
-        return createdStory.data();
-      } else {
-        throw new Error("Failed to Fetch Document");
-      }
     } catch (error) {
       throw new Error("Failed to Create Document", error);
     }
@@ -63,37 +54,16 @@ export const useStories = () => {
     }
   }; // Include only necessary dependencies
 
-  const fetchStories = async () => {
-    setFetchingStories(true);
-    try {
-      const perPage = 6;
-      let q;
-      if (pagination === 1) {
-        q = query(storiesCollection, limit(perPage));
-      } else if (lastVisible) {
-        q = query(storiesCollection, startAfter(lastVisible), limit(perPage));
-      } else {
-        return; // No lastVisible and pagination > 1, likely an error in usage
-      }
-
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        const newStories = querySnapshot.docs.map((doc) => doc.data());
-        setStories(pagination === 1 ? newStories : [...stories, ...newStories]);
-        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
-      }
-    } catch (error) {
-      setError(`Failed to fetch stories: ${error.message}`);
-    } finally {
-      setFetchingStories(false);
-    }
+  const getStories = async () => {
+    const querySnapshot = await getDocs();
   };
+
   // Include only necessary dependencies
   // These functions now only change when necessary
 
   return {
     // suggestions,
-    // stories,
+    stories,
     // fetchSuggestions,
     // fetchStories,
     // error,

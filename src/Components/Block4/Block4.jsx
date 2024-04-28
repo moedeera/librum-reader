@@ -48,7 +48,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
     return formatted;
   }
 
-  console.log(formatFirebaseTimestamp(summaries[0].dateCreated));
+  // console.log(formatFirebaseTimestamp(summaries[0].dateCreated));
 
   const [showingCount, setShowingCount] = useState(12);
 
@@ -99,42 +99,42 @@ export const Block4 = ({ summaries, showingAmount }) => {
               <div className="block-1-segment-overlay"></div>
               <div
                 className="overlay-image"
-                style={
-                  hover[index]?.state
-                    ? {
-                        backgroundImage: `url(${
-                          findImageSet("librum-trending", imagesSorted)[index]
-                        })`,
-                        opacity: 0.25,
-                        scale: "1.1",
-                      }
-                    : {
-                        backgroundImage: `url(${
-                          findImageSet("librum-trending", imagesSorted)[index]
-                        })`,
-                        opacity: 0.2,
-                        scale: "1",
-                      }
-                }
+                // style={
+                //   hover[index]?.state
+                //     ? {
+                //         backgroundImage: `url(${
+                //           findImageSet("librum-trending", imagesSorted)[index]
+                //         })`,
+                //         opacity: 0.25,
+                //         scale: "1.1",
+                //       }
+                //     : {
+                //         backgroundImage: `url(${
+                //           findImageSet("librum-trending", imagesSorted)[index]
+                //         })`,
+                //         opacity: 0.2,
+                //         scale: "1",
+                //       }
+                // }
               ></div>
               <div className="block-4-segment-text">
                 <Link
-                  to={`/story/${item.slug}`}
+                  to={`/story/${item.link}`}
                   onClick={() => {
-                    updateViews(item.ref, item.views);
-                    // console.log(item);
+                    // updateViews(item.ref, item.views);
+                    console.log(item);
                   }}
                   className="block-4-segment-image"
                   style={{
-                    backgroundImage: `url("${item.pic}")`,
+                    backgroundImage: `url("${item.cover}")`,
                   }}
                 ></Link>
 
                 {/* <small>{item.cat}</small> */}
 
-                <Link to={`/user/${item.author}`}>
+                <Link to={`/user/${item.authorName}`}>
                   <small className="block-4-author-small">
-                    By {item?.author}
+                    By {item?.authorName}
                   </small>
                 </Link>
 
@@ -162,9 +162,10 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 </div>
 
                 <Link
-                  to={`/story/${item.slug}`}
+                  to={`/story/${item.link}`}
                   onClick={() => {
-                    updateViews(item.ref, item.views);
+                    // updateViews(item.ref, item.views);
+                    console.log("hello");
                   }}
                 >
                   <h5>{item.title}</h5>
@@ -175,12 +176,12 @@ export const Block4 = ({ summaries, showingAmount }) => {
                     console.log(item);
                   }}
                 >
-                  {summarizeParagraph(item.info)}{" "}
+                  {summarizeParagraph(item.synopsis)}{" "}
                 </p>
                 {/* <div className="btn">Read More</div> */}
                 <p className="block-4-tags">
                   Tags:
-                  {item?.tag?.map((tagItem, index) => (
+                  {item?.tags?.map((tagItem, index) => (
                     <span key={index} className="block-4-tag">
                       {" "}
                       {/* {index > 0 && ", "} */}

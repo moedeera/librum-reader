@@ -4,11 +4,11 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 // Check if the URL property is already in use
 const profileCollection = collection(db, "profiles");
 // Check if the URL property is already in use
-const draftCollection = collection(db, "drafts");
+const storyCollection = collection(db, "stories");
 
 const checkURLAvailability = async (url) => {
   const searchUrl = url.replace(/\s/g, "").toLocaleLowerCase();
-  const urlQuery = query(profileCollection, where("url", "==", searchUrl));
+  const urlQuery = query(storyCollection, where("url", "==", searchUrl));
   const urlSnapshot = await getDocs(urlQuery);
   if (urlSnapshot.docs.length > 0) {
     // URL is in use, modify it by appending a random number
