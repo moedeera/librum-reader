@@ -3,7 +3,14 @@ import Quill from "quill";
 import { useEffect, useRef, useState } from "react";
 import { Loading } from "../Loading/Loading";
 
-export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
+export const Editor = ({
+  title,
+  setStory,
+  story,
+  onSave,
+  prevStoryInfo,
+  setMode,
+}) => {
   const [readOnly, setReadOnly] = useState(true);
   const [loading, setLoading] = useState(false);
   const [editedStory, setEditedStory] = useState(story);
@@ -11,6 +18,7 @@ export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
   const [updateSuccess, setUpdateSuccess] = useState(null);
   const [time, setTime] = useState(null);
   const [reset, setReset] = useState(0);
+  const [startedEditing, setStartedEditing] = useState(false);
 
   const editorRef = useRef(null);
   const quillRef = useRef(null);
@@ -27,6 +35,7 @@ export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
       setUpdateError("Error Updating Draft");
     } finally {
       setLoading(false);
+      setStartedEditing(false);
     }
   };
   console.log(story);
@@ -50,6 +59,9 @@ export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
     quill.on("text-change", (delta, oldDelta, source) => {
       const content = quill.getContents();
       console.log(content.ops);
+      if (!startedEditing) {
+        setStartedEditing(true);
+      }
       setEditedStory(content.ops);
     });
     return () => {
@@ -73,24 +85,35 @@ export const Editor = ({ title, setStory, story, onSave, prevStoryInfo }) => {
           <p style={{ color: "green" }}>Successfully updated at {time}</p>
         )}
       </div>
-      <div className="draft-button-container">
+      {startedEditing ? (
+        <div className="draft-buttons-container">
+          <button
+            className="btn"
+            onClick={() => {
+              handleUpdate();
+            }}
+          >
+            Save Changes
+          </button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              setReset(reset + 1);
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      ) : (
         <button
           className="btn"
           onClick={() => {
-            handleUpdate();
+            setMode("main");
           }}
         >
-          Save Changes
+          Cancel
         </button>
-        <button
-          className="btn btn-danger"
-          onClick={() => {
-            setReset(reset + 1);
-          }}
-        >
-          Discard Changes
-        </button>
-      </div>
+      )}
     </div>
   );
 };

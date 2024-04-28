@@ -3,9 +3,21 @@ const StoryMain = ({ story, setMode, function2 }) => {
   return (
     <>
       {" "}
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <h4>Synopsis</h4>
         <p>{story?.synopsis}</p>
+      </div>
+      <div style={{ margin: "10px 0" }}>
+        {" "}
+        <small>
+          Last Edited{" "}
+          {story?.lastEdited ? story.lastEdited : "12:35 April 27 2023 "}
+        </small>
       </div>
       <div className="story-tags">
         {"Tags: "}

@@ -125,6 +125,7 @@ const DraftPage = () => {
                 onSave={handleUpdate}
                 setStory={setStory}
                 prevStoryInfo={story}
+                setMode={setMode}
               />
             </>
           )}
