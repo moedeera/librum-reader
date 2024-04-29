@@ -3,7 +3,7 @@ import {
   formatTimestamp,
 } from "@/utils/functions/functions";
 import "./StoryMain.css";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { Loading } from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { useStories } from "@/utils/custom-hooks/useStories";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
+import { AuthContext } from "@/Context/AuthContext";
 
 const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,10 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const { updateUserProfile, fetchProfile } = useProfile();
   const { deleteDraft } = useDraft();
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  useEffect(() => {
+    console.log(user.photoURL);
+  }, [user]);
 
   const handleClick = async () => {
     try {
@@ -27,6 +32,7 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
       let finalUrl = await checkURLAvailability(story?.title);
       let newStory = {
         ...story,
+        authorAvatar: user.photoURL,
         dateCreated: new Date(),
         lastEdited: new Date(),
         comments: [],

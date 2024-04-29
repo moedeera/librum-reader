@@ -64,7 +64,26 @@ const DraftPage = () => {
   }
   return (
     <div className="container standard-page">
-      {story.story ? <h3>{story?.title}</h3> : <h3>Fetching Story...</h3>}
+      {story.story ? (
+        <div>
+          {" "}
+          <div
+            style={{
+              display: "flex",
+
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <h3>{story?.title}</h3>
+            <div>
+              <p>Edit</p>
+            </div>
+          </div>{" "}
+        </div>
+      ) : (
+        <h3>Fetching Story...</h3>
+      )}
 
       {/* <Editor story={story.story} setStory={setStory} mode={"write"} /> */}
       <div
