@@ -20,6 +20,12 @@ export const SearchBar = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.code === "Enter") {
+      handleSearch();
+    }
+  };
+
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -35,7 +41,8 @@ export const SearchBar = () => {
           placeholder="Search"
           className="search-bar-input"
           onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
+          // onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyDown}
           value={searchTerm}
         />
       </div>

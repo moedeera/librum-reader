@@ -20,7 +20,7 @@ export const SearchPage = () => {
       console.log(total);
     }
     // Example: Fetch first page with 6 stories containing 'fiction'
-  }, []);
+  }, [searchWord]);
 
   const tags = [
     "crime",
