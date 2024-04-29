@@ -39,13 +39,6 @@ export const useStories = () => {
 
   // fetch a story by the url
   const fetchStory = async (url) => {
-    console.log(auth.currentUser, url);
-
-    if (!user || user === null) {
-      console.log("no user");
-      return;
-    }
-    console.log(auth.currentUser);
     try {
       const q = query(storiesCollection, where("url", "==", url));
       const querySnapshot = await getDocs(q);
