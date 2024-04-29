@@ -74,10 +74,10 @@
 .recent-writings-item {
   border: 1px solid rgba(128, 128, 128, 0.25);
   border-radius: 5px;
-  height: 325px;
+  height: 225px;
   padding: 5px;
   display: grid;
-  grid-template-rows: 3fr 0.5fr 1.5fr 1fr;
+  grid-template-rows: 8fr 2fr;
   text-align: center;
   background-color: aliceblue;
   width: 100%;

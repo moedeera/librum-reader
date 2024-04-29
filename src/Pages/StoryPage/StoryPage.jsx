@@ -108,7 +108,9 @@ export const StoryPage = () => {
               <div
                 style={{
                   backgroundImage: `url("${
-                    findImageSet("fantasy", imagesSorted)[1]
+                    story?.authorAvatar
+                      ? story.authorAvatar
+                      : findImageSet("fantasy", imagesSorted)[1]
                   }")`,
                 }}
                 className="story-user-image"

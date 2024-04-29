@@ -8,9 +8,18 @@ import { Block4 } from "../../Components/Block4/Block4";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 
 export const SearchPage = () => {
+  const { searchWord } = useParams();
+
   const { loading, summaries, error, total, fetchSummaries } = useSummaries();
   useEffect(() => {
-    fetchSummaries(0, 6); // Example: Fetch first page with 6 stories containing 'fiction'
+    if (searchWord === "all") {
+      fetchSummaries(0, 8);
+      console.log(total);
+    } else {
+      fetchSummaries(0, 8, searchWord);
+      console.log(total);
+    }
+    // Example: Fetch first page with 6 stories containing 'fiction'
   }, []);
 
   const tags = [
@@ -28,9 +37,21 @@ export const SearchPage = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container standard-page">
+      <div className="page-header">
+        <h3>Stories</h3>
+      </div>
       <div className="search-page">
-        <Block4 summaries={summaries} loading={loading} />
+        {total > 0 ? (
+          <>
+            {" "}
+            <Block4 summaries={summaries} loading={loading} />
+          </>
+        ) : (
+          <>
+            <h4>Sorry, No stories matching that keyword</h4>
+          </>
+        )}
         <div className="search-page-filter">
           <p>Categories:</p>
           <div className="search-page-tags-container">

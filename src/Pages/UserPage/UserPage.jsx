@@ -20,6 +20,7 @@ export const UserPage = () => {
       try {
         const response = await getProfile(userid);
         setProfile(response);
+        console.log(response);
       } catch (error) {
         console.log(error);
         setError(true);
@@ -75,18 +76,18 @@ export const UserPage = () => {
           <div className="recent-writings-container">
             {profile.stories.map((story, index) => (
               <Link
-                to={`../story/${story.id}`}
+                to={`../story/${story.url}`}
                 key={index}
                 className="recent-writings-item"
               >
                 <div
                   className="recent-writings-image-container"
-                  style={{ backgroundImage: `url(${story.pic})` }}
+                  style={{ backgroundImage: `url(${story.cover})` }}
                 ></div>
 
                 <p>{story.title}</p>
-                <div className="recent-writing-item-bio">{story.summary}</div>
-                <div className="recent-stats-container">
+                <div className="recent-writing-item-bio">{story.synopsis}</div>
+                {/* <div className="recent-stats-container">
                   <div className="recent-story-stat">
                     16{" "}
                     <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
@@ -99,7 +100,7 @@ export const UserPage = () => {
                     1{" "}
                     <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
                   </div>
-                </div>
+                </div> */}
               </Link>
             ))}
           </div>
