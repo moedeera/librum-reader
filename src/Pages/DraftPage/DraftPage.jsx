@@ -10,6 +10,7 @@ import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
 import StoryMain from "@/Components/StoryMain/StoryMain";
 import ImageBox from "../StoryInfo/ImageUploader";
+import { formatTimestamp } from "@/utils/functions/functions";
 const DraftPage = () => {
   const { fetchDraftById, updateDraft } = useDraft();
   const { user } = useContext(AuthContext);
@@ -29,7 +30,6 @@ const DraftPage = () => {
   const handleUpdate = async (update) => {
     try {
       await updateDraft(draftid, update);
-      console.log("success");
     } catch (error) {
       console.log("failed to update", error);
       throw new Error(error);
@@ -43,6 +43,7 @@ const DraftPage = () => {
         let res = await fetchDraftById(id);
         // console.log(res);
         setStory(res);
+        console.log(res.lastEdited, formatTimestamp(res.lastEdited));
       } catch (error) {
         setError(true);
         throw new Error(error);

@@ -30,8 +30,15 @@ export const Editor = ({
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await onSave({ story: editedStory, wordCount });
-      setStory({ ...prevStoryInfo, story: editedStory, wordCount });
+      let currentDate = new Date();
+      await onSave({ story: editedStory, wordCount, lastEdited: currentDate });
+
+      setStory({
+        ...prevStoryInfo,
+        story: editedStory,
+        wordCount,
+        lastEdited: currentDate,
+      });
       setUpdateSuccess(true);
       setTime(getCurrentDateFormatted());
     } catch (error) {

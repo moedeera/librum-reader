@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "./StoryDetails.css";
 import { Loading } from "../Loading/Loading";
 import {
-  arraysEqual,
   checkForRestrictedWords,
+  getCurrentDateFormatted,
 } from "@/utils/functions/functions";
 import { DropDown } from "../DropDown/DropDown";
 
@@ -16,6 +16,7 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
   const [newTagError, setNewTagError] = useState(null);
   const [category, setCategory] = useState(story?.category);
   const [changedOnce, setChangedOnce] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(null);
   const primaryCategories = ["Fiction", "Non-Fiction", "Article"];
 
   // Effect to update state when the `story` prop changes
@@ -32,8 +33,10 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
     setLoading(true);
     try {
       let currentDate = new Date();
+      console.log(currentDate);
       await onSave({ synopsis, tags, category, lastEdited: currentDate });
-      setStory({ ...story, synopsis, tags, category });
+      setStory({ ...story, synopsis, tags, category, lastEdited: currentDate });
+      setUpdateSuccess(true);
     } catch (error) {
       console.log(error);
       setUpdateError("Error Updating Draft");
@@ -82,6 +85,14 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
   return (
     <>
       <div>
+        <div>{updateError && <p style={{ color: "crimson" }}>Error</p>}</div>
+        <div>
+          {updateSuccess && (
+            <p style={{ color: "green" }}>
+              Successfully updated at {getCurrentDateFormatted()}
+            </p>
+          )}
+        </div>
         <h4>Synopsis</h4>
         <textarea
           name=""

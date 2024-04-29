@@ -22,9 +22,6 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const { deleteDraft } = useDraft();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  useEffect(() => {
-    console.log(user.photoURL);
-  }, [user]);
 
   const handleClick = async () => {
     try {
@@ -100,7 +97,7 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         <small>
           Last Edited{" "}
           {story?.lastEdited
-            ? formatTimestamp(story.lastEdited)
+            ? formatTimestamp(story?.lastEdited)
             : "12:35 April 27 2023 "}
         </small>
       </div>
