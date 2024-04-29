@@ -102,7 +102,7 @@ export const useDraft = () => {
       }
     } catch (error) {
       // Update error state with the error message
-      throw error("Error updating draft: " + error.message); // Re-throw the error for further handling
+      throw error("Error updating draft:", error); // Re-throw the error for further handling
     }
   };
 

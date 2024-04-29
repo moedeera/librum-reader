@@ -13,6 +13,7 @@ import { useProfile } from "@/utils/custom-hooks/useProfile";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { AuthContext } from "@/Context/AuthContext";
+import { useAccount } from "@/utils/custom-hooks/useAccount";
 
 const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const [loading, setLoading] = useState(false);
@@ -20,8 +21,15 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const { createSummary } = useSummaries();
   const { updateUserProfile, fetchProfile } = useProfile();
   const { deleteDraft } = useDraft();
+  const { fetchAccount, updateAccount } = useAccount();
   const navigate = useNavigate();
+
+  const [updateTime, setUpdateTime] = useState(null);
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    setUpdateTime(story?.lastEdited);
+  }, [story]);
 
   const handleClick = async () => {
     try {
@@ -68,10 +76,19 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         "stories",
         updatedUserProfileStories
       );
+      const account = await fetchAccount();
+      let updatedAccount = {
+        ...account,
+        drafts: account.drafts.filter(
+          (draft) => draft.draftId !== draftId && draft
+        ),
+      };
+      await updateAccount(account.userId, "drafts", updatedAccount.drafts);
       await deleteDraft(draftId);
+
+      navigate(`../../story/${finalUrl}`);
     } catch (error) {
       console.log(error);
-    } finally {
       setLoading(false);
     }
   };
@@ -95,9 +112,11 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
       <div style={{ margin: "10px 0" }}>
         {" "}
         <small>
-          Last Edited{" "}
-          {story?.lastEdited
-            ? formatTimestamp(story?.lastEdited)
+          Last Edited at{" "}
+          {story?.lastEdited &&
+          updateTime !== null &&
+          story?.lastEdited !== null
+            ? formatTimestamp(updateTime)
             : "12:35 April 27 2023 "}
         </small>
       </div>

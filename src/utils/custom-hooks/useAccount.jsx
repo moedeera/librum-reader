@@ -6,6 +6,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
@@ -92,9 +93,28 @@ export const useAccount = () => {
     }
   };
 
+  const updateAccount2 = async (userId, updatedAccount) => {
+    try {
+      // Set loading to true at the start of the operation
+      const accountRef = doc(accountsCollection, userId); // Create a reference to the draft document
+      const accountDoc = await getDoc(accountRef); // Get the document snapshot
+
+      if (!accountDoc.exists()) {
+        throw new Error("No such draft exists");
+      } else {
+        await updateDoc(accountRef, updatedAccount); // Pass the updates object directly
+        console.log(`account for user ${userId} updated successfully.`);
+      }
+    } catch (error) {
+      // Update error state with the error message
+      throw error("Error updating draft:", error); // Re-throw the error for further handling
+    }
+  };
+
   return {
     createAccount,
     fetchAccount,
     updateAccount,
+    updateAccount2,
   };
 };

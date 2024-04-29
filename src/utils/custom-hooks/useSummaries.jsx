@@ -84,9 +84,10 @@ export const useSummaries = () => {
 
   const createSummary = async (newSummary) => {
     try {
-      const createdSummaryRef = await addDoc(summariesCollection, newStory);
+      const createdSummaryRef = await addDoc(summariesCollection, newSummary);
       console.log("successfully created story");
     } catch (error) {
+      console.log(error);
       throw new Error("Failed to Create Document", error);
     }
   };
