@@ -300,7 +300,7 @@ const AuthPage = () => {
 
       const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
 
-      let combinedTags = [
+      let keywords = [
         ...randomStory.tags,
         ...generateTags(randomStory.title, user.displayName),
       ];
@@ -321,7 +321,8 @@ const AuthPage = () => {
         promoted: randomStory.promoted,
         wordCount: randomStory.wordCount,
         stats: [0, 0, 0],
-        tags: combinedTags,
+        keywords: keywords,
+        tags: randomStory.tags,
       };
 
       const createdDraft = await addDoc(draftsCollection, newDraft);

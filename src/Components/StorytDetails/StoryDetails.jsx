@@ -3,6 +3,7 @@ import "./StoryDetails.css";
 import { Loading } from "../Loading/Loading";
 import {
   checkForRestrictedWords,
+  generateTags,
   getCurrentDateFormatted,
 } from "@/utils/functions/functions";
 import { DropDown } from "../DropDown/DropDown";
@@ -34,8 +35,19 @@ export const StoryDetails = ({ story, onSave, setStory }) => {
     try {
       let currentDate = new Date();
       console.log(currentDate);
+      let newKeywords = [
+        ...tags,
+        generateTags(story?.title, story?.authorName),
+      ];
       await onSave({ synopsis, tags, category, lastEdited: currentDate });
-      setStory({ ...story, synopsis, tags, category, lastEdited: currentDate });
+      setStory({
+        ...story,
+        synopsis,
+        tags,
+        category,
+        lastEdited: currentDate,
+        keywords: newKeywords,
+      });
       setUpdateSuccess(true);
     } catch (error) {
       console.log(error);
