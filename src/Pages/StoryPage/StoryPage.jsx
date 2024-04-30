@@ -12,17 +12,15 @@ export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
 
-  let info = { title: "Legend of the Lurkers" };
   const { fetchStory } = useStories();
   const [story, setStory] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [value, setValue] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const { storyidorslug } = useParams();
 
   useEffect(() => {
     const getStory = async () => {
       try {
-        setLoading(true);
         let data = await fetchStory(storyidorslug);
         setStory(data);
         console.log(data);

@@ -180,6 +180,245 @@ const randomLiterature = [
       "In an ancient library, Julian uncovers a secret passage that leads to historical truths that could rewrite everything known about human history.",
     wordCount: 130,
   },
+  {
+    category: "Non-Fiction",
+    title: "Innovating the Future",
+    tags: ["business", "innovation", "technology"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fbusiness.webp?alt=media&token=ae9200f9-e0bc-43bf-93af-16401e3d9ca1",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Innovating the Future",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"In the rapidly evolving landscape of global business, innovation stands as the cornerstone of success. In a sleek, high-tech office, a diverse team of professionals collaborates on cutting-edge projects, each member contributing unique insights. This setting fosters a culture of creativity, where every brainstorming session sparks revolutionary ideas, propelling the company ahead of the competition. The synergy between technology and human ingenuity creates an unstoppable force, driving the business towards unprecedented heights."',
+      },
+    ],
+    synopsis:
+      "Explore how businesses harness innovation to stay ahead in the competitive global market.",
+    wordCount: 200,
+  },
+  {
+    category: "Non-Fiction",
+    title: "Journey through Russian",
+    tags: ["language", "learning", "Russian"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Frussian.webp?alt=media&token=ce92714e-3008-437f-96dd-ff7c7ab3b032",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Journey through Russian",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"Embarking on the journey of learning Russian, a young woman discovers the rich tapestry of language intertwined with culture. Her desk, cluttered with Russian books and a laptop, becomes her gateway to another world. As she masters the Cyrillic script and delves into complex grammar, she gains insights not only into the language but also into the enigmatic Russian soul. Through her studies, she virtually walks the snowy streets of Moscow, experiencing the warmth of its people and the depth of its literary heritage."',
+      },
+    ],
+    synopsis:
+      "A heartfelt exploration of the challenges and joys of learning Russian, highlighting the deep connection between language and culture.",
+    wordCount: 250,
+  },
+  {
+    category: "Fiction",
+    title: "Echoes of Tomorrow",
+    tags: ["dystopian", "futuristic", "adventure"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fdystopia.webp?alt=media&token=6552ba50-29b5-44b0-947b-01e5b93ee597",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Echoes of Tomorrow",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"In a desolate future, the remnants of humanity cling to existence in a world choked by the shadows of fallen skyscrapers. Among these ruins, a lone wanderer with a glowing staff searches for the lost secrets of the past. Each step is a perilous venture through streets haunted by the echoes of a once-thriving civilization. With each discovery, the wanderer pieces together the tragic tale of a world that gambled its future and lost, hoping to find the key to its renewal before it\'s too late."',
+      },
+    ],
+    synopsis:
+      "A solitary figure traverses a ruined cityscape, seeking answers and hope in a world forgotten by time.",
+    wordCount: 300,
+  },
+  {
+    category: "Fiction",
+    title: "Shadows in the Rain",
+    tags: ["thriller", "crime", "mystery"],
+    cover:
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fcrime.webp?alt=media&token=2d38e4b5-03c1-4233-bc23-436ebf0bf3f2",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Shadows in the Rain",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          "\"On a dark, rain-soaked evening, a seasoned detective steps into an alley where the latest crime has shattered the night's calm. The scene is bathed in the flickering lights of a nearby patrol car, revealing a trail of clues obscured by the shadows. With his keen eye, the detective uncovers evidence overlooked by others, drawing him deeper into a web of deceit and danger. As he navigates through the heart of the city's underworld, the mystery deepens, promising to keep him—and the reader—on edge until the truth is revealed.\"",
+      },
+    ],
+    synopsis:
+      "A gritty detective hunts for the truth in a city that hides its secrets in the shadows.",
+    wordCount: 400,
+  },
+];
+
+const randomFullStories = [
+  {
+    category: "Non-Fiction",
+    title: "Innovating the Future",
+    tags: ["business", "innovation", "technology"],
+    cover: "https://openaiusercontent.com/file-g83wHsM8rI7lbB92LxFZwgfS",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Innovating the Future",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"In the rapidly evolving landscape of global business, innovation stands as the cornerstone of success. In a sleek, high-tech office, a diverse team of professionals collaborates on cutting-edge projects, each member contributing unique insights. This setting fosters a culture of creativity, where every brainstorming session sparks revolutionary ideas, propelling the company ahead of the competition. The synergy between technology and human ingenuity creates an unstoppable force, driving the business towards unprecedented heights."',
+      },
+    ],
+    synopsis:
+      "Explore how businesses harness innovation to stay ahead in the competitive global market.",
+    wordCount: 200,
+  },
+  {
+    category: "Non-Fiction",
+    title: "Journey through Russian",
+    tags: ["language", "learning", "Russian"],
+    cover: "https://openaiusercontent.com/file-6Gw6MM6Fapv22N3X0AoKjmFS",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Journey through Russian",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"Embarking on the journey of learning Russian, a young woman discovers the rich tapestry of language intertwined with culture. Her desk, cluttered with Russian books and a laptop, becomes her gateway to another world. As she masters the Cyrillic script and delves into complex grammar, she gains insights not only into the language but also into the enigmatic Russian soul. Through her studies, she virtually walks the snowy streets of Moscow, experiencing the warmth of its people and the depth of its literary heritage."',
+      },
+    ],
+    synopsis:
+      "A heartfelt exploration of the challenges and joys of learning Russian, highlighting the deep connection between language and culture.",
+    wordCount: 250,
+  },
+  {
+    category: "Fiction",
+    title: "Echoes of Tomorrow",
+    tags: ["dystopian", "futuristic", "adventure"],
+    cover: "https://openaiusercontent.com/file-It41xtznWYoLZFAwPcuJ3s2S",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Echoes of Tomorrow",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          '"In a desolate future, the remnants of humanity cling to existence in a world choked by the shadows of fallen skyscrapers. Among these ruins, a lone wanderer with a glowing staff searches for the lost secrets of the past. Each step is a perilous venture through streets haunted by the echoes of a once-thriving civilization. With each discovery, the wanderer pieces together the tragic tale of a world that gambled its future and lost, hoping to find the key to its renewal before it\'s too late."',
+      },
+    ],
+    synopsis:
+      "A solitary figure traverses a ruined cityscape, seeking answers and hope in a world forgotten by time.",
+    wordCount: 300,
+  },
+  {
+    category: "Fiction",
+    title: "Shadows in the Rain",
+    tags: ["thriller", "crime", "mystery"],
+    cover: "https://openaiusercontent.com/file-8QdafGMH3KJgHiWBFQzPu1xS",
+    promoted: false,
+    stats: [0, 0, 0],
+    story: [
+      {
+        attributes: {
+          bold: true,
+        },
+        insert: "Shadows in the Rain",
+      },
+      {
+        attributes: {
+          header: 3,
+        },
+        insert: "\n",
+      },
+      {
+        insert:
+          "\"On a dark, rain-soaked evening, a seasoned detective steps into an alley where the latest crime has shattered the night's calm. The scene is bathed in the flickering lights of a nearby patrol car, revealing a trail of clues obscured by the shadows. With his keen eye, the detective uncovers evidence overlooked by others, drawing him deeper into a web of deceit and danger. As he navigates through the heart of the city's underworld, the mystery deepens, promising to keep him—and the reader—on edge until the truth is revealed.\"",
+      },
+    ],
+    synopsis:
+      "A gritty detective hunts for the truth in a city that hides its secrets in the shadows.",
+    wordCount: 400,
+  },
 ];
 function getRandomItem(arr) {
   if (!Array.isArray(arr) || arr.length === 0) {

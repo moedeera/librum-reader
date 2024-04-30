@@ -1,6 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from "react";
-import { getAuth } from "firebase/auth";
-import { AuthContext } from "@/Context/AuthContext";
+import { useState } from "react";
 import { db } from "../../../firebase-config";
 import {
   collection,
@@ -9,8 +7,7 @@ import {
   where,
   limit,
   startAfter,
-  addDoc,
-  getDoc,
+  orderBy,
 } from "firebase/firestore";
 
 export const useSummaries = () => {
@@ -30,16 +27,29 @@ export const useSummaries = () => {
     setError(null);
 
     try {
+      const summariesRef = collection(db, "summaries");
       let q;
       const offset = pageIndex * numberOfStories;
-      const summariesRef = collection(db, "summaries");
 
       if (searchTerm) {
-        q = query(
-          summariesRef,
-          where("tags", "array-contains", searchTerm),
-          limit(numberOfStories)
-        );
+        const words = searchTerm.split(" ").map((word) => word.toLowerCase());
+        if (words.length === 1) {
+          const word = words[0];
+          // Single word search, check both tags and link
+          q = query(
+            summariesRef,
+            where("tags", "array-contains", word),
+            where("link", ">=", word),
+            where("link", "<=", word + "\uf8ff"),
+            limit(numberOfStories)
+          );
+        } else {
+          // Multiple words search, check if any words are part of the link
+          const conditions = words.map((word) =>
+            where("link", "array-contains", word)
+          );
+          q = query(summariesRef, ...conditions, limit(numberOfStories));
+        }
       } else {
         q = query(summariesRef, limit(numberOfStories));
       }
