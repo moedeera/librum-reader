@@ -226,6 +226,7 @@ const AuthPage = () => {
         url: finalUrl,
         avatar: "https://www.w3schools.com/howto/img_avatar.png",
         stories: [],
+        followers: [],
         bio: "Enter your Bio",
         userId: user.uid,
         createdAt: new Date(),
@@ -305,7 +306,6 @@ const AuthPage = () => {
         ...generateTags(randomStory.title, user.displayName),
       ];
 
-      console.log(combinedTags);
       let newDraft = {
         authorName: user.displayName,
         userId: user.uid,
