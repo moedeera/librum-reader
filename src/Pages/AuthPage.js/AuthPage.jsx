@@ -26,7 +26,10 @@ import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { AuthContext } from "@/Context/AuthContext";
 import { fetchProfile } from "@/assets/APIs/StoriesAPI";
 import { loremIpsum } from "@/Context/Content";
-import { appendStringWithDateTime } from "@/utils/functions/functions";
+import {
+  appendStringWithDateTime,
+  generateTags,
+} from "@/utils/functions/functions";
 import { getRandomItem, randomLiterature } from "./Content";
 
 let names = [
@@ -296,6 +299,13 @@ const AuthPage = () => {
       let initialSLug = randomStory.title;
 
       const finalSlug = appendStringWithDateTime(initialSLug, profile.url);
+
+      let combinedTags = [
+        ...randomStory.tags,
+        ...generateTags(randomStory.title, user.displayName),
+      ];
+
+      console.log(combinedTags);
       let newDraft = {
         authorName: user.displayName,
         userId: user.uid,
@@ -311,7 +321,7 @@ const AuthPage = () => {
         promoted: randomStory.promoted,
         wordCount: randomStory.wordCount,
         stats: [0, 0, 0],
-        tags: randomStory.tags,
+        tags: combinedTags,
       };
 
       const createdDraft = await addDoc(draftsCollection, newDraft);

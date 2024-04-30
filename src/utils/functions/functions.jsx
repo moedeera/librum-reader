@@ -199,6 +199,65 @@ function getWordCount(quill) {
   return words.length;
 }
 
+function generateTags(title, username) {
+  // Convert to lower case
+  title = title.toLowerCase();
+
+  // List of words to exclude
+  const exclude = [
+    "the",
+    "a",
+    "is",
+    "at",
+    "in",
+    "on",
+    "of",
+    "and",
+    "for",
+    "with",
+  ];
+
+  // Split the title into words
+  const allWords = title.split(" ");
+
+  // Filter out excluded words for significant words count
+  const words = allWords.filter((word) => !exclude.includes(word));
+
+  // Check if the title contains more than 5 significant words
+  if (words.length > 5) {
+    throw new Error("Title contains more than 5 significant words");
+  }
+
+  // Use a Set to avoid duplicates
+  const tags = new Set();
+
+  // Generate all ordered combinations of significant words
+  for (let i = 0; i < words.length; i++) {
+    let phrase = words[i];
+    tags.add(phrase); // Add the initial word
+
+    for (let j = i + 1; j < words.length; j++) {
+      phrase += " " + words[j];
+      tags.add(phrase);
+    }
+  }
+
+  // Include full title (preserve order and include excluded words)
+  tags.add(allWords.join(" "));
+
+  // Include username
+  tags.add(username);
+
+  // Convert the set back to an array
+  return Array.from(tags);
+}
+try {
+  const tags = generateTags("Neon Dreams", "mode deera");
+  console.log(tags);
+} catch (error) {
+  console.log(error);
+}
+
 export {
   checkURLAvailability,
   checkProfileLimit,
@@ -209,4 +268,5 @@ export {
   getPathFromUrl,
   formatTimestamp,
   getWordCount,
+  generateTags,
 };
