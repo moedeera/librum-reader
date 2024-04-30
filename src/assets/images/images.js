@@ -53,7 +53,7 @@ function summarizeParagraph(paragraph) {
   // Split the paragraph into an array of words
   const words = paragraph.split(/\s+/);
   // Reduce the paragraph to the first 15 words or less and join them back into a string
-  const summary = words.slice(0, 20).join(" ") + "...";
+  const summary = words.slice(0, 17).join(" ") + "...";
   return summary;
 }
 

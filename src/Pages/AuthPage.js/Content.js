@@ -133,7 +133,7 @@ const randomLiterature = [
     title: "Neon Dreams",
     tags: ["sci-fi", "urban", "future"],
     cover:
-      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fneonedreams.webp?alt=media&token=e275a70d-cad7-42f8-a46f-02491a8b6d7f",
+      "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Ffaireieglade.webp?alt=media&token=a7f66ae1-4e04-4f84-b733-c4771b34d8de",
     promoted: false,
     stats: [0, 0, 0],
     story: [

@@ -97,26 +97,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
               key={item.id}
             >
               <div className="block-1-segment-overlay"></div>
-              <div
-                className="overlay-image"
-                // style={
-                //   hover[index]?.state
-                //     ? {
-                //         backgroundImage: `url(${
-                //           findImageSet("librum-trending", imagesSorted)[index]
-                //         })`,
-                //         opacity: 0.25,
-                //         scale: "1.1",
-                //       }
-                //     : {
-                //         backgroundImage: `url(${
-                //           findImageSet("librum-trending", imagesSorted)[index]
-                //         })`,
-                //         opacity: 0.2,
-                //         scale: "1",
-                //       }
-                // }
-              ></div>
+              <div className="overlay-image"></div>
               <div className="block-4-segment-text">
                 <Link
                   to={`/story/${item.link}`}
@@ -130,9 +111,9 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   }}
                 ></Link>
 
-                {/* <small>{item.cat}</small> */}
+                <small>{item.category}</small>
 
-                <Link to={`/user/${item.authorName}`}>
+                <Link to={`/user/${item.authorLink}`}>
                   <small className="block-4-author-small">
                     By {item?.authorName}
                   </small>
@@ -182,11 +163,11 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 <p className="block-4-tags">
                   Tags:
                   {item?.tags?.map((tagItem, index) => (
-                    <span key={index} className="block-4-tag">
+                    <small key={index} className="block-4-tag">
                       {" "}
                       {/* {index > 0 && ", "} */}
                       {tagItem}
-                    </span>
+                    </small>
                   ))}
                 </p>
               </div>
