@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./SearchPage.css";
 import { Loading } from "../../Components/Loading/Loading";
 
 import { Link, useParams } from "react-router-dom";
-import { db } from "../../../firebase-config";
 import { Block4 } from "../../Components/Block4/Block4";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 
 export const SearchPage = () => {
   const { searchWord } = useParams();
 
-  const { loading, summaries, error, total, fetchSummaries } = useSummaries();
+  const { loading, summaries, total, fetchSummaries } = useSummaries();
   useEffect(() => {
     if (searchWord === "all") {
-      fetchSummaries(0, 8);
+      fetchSummaries(1, 8);
       console.log(total);
     } else {
-      fetchSummaries(0, 8, searchWord);
+      fetchSummaries(1, 8, searchWord);
       console.log(total);
     }
     // Example: Fetch first page with 6 stories containing 'fiction'
@@ -32,7 +31,7 @@ export const SearchPage = () => {
     "adventure",
   ];
 
-  if (loading) {
+  if (loading || summaries === null) {
     return <Loading />;
   }
 
@@ -42,7 +41,7 @@ export const SearchPage = () => {
         <h3>Stories</h3>
       </div>
       <div className="search-page">
-        {total > 0 ? (
+        {summaries.length > 0 ? (
           <>
             {" "}
             <Block4 summaries={summaries} loading={loading} />

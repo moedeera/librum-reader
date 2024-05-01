@@ -110,6 +110,7 @@ export const useAuth = () => {
           userId: user.uid,
           messages: [],
           drafts: [],
+          stories: [],
           genres: [],
           bookmarks: [],
         });
@@ -184,6 +185,7 @@ export const useAuth = () => {
         userId: user.uid,
         messages: [],
         drafts: [],
+        stories: [],
         genres: [],
         bookmarks: [],
       });

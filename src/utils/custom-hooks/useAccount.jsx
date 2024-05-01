@@ -38,6 +38,7 @@ export const useAccount = () => {
         userId: user.uid,
         messages: [],
         drafts: [],
+        stories: [],
         genres: [],
         bookmarks: [],
       });

@@ -50,6 +50,7 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         stats: story.stats,
         link: finalUrl,
         promoted: false,
+        keywords: story.keywords,
         tags: story.tags,
         dateCreated: new Date(),
         cover: story.cover,
@@ -82,6 +83,14 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         drafts: account.drafts.filter(
           (draft) => draft.draftId !== draftId && draft
         ),
+        stories: [
+          ...account.stories,
+          {
+            title: story?.title,
+            cover: story?.cover,
+            url: finalUrl,
+          },
+        ],
       };
       await updateAccount(account.userId, "drafts", updatedAccount.drafts);
       await deleteDraft(draftId);

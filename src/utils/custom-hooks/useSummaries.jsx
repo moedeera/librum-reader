@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { db } from "../../../firebase-config";
 import {
@@ -11,6 +11,8 @@ import {
   addDoc,
 } from "firebase/firestore";
 
+import { AuthContext } from "@/Context/AuthContext";
+
 export const useSummaries = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -18,15 +20,14 @@ export const useSummaries = () => {
   const [total, setTotal] = useState(0);
   const lastVisibleRef = useState(null);
   const summariesCollection = collection(db, "summaries");
+  const [suggestions, setSuggestions] = useState([]);
 
+  const { user } = useContext(AuthContext);
   // Fetch summaries by index and page number
-  const fetchSummaries = async (
-    pageIndex,
-    numberOfStories,
-    searchTerm = ""
-  ) => {
+  const fetchSummaries = async (pageIndex, numberOfStories, searchTerm) => {
     setLoading(true);
     setError(null);
+    console.log(numberOfStories);
 
     try {
       let q;
@@ -36,7 +37,7 @@ export const useSummaries = () => {
       if (searchTerm) {
         q = query(
           summariesRef,
-          where("tags", "array-contains", searchTerm),
+          where("keywords", "array-contains", searchTerm),
           limit(numberOfStories)
         );
       } else {
@@ -44,7 +45,9 @@ export const useSummaries = () => {
       }
 
       // Handle Pagination
-      if (pageIndex > 0 && lastVisibleRef.current) {
+      console.log(pageIndex, lastVisibleRef.current);
+
+      if (pageIndex > 1 && lastVisibleRef.current) {
         q = query(q, startAfter(lastVisibleRef.current));
       }
 
@@ -53,7 +56,7 @@ export const useSummaries = () => {
         id: doc.id,
         ...doc.data(),
       }));
-
+      console.log(fetchedStories);
       if (snapshot.docs.length > 0) {
         lastVisibleRef.current = snapshot.docs[snapshot.docs.length - 1];
       }
@@ -65,13 +68,15 @@ export const useSummaries = () => {
       if (searchTerm) {
         const countQuery = query(
           summariesRef,
-          where("tags", "array-contains", searchTerm)
+          where("keywords", "array-contains", searchTerm)
         );
         const countSnapshot = await getDocs(countQuery);
+
         setTotal(countSnapshot.docs.length);
       } else {
         const countQuery = query(summariesRef);
         const countSnapshot = await getDocs(countQuery);
+
         setTotal(countSnapshot.docs.length);
       }
     } catch (err) {
@@ -91,17 +96,54 @@ export const useSummaries = () => {
     }
   };
 
-  // Include only necessary dependencies
-  // These functions now only change when necessary
+  const fetchSuggestions = async (genre, userId) => {
+    let pageIndex = 1;
+    const numberOfStories = 4;
+
+    console.log(numberOfStories);
+
+    try {
+      let q;
+      const summariesRef = collection(db, "summaries");
+
+      if (genre) {
+        q = query(
+          summariesRef,
+          where("keywords", "array-contains", genre),
+          limit(numberOfStories)
+        );
+      } else {
+        q = query(summariesRef, limit(numberOfStories));
+      }
+
+      // Handle Pagination
+      console.log(pageIndex, lastVisibleRef.current);
+
+      if (pageIndex > 1 && lastVisibleRef.current) {
+        q = query(q, startAfter(lastVisibleRef.current));
+      }
+
+      const snapshot = await getDocs(q);
+      const fetchedSummaries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      let filteredSummaries = fetchedSummaries.filter(
+        (summary) => summary.authorName !== user.displayName
+      );
+
+      setSuggestions(filteredSummaries);
+    } catch (err) {
+      console.error("Error fetching suggestions:", err);
+      throw new Error(err);
+    }
+  };
 
   return {
-    // suggestions,
+    suggestions,
 
-    // fetchSuggestions,
-    // fetchStories,
-    // error,
-    // setPagination,
-    // pagination,
+    fetchSuggestions,
     createSummary,
     summaries,
     loading,

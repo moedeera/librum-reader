@@ -21,6 +21,8 @@ export const Block4 = ({ summaries, showingAmount }) => {
     await updateDoc(story, { views: newCount });
   };
 
+  console.log(summaries);
+
   function processNumber(num) {
     if (num <= 200) {
       return 1;
@@ -59,10 +61,10 @@ export const Block4 = ({ summaries, showingAmount }) => {
   }, []);
 
   const { imagesSorted, findImageSet } = useContext(SiteContext);
-  const [hover, setHover] = useState(
-    /* eslint-disable-next-line react/prop-types */
-    new Array(summaries.length).fill({ id: summaries.id, state: false })
-  );
+  // const [hover, setHover] = useState(
+  //   /* eslint-disable-next-line react/prop-types */
+  //   new Array(summaries.length).fill({ id: summaries.id, state: false })
+  // );
   /* eslint-disable-next-line react/prop-types */
 
   return (
@@ -73,26 +75,26 @@ export const Block4 = ({ summaries, showingAmount }) => {
           index < showingCount && (
             <div
               // onMouseEnter={(item) => {
-              onMouseEnter={() => {
-                setHover((prevHover) => {
-                  return prevHover.map((hookItem) => {
-                    if (hookItem.id === item.id) {
-                      return { id: hookItem.id, state: true };
-                    }
-                    return hookItem;
-                  });
-                });
-              }}
-              onMouseLeave={() => {
-                setHover((prevHover) => {
-                  return prevHover.map((hookItem) => {
-                    if (hookItem.id === item.id) {
-                      return { id: hookItem.id, state: false };
-                    }
-                    return hookItem;
-                  });
-                });
-              }}
+              // onMouseEnter={() => {
+              //   setHover((prevHover) => {
+              //     return prevHover.map((hookItem) => {
+              //       if (hookItem.id === item.id) {
+              //         return { id: hookItem.id, state: true };
+              //       }
+              //       return hookItem;
+              //     });
+              //   });
+              // }}
+              // onMouseLeave={() => {
+              //   setHover((prevHover) => {
+              //     return prevHover.map((hookItem) => {
+              //       if (hookItem.id === item.id) {
+              //         return { id: hookItem.id, state: false };
+              //       }
+              //       return hookItem;
+              //     });
+              //   });
+              // }}
               className="block-4-segment"
               key={item.id}
             >
