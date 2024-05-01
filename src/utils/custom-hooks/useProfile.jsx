@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
-import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
 import {
   addDoc,
@@ -14,8 +13,6 @@ import {
 import { checkURLAvailability } from "../functions/functions";
 
 export const useProfile = () => {
-  const { setCurrentUser, setCurrentProfile, currentProfile } =
-    useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

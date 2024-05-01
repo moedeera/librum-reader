@@ -1,5 +1,5 @@
 import "quill/dist/quill.snow.css";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Quill from "quill";
 import "./StoryPage.css";
 import { findImageSet, imagesSorted } from "../../assets/images/images";
@@ -8,14 +8,18 @@ import { Loading } from "../../Components/Loading/Loading";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { formatTimestamp } from "@/utils/functions/functions";
+import { useAuth } from "@/utils/custom-hooks/useAuth";
+import { AuthContext } from "@/Context/AuthContext";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
 
-  const { fetchStory } = useStories();
+  const { fetchStory, quickStoryUpdate } = useStories();
   const [story, setStory] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const { user } = useContext(AuthContext);
+  console.log(user);
   const { storyidorslug } = useParams();
 
   useEffect(() => {
@@ -31,6 +35,20 @@ export const StoryPage = () => {
       }
     };
     getStory();
+  }, []);
+
+  useEffect(() => {
+    // Set a timer to update views if readers stays for longer than 10 seconds
+    const timer = setTimeout(() => {
+      if (story !== null) {
+        let incrementedViews = story.views + 1;
+        console.log(incrementedViews);
+        quickStoryUpdate(storyidorslug, "views", incrementedViews);
+      }
+    }, 3000);
+
+    // Cleanup function to clear the timer if the component unmounts before the timer fires
+    return () => clearTimeout(timer);
   }, []);
 
   const wrapperRef = useCallback(

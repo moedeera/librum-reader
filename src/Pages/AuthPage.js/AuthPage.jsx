@@ -305,7 +305,8 @@ const AuthPage = () => {
         ...randomStory.tags,
         ...generateTags(randomStory.title, user.displayName),
       ];
-
+      let likes = number1 * 3;
+      let views = number2;
       let newDraft = {
         authorName: user.displayName,
         userId: user.uid,
@@ -320,7 +321,9 @@ const AuthPage = () => {
         story: randomStory.story,
         promoted: randomStory.promoted,
         wordCount: randomStory.wordCount,
-        stats: [0, 0, 0],
+        stats: [likes, views, 0],
+        views: 0,
+        likes: 0,
         keywords: keywords,
         tags: randomStory.tags,
       };

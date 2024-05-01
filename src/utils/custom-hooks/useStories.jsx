@@ -56,6 +56,7 @@ export const useStories = () => {
 
   // quick update of a story ** does not need original story fetched
   const quickStoryUpdate = async (url, field, newValue) => {
+    console.log(`called to update ${field}`);
     try {
       const q = query(storiesCollection, where("url", "==", url));
       const querySnapshot = await getDocs(q);

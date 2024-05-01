@@ -4,10 +4,8 @@ import {
 } from "@/utils/functions/functions";
 import "./StoryMain.css";
 import { useContext, useEffect, useState } from "react";
-
 import { Loading } from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
-
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
@@ -56,6 +54,9 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         cover: story.cover,
         synopsis: story.synopsis,
         title: story.title,
+        views: story.views,
+        likes: story.likes,
+        comments: 0,
         category: story.category,
         wordCount: story.wordCount,
       };
