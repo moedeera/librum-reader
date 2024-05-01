@@ -11,6 +11,7 @@ import {
   startAfter,
   addDoc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useAccount } from "./useAccount";
 
@@ -53,18 +54,31 @@ export const useStories = () => {
     }
   };
 
-  // Include only necessary dependencies
-  // These functions now only change when necessary
+  // quick update of a story ** does not need original story fetched
+  const quickStoryUpdate = async (url, field, newValue) => {
+    try {
+      const q = query(storiesCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        throw new Error("No story with that id exists");
+      } else {
+        // Use .ref to get the document reference from the query snapshot
+        let storyRef = querySnapshot.docs[0].ref;
+        const updateObject = {};
+        updateObject[field] = newValue;
+        await updateDoc(storyRef, updateObject);
+        console.log(`story updated successfully.`);
+      }
+    } catch (error) {
+      console.error("Error updating account: ", error);
+      throw error; // Re-throw to allow further handling by the component
+    }
+  };
 
   return {
-    // suggestions,
-    stories,
     fetchStory,
-    // fetchSuggestions,
-    // fetchStories,
-    // error,
-    // setPagination,
-    // pagination,
+    quickStoryUpdate,
     createStory,
   };
 };
