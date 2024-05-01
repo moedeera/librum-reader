@@ -9,6 +9,7 @@ import {
   limit,
   startAfter,
   addDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { AuthContext } from "@/Context/AuthContext";
@@ -140,9 +141,31 @@ export const useSummaries = () => {
     }
   };
 
+  const quickSummaryUpdate = async (link, field, newValue) => {
+    console.log(`called to update ${field}`);
+    try {
+      const q = query(summariesCollection, where("link", "==", link));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        throw new Error("No summary with that id exists");
+      } else {
+        // Use .ref to get the document reference from the query snapshot
+        let summaryRef = querySnapshot.docs[0].ref;
+        const updateObject = {};
+        updateObject[field] = newValue;
+        await updateDoc(summaryRef, updateObject);
+        console.log(`story updated successfully.`);
+      }
+    } catch (error) {
+      console.error("Error updating account: ", error);
+      throw error; // Re-throw to allow further handling by the component
+    }
+  };
+
   return {
     suggestions,
-
+    quickSummaryUpdate,
     fetchSuggestions,
     createSummary,
     summaries,

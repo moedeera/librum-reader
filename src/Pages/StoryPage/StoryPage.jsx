@@ -8,13 +8,14 @@ import { Loading } from "../../Components/Loading/Loading";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { formatTimestamp } from "@/utils/functions/functions";
-import { useAuth } from "@/utils/custom-hooks/useAuth";
 import { AuthContext } from "@/Context/AuthContext";
+import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 export const StoryPage = () => {
   const [postData, setPostData] = useState("");
   const [error, setError] = useState(false);
 
   const { fetchStory, quickStoryUpdate } = useStories();
+  const { quickSummaryUpdate } = useSummaries();
   const [story, setStory] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -38,18 +39,28 @@ export const StoryPage = () => {
   }, []);
 
   useEffect(() => {
-    // Set a timer to update views if readers stays for longer than 10 seconds
-    const timer = setTimeout(() => {
-      if (story !== null) {
+    let updateViews = async () => {
+      try {
         let incrementedViews = story.views + 1;
         console.log(incrementedViews);
-        quickStoryUpdate(storyidorslug, "views", incrementedViews);
+        await quickStoryUpdate(storyidorslug, "views", incrementedViews);
+        await quickSummaryUpdate(storyidorslug, "views", incrementedViews);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    // Set a timer to update views if readers stays for longer than 10 seconds
+    const timer = setTimeout(() => {
+      console.log("called");
+      console.log(story);
+      if (story !== null) {
+        updateViews();
       }
     }, 3000);
 
     // Cleanup function to clear the timer if the component unmounts before the timer fires
     return () => clearTimeout(timer);
-  }, []);
+  }, [story]);
 
   const wrapperRef = useCallback(
     (wrapper) => {
