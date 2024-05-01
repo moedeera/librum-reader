@@ -236,6 +236,7 @@ const AuthPage = () => {
         userId: user.uid,
         messages: [],
         drafts: [],
+        stories: [],
         genres: [],
         bookmarks: [],
       });

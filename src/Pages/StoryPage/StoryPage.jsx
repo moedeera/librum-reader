@@ -149,11 +149,11 @@ export const StoryPage = () => {
             </div>
             <div className="story-stats-container">
               <div className="single-story-stat">
-                {story?.stats[0]}{" "}
+                {story?.views}{" "}
                 <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
               </div>
               <div className="single-story-stat">
-                {story?.stats[1]}{" "}
+                {story?.likes}{" "}
                 <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
               </div>
               <div className="single-story-stat">

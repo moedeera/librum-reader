@@ -73,31 +73,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
       {summaries?.map(
         (item, index) =>
           index < showingCount && (
-            <div
-              // onMouseEnter={(item) => {
-              // onMouseEnter={() => {
-              //   setHover((prevHover) => {
-              //     return prevHover.map((hookItem) => {
-              //       if (hookItem.id === item.id) {
-              //         return { id: hookItem.id, state: true };
-              //       }
-              //       return hookItem;
-              //     });
-              //   });
-              // }}
-              // onMouseLeave={() => {
-              //   setHover((prevHover) => {
-              //     return prevHover.map((hookItem) => {
-              //       if (hookItem.id === item.id) {
-              //         return { id: hookItem.id, state: false };
-              //       }
-              //       return hookItem;
-              //     });
-              //   });
-              // }}
-              className="block-4-segment"
-              key={item.id}
-            >
+            <div className="block-4-segment" key={item.id}>
               <div className="block-1-segment-overlay"></div>
               <div className="overlay-image"></div>
               <div className="block-4-segment-text">
@@ -122,15 +98,20 @@ export const Block4 = ({ summaries, showingAmount }) => {
                 </Link>
 
                 <div className="block-4-segment-stats">
-                  {item?.stats.map((item, index) => (
-                    <div key={index} className="block-4-segment-stat">
-                      <img
-                        src={findImageSet("icons", imagesSorted)[index]}
-                        alt=""
-                      />
-                      <small>{item}</small>
-                    </div>
-                  ))}
+                  <div k className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[0]} alt="" />
+                    <small>{item.views}</small>
+                  </div>
+
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
+                    <small>{item.stats[2]}</small>
+                  </div>
+
+                  <div className="block-4-segment-stat">
+                    <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
+                    <small>{item.likes}</small>
+                  </div>
 
                   <div className="block-4-segment-stat">
                     <img src={findImageSet("icons", imagesSorted)[3]} alt="" />
