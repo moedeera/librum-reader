@@ -2,15 +2,7 @@ const randomLiterature = [
   {
     category: "Fiction",
     title: "The Whispering Woods",
-    tags: [
-      "fantasy",
-      "horror",
-      "mystery",
-      "whispering",
-      "woods",
-      "whispering Woods",
-      "the whispering woods",
-    ],
+    tags: ["fantasy", "horror", "mystery", "whispering"],
     cover:
       "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2FThe%20Whispering%20Woods.webp?alt=media&token=96ee66b9-66c4-44b4-bb4e-df707a1c806f",
     promoted: false,

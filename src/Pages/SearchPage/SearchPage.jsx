@@ -51,6 +51,17 @@ export const SearchPage = () => {
             <h4>Sorry, No stories matching that keyword</h4>
           </>
         )}
+
+        <div>Showing 8 of {total} results</div>
+        {/* <button
+          className="btn"
+          onClick={() => {
+            fetchSummaries(2, 8, searchWord);
+          }}
+        >
+          Show More
+        </button> */}
+
         <div className="search-page-filter">
           <p>Categories:</p>
           <div className="search-page-tags-container">
