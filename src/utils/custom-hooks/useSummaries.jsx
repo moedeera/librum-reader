@@ -26,6 +26,7 @@ export const useSummaries = () => {
   const { user } = useContext(AuthContext);
   // Fetch summaries by index and page number
   const fetchSummaries = async (pageIndex, numberOfStories, searchTerm) => {
+    console.log(lastVisibleRef);
     setLoading(true);
     setError(null);
     console.log(numberOfStories);

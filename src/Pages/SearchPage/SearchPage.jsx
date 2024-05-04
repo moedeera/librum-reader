@@ -55,14 +55,17 @@ export const SearchPage = () => {
         <div>
           Showing {summaries.length} of {total} results
         </div>
-        {/* <button
-          className="btn"
-          onClick={() => {
-            fetchSummaries(2, 8, searchWord);
-          }}
-        >
-          Show More
-        </button> */}
+
+        {total > summaries.length && (
+          <button
+            className="btn"
+            onClick={() => {
+              fetchSummaries(1, 8, searchWord);
+            }}
+          >
+            Show More
+          </button>
+        )}
 
         <div className="search-page-filter">
           <p>Categories:</p>

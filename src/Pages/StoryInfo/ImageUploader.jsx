@@ -35,6 +35,11 @@ const ImageBox = ({ prevImage, onSave, setStory, story, id }) => {
   }, [uploadSuccess]);
 
   const uploadImage = async () => {
+    if (!id) {
+      console.log("no draft id");
+      return;
+    }
+
     if (!storyImage) return;
     setLoading(true);
     const imageRef = ref(storage, `images/${storyImage.name}`);

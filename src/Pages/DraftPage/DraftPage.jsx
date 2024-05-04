@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DraftPage.css";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
-import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
+
 import StoryMain from "@/Components/StoryMain/StoryMain";
 import ImageBox from "../StoryInfo/ImageUploader";
 import {
@@ -15,6 +15,7 @@ import {
   getCurrentDateFormatted,
 } from "@/utils/functions/functions";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
+import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
 const DraftPage = () => {
   const { fetchDraftById, updateDraft } = useDraft();
   const { fetchAccount, updateAccount, updateAccount2 } = useAccount();

@@ -36,6 +36,7 @@ import AuthPage from "./Pages/AuthPage.js/AuthPage";
 import { AuthProvider } from "./Context/AuthContext";
 import { CreateStory } from "./Pages/CreateStory/CreateStory";
 import DraftPage from "./Pages/DraftPage/DraftPage";
+import CreateStoryPage from "./Pages/CreateStoryPage/CreateStoryPage";
 
 function App() {
   return (
@@ -56,7 +57,7 @@ function App() {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/signin" element={<AuthPage />} />
                 <Route path="/create" element={<CreateStory />} />
-                <Route path="/write" element={<WritePage />} />
+                <Route path="/write" element={<CreateStoryPage />} />
                 <Route path="/storyinfo" element={<StoryInfo />} />
                 <Route path="mystory/:id" element={<PostStory />} />
                 <Route path="mystories" element={<MyStoriesPage />} />
