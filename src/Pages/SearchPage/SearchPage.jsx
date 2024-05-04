@@ -52,7 +52,9 @@ export const SearchPage = () => {
           </>
         )}
 
-        <div>Showing 8 of {total} results</div>
+        <div>
+          Showing {summaries.length} of {total} results
+        </div>
         {/* <button
           className="btn"
           onClick={() => {
