@@ -10,7 +10,7 @@ import { DropDown } from "../DropDown/DropDown";
 export const CreateStoryDetails = ({ story, onSave, setStory }) => {
   const [loading, setLoading] = useState(false);
   const [synopsis, setSynopsis] = useState(story?.synopsis);
-  const [tags, setTags] = useState([...story?.tags]);
+
   const [newTag, setNewTag] = useState("");
   const [updateError, setUpdateError] = useState(null);
   const [newTagError, setNewTagError] = useState(null);
@@ -19,15 +19,9 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
   const [updateSuccess, setUpdateSuccess] = useState(null);
   const primaryCategories = ["Fiction", "Non-Fiction", "Article"];
 
-  // Effect to update state when the `story` prop changes
-  useEffect(() => {
-    setSynopsis(story?.synopsis);
-    setTags([...story?.tags]);
-  }, [story]);
-
   const deleteTag = (tagToDelete) => {
-    let newTags = tags.filter((tag) => tag !== tagToDelete);
-    setTags(newTags);
+    let newTags = story.tags.filter((tag) => tag !== tagToDelete);
+    setStory({ ...story, tags: newTags });
   };
   const handleUpdate = async () => {
     onSave(story);
@@ -37,7 +31,7 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
     const wordResult = checkForRestrictedWords(input);
     const numbers = input.match(/\d/g);
     // Check if the tag count is already exceeded
-    if (tags.length === 5) {
+    if (story.tags.length === 5) {
       setNewTagError(
         "Currently at tag Limit, please delete a tag to enter new one"
       );
@@ -62,7 +56,7 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
   };
 
   const handleAddTag = () => {
-    setTags([...tags, newTag]);
+    setStory({ ...story, tags: [...story?.tags, newTag] });
     setNewTag("");
   };
 
@@ -96,16 +90,16 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
           name=""
           id=""
           rows="7"
-          value={synopsis}
+          value={story?.synopsis}
           onChange={(e) => {
-            setSynopsis(e.target.value);
+            setStory({ ...story, synopsis: e.target.value });
           }}
         ></textarea>
       </div>
       <div className="story-tags">
         {"Tags: "}
 
-        {tags.map((tag, index) => (
+        {story.tags.map((tag, index) => (
           <div className="story-tag-edit" key={index}>
             {tag}
             <div
@@ -150,7 +144,7 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
         <button
           className="btn"
           onClick={() => {
-            handleUpdate();
+            console.log(story);
           }}
         >
           <small>Save</small>
@@ -158,7 +152,7 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
         <button
           className="btn btn-green"
           onClick={() => {
-            handleUpdate();
+            console.log("publish");
           }}
         >
           <small>Publish</small>
@@ -166,9 +160,10 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
         <button
           className={"btn btn-danger "}
           onClick={() => {
-            setCategory(story?.category);
-            setSynopsis(story?.synopsis);
-            setTags(story?.tags);
+            console.log("discard");
+            // setCategory(story?.category);
+            // setSynopsis(story?.synopsis);
+            // setTags(story?.tags);
           }}
         >
           <small>Discard</small>

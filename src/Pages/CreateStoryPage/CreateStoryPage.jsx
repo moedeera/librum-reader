@@ -1,9 +1,8 @@
-import { getCurrentDateFormatted } from "@/utils/functions/functions";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Context/AuthContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Loading } from "@/Components/Loading/Loading";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import ImageBox from "../StoryInfo/ImageUploader";
@@ -12,7 +11,7 @@ import { Editor } from "@/Components/Editor/Editor";
 
 import CreateStoryMain from "@/Components/CreateStoryMain/CreateStoryMain";
 const CreateStoryPage = () => {
-  const { fetchDraftById, updateDraft, createDraft } = useDraft();
+  const { updateDraft } = useDraft();
   const { fetchAccount, updateAccount } = useAccount();
   const { user } = useContext(AuthContext);
   let defaultImage =
@@ -37,7 +36,7 @@ const CreateStoryPage = () => {
     keywords: [],
     tags: [],
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [mode, setMode] = useState("details");
   const [storyTitle, setStoryTitle] = useState(null);
@@ -46,7 +45,7 @@ const CreateStoryPage = () => {
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
   const { draftid } = useParams();
-
+  const navigate = useNavigate();
   const modes = [
     { id: 1, name: "Main", mode: "main" },
     { id: 2, name: "Details", mode: "details" },
@@ -61,6 +60,12 @@ const CreateStoryPage = () => {
       throw new Error(error);
     }
   };
+
+  useEffect(() => {
+    if (user || user !== null) {
+      setLoading(false);
+    }
+  }, [user]);
 
   const handleTitleUpdate = async () => {
     try {
@@ -92,11 +97,24 @@ const CreateStoryPage = () => {
     }
   };
 
+  useEffect(() => {
+    // Set a timeout to switch off loading and set error if loading is too long
+    const timer = setTimeout(() => {
+      if (loading) {
+        navigate("/404");
+        return;
+      }
+    }, 5000); // 10000 milliseconds = 10 seconds
+
+    // Cleanup function to clear the timer if the component unmounts or isLoading changes
+    return () => clearTimeout(timer);
+  }, [loading]);
+
   if (loading) {
     return <Loading />;
   }
 
-  if (error) {
+  if (error || !user) {
     return <ErrorPage />;
   }
   return (
