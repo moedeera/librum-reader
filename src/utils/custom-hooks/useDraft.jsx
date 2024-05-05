@@ -27,8 +27,14 @@ export const useDraft = () => {
 
   const createDraft = async (newDraft) => {
     try {
-      const createdDraft = await addDoc(draftCollection, newDraft);
-      console.log("successfully created draft");
+      const createdDraftRef = await addDoc(draftCollection, newDraft);
+      let id = createdDraftRef.id;
+      const snapshot = await getDoc(createdDraftRef);
+      if (snapshot.exists()) {
+        const documentData = snapshot.data();
+        console.log("successfully created draft:", documentData);
+        return { documentData, id };
+      }
     } catch (error) {
       throw new Error(error);
     }

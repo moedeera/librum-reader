@@ -5,6 +5,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
@@ -47,7 +48,7 @@ export const useProfile = () => {
       console.log("no such profile, creating new profile.....");
       try {
         const finalUrl = await checkURLAvailability(user.name);
-        const createdProfile = await addDoc(profileCollection, {
+        const createdProfileRef = await addDoc(profileCollection, {
           email: user.email,
           name: user.name,
           url: finalUrl,
@@ -59,8 +60,9 @@ export const useProfile = () => {
           userId: user.uid,
           createdAt: new Date(),
         });
-        console.log(createdProfile);
-        return createdProfile;
+        console.log(createdProfileRef);
+        let createdProfile = await getDoc(profileCollection, createdProfileRef);
+        return createdProfile.docs[0].data;
       } catch (error) {
         console.log(error);
         setError(error);

@@ -157,7 +157,7 @@ export const StoryPage = () => {
                 <img src={findImageSet("icons", imagesSorted)[1]} alt="" />
               </div>
               <div className="single-story-stat">
-                {story?.stats[2].length > 1 ? story.stats[2].length : 0}{" "}
+                0
                 <img src={findImageSet("icons", imagesSorted)[2]} alt="" />
               </div>
             </div>

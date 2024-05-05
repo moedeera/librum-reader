@@ -132,7 +132,7 @@ const CreateStoryMain = ({ story, setMode, onPublish, draftId }) => {
       </div>
       <div className="story-tags">
         {"Tags: "}
-        {story?.tags.map((tag, index) => (
+        {story?.tags?.map((tag, index) => (
           <small key={index}>
             {tag}
             {index < story?.tags.length && ", "}

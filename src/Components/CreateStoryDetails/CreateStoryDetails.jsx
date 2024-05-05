@@ -7,7 +7,12 @@ import {
 } from "@/utils/functions/functions";
 import { DropDown } from "../DropDown/DropDown";
 
-export const CreateStoryDetails = ({ story, onSave, setStory }) => {
+export const CreateStoryDetails = ({
+  story,
+  onSaveDraft,
+  onPublishStory,
+  setStory,
+}) => {
   const [loading, setLoading] = useState(false);
   const [synopsis, setSynopsis] = useState(story?.synopsis);
 
@@ -144,15 +149,15 @@ export const CreateStoryDetails = ({ story, onSave, setStory }) => {
         <button
           className="btn"
           onClick={() => {
-            console.log(story);
+            onSaveDraft();
           }}
         >
-          <small>Save</small>
+          <small>Save Draft</small>
         </button>
         <button
           className="btn btn-green"
           onClick={() => {
-            console.log("publish");
+            console.log("publish", story);
           }}
         >
           <small>Publish</small>

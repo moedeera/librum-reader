@@ -2,17 +2,24 @@ import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/Context/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loading } from "@/Components/Loading/Loading";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
 import ImageBox from "../StoryInfo/ImageUploader";
 import { CreateStoryDetails } from "@/Components/CreateStoryDetails/CreateStoryDetails";
-import { Editor } from "@/Components/Editor/Editor";
 
-import CreateStoryMain from "@/Components/CreateStoryMain/CreateStoryMain";
+import { CreateStoryEditor } from "@/Components/CreateStoryEditor/CreateStoryEditor";
+import {
+  checkURLAvailability,
+  generateTags,
+} from "@/utils/functions/functions";
+import { useStories } from "@/utils/custom-hooks/useStories";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
 const CreateStoryPage = () => {
-  const { updateDraft } = useDraft();
+  const { createDraft } = useDraft();
+  const { createStory } = useStories();
   const { fetchAccount, updateAccount } = useAccount();
+  const { fetchProfile } = useProfile();
   const { user } = useContext(AuthContext);
   let defaultImage =
     "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fdefault.webp?alt=media&token=53d8a6e5-033e-4b18-af92-2ceb096f7e9d";
@@ -44,20 +51,100 @@ const CreateStoryPage = () => {
   const [updating, setUpdating] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  const { draftid } = useParams();
   const navigate = useNavigate();
   const modes = [
-    { id: 1, name: "Main", mode: "main" },
     { id: 2, name: "Details", mode: "details" },
     { id: 3, name: "Story", mode: "story" },
   ];
-
-  const handleUpdate = async (update) => {
+  console.log("creating draft", user);
+  const handleCreateDraft = async () => {
     try {
-      await updateDraft(draftid, update);
+      //set loading to true
+      setLoading(true);
+      // create draft  object
+      let userProfile = await fetchProfile();
+
+      let newDraft = {
+        authorName: user.displayName,
+        userId: user.uid,
+        authorPic: user.photoURL,
+        category: story.category,
+        authorLink: userProfile.url,
+        dateCreated: new Date(),
+        lastEdited: new Date(),
+        title: story.title,
+        synopsis: story.synopsis,
+        cover: story.cover,
+        story: story.story,
+        promoted: story.promoted,
+        wordCount: story.wordCount,
+        stats: [],
+        views: 0,
+        likes: 0,
+        keywords: [],
+        tags: story.tags,
+      };
+      // upload draft object
+      const createdDraft = await createDraft(newDraft);
+      const draftId = createdDraft.id;
+      // update user account
+      const UserAccount = await fetchAccount();
+      let updatedDrafts = [
+        ...UserAccount.drafts,
+        {
+          draftId: draftId,
+          dateCreated: new Date(),
+          title: story.title,
+          cover: story.cover,
+        },
+      ];
+      await updateAccount(user.uid, "drafts", updatedDrafts);
+      // navigate to new draft page
+      navigate(`../mystories/${draftId}`);
+    } catch (error) {
+      console.log("failed to update", error);
+      setError(error);
+      throw new Error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePublishStory = async () => {
+    // check for sufficient word count
+    // check for sufficient synopsis length
+    // set the keywords
+    let keywords = [
+      ...story.tags,
+      ...generateTags(story.title, user.displayName),
+    ];
+
+    let uniqueKeywords = Array.from(new Set(keywords));
+    try {
+      setLoading(true);
+
+      // create story  object
+      setLoading(true);
+      let finalUrl = await checkURLAvailability(story?.title);
+      let newStory = {
+        ...story,
+        keywords: uniqueKeywords,
+        authorAvatar: user.photoURL,
+        dateCreated: new Date(),
+        lastEdited: new Date(),
+        comments: [],
+        url: finalUrl,
+      };
+      console.log(newStory);
+      // upload story object
+      // update user profile
+      // update user account
+      // navigate to new story page
     } catch (error) {
       console.log("failed to update", error);
       throw new Error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,36 +153,6 @@ const CreateStoryPage = () => {
       setLoading(false);
     }
   }, [user]);
-
-  const handleTitleUpdate = async () => {
-    try {
-      setUpdating(true);
-      let currentDate = new Date();
-      let updatedDraft = {
-        ...story,
-        title: storyTitle,
-        lastEdited: currentDate,
-      };
-      // await updateDraft(draftid, updatedDraft);
-      setStory(updatedDraft);
-
-      setEditTitle(false);
-      const userAccount = await fetchAccount();
-      let updatedAccount = {
-        ...userAccount,
-        drafts: userAccount.drafts.map((draft) =>
-          draft.draftId === draftid ? { ...draft, title: storyTitle } : draft
-        ),
-      };
-
-      await updateAccount(userAccount.userId, "drafts", updatedAccount.drafts);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setUpdating(false);
-      setUpdateSuccess(true);
-    }
-  };
 
   useEffect(() => {
     // Set a timeout to switch off loading and set error if loading is too long
@@ -114,7 +171,7 @@ const CreateStoryPage = () => {
     return <Loading />;
   }
 
-  if (error || !user) {
+  if (!user) {
     return <ErrorPage />;
   }
   return (
@@ -137,7 +194,7 @@ const CreateStoryPage = () => {
                 prevImage={story?.cover}
                 setStory={setStory}
                 story={story}
-                id={draftid}
+                id={""}
               />
             </div>
 
@@ -164,25 +221,24 @@ const CreateStoryPage = () => {
                   </div>
                 ))}
               </div>
-              {mode === "main" && (
-                <CreateStoryMain
-                  story={story}
-                  setMode={setMode}
-                  draftId={draftid}
-                />
+              {error && (
+                <small style={{ color: "crimson" }}>
+                  Error:Unable to save; Please try again
+                </small>
               )}
               {mode === "details" && (
                 <CreateStoryDetails
                   story={story}
-                  onSave={handleUpdate}
                   setStory={setStory}
+                  onSaveDraft={handleCreateDraft}
+                  onPublishStory={handlePublishStory}
                 />
               )}{" "}
               {mode === "story" && (
                 <>
-                  <Editor
+                  <CreateStoryEditor
                     storyText={story?.story}
-                    onSave={handleUpdate}
+                    onSave={handleCreateDraft}
                     setStory={setStory}
                     prevStoryInfo={story}
                     setMode={setMode}
