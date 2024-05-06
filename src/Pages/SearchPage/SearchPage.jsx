@@ -92,7 +92,7 @@ export const SearchPage = () => {
                   ", search-term:",
                   searchWord
                 );
-                fetchSummaries(pageButton.page, 8, searchWord);
+                // fetchSummaries(pageButton.page, 8, searchWord);
               }}
             >
               {pageButton.page}
