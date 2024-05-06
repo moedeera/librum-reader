@@ -44,7 +44,7 @@ export const CreateStoryEditor = ({ setStory, prevStoryInfo, setMode }) => {
       if (!startedEditing) {
         setStartedEditing(true);
       }
-      console.log(content.ops, prevStoryInfo?.story);
+
       setStory({
         ...prevStoryInfo,
         story: content.ops,

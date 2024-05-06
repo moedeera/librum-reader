@@ -11,15 +11,17 @@ import { CreateStoryDetails } from "@/Components/CreateStoryDetails/CreateStoryD
 import { CreateStoryEditor } from "@/Components/CreateStoryEditor/CreateStoryEditor";
 import {
   checkURLAvailability,
+  countWordsInString,
   generateTags,
 } from "@/utils/functions/functions";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
+
 const CreateStoryPage = () => {
   const { createDraft } = useDraft();
   const { createStory } = useStories();
   const { fetchAccount, updateAccount } = useAccount();
-  const { fetchProfile } = useProfile();
+  const { fetchProfile, updateUserProfile } = useProfile();
   const { user } = useContext(AuthContext);
   let defaultImage =
     "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fdefault.webp?alt=media&token=53d8a6e5-033e-4b18-af92-2ceb096f7e9d";
@@ -56,7 +58,7 @@ const CreateStoryPage = () => {
     { id: 2, name: "Details", mode: "details" },
     { id: 3, name: "Story", mode: "story" },
   ];
-  console.log("creating draft", user);
+
   const handleCreateDraft = async () => {
     try {
       //set loading to true
@@ -103,7 +105,7 @@ const CreateStoryPage = () => {
       navigate(`../mystories/${draftId}`);
     } catch (error) {
       console.log("failed to update", error);
-      setError(error);
+      setError(" Error:Unable to save; Please try again");
       throw new Error(error);
     } finally {
       setLoading(false);
@@ -112,6 +114,19 @@ const CreateStoryPage = () => {
 
   const handlePublishStory = async () => {
     // check for sufficient word count
+    if (story?.wordCount < 1) {
+      setError(
+        `Insufficient word count at ${story?.wordCount}, please type in more than 50`
+      );
+      return;
+    }
+    let synopsisWordCount = countWordsInString(story?.synopsis);
+    if (synopsisWordCount < 10) {
+      setError(
+        "Please write more of a description of the story in the synopsis"
+      );
+      return;
+    }
     // check for sufficient synopsis length
     // set the keywords
     let keywords = [
@@ -122,7 +137,7 @@ const CreateStoryPage = () => {
     let uniqueKeywords = Array.from(new Set(keywords));
     try {
       setLoading(true);
-
+      let userProfile = await fetchProfile();
       // create story  object
       setLoading(true);
       let finalUrl = await checkURLAvailability(story?.title);
@@ -132,14 +147,43 @@ const CreateStoryPage = () => {
         authorAvatar: user.photoURL,
         dateCreated: new Date(),
         lastEdited: new Date(),
+        authorLink: userProfile.url,
         comments: [],
         url: finalUrl,
       };
       console.log(newStory);
       // upload story object
+      const createdStory = await createStory(newStory);
+      // create summary for the story
+
       // update user profile
+      let updatedProfileStories = [
+        ...userProfile.stories,
+        {
+          url: finalUrl,
+          title: story.title,
+          cover: story.cover,
+        },
+      ];
+      await updateUserProfile(
+        userProfile.userId,
+        "stories",
+        updatedProfileStories
+      );
       // update user account
+      const UserAccount = await fetchAccount();
+      let updatedAccountStories = [
+        ...UserAccount.stories,
+        {
+          url: finalUrl,
+          dateCreated: new Date(),
+          title: story.title,
+          cover: story.cover,
+        },
+      ];
+      await updateAccount(user.uid, "stories", updatedAccountStories);
       // navigate to new story page
+      navigate(`../story/${finalUrl}`);
     } catch (error) {
       console.log("failed to update", error);
       throw new Error(error);
@@ -221,11 +265,7 @@ const CreateStoryPage = () => {
                   </div>
                 ))}
               </div>
-              {error && (
-                <small style={{ color: "crimson" }}>
-                  Error:Unable to save; Please try again
-                </small>
-              )}
+              {error && <small style={{ color: "crimson" }}>{error}</small>}
               {mode === "details" && (
                 <CreateStoryDetails
                   story={story}

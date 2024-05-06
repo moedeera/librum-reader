@@ -28,9 +28,7 @@ export const CreateStoryDetails = ({
     let newTags = story.tags.filter((tag) => tag !== tagToDelete);
     setStory({ ...story, tags: newTags });
   };
-  const handleUpdate = async () => {
-    onSave(story);
-  };
+
   const handleTagInputChange = (e) => {
     const input = e.target.value;
     const wordResult = checkForRestrictedWords(input);
@@ -157,7 +155,7 @@ export const CreateStoryDetails = ({
         <button
           className="btn btn-green"
           onClick={() => {
-            console.log("publish", story);
+            onPublishStory();
           }}
         >
           <small>Publish</small>

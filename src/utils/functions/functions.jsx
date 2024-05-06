@@ -258,6 +258,15 @@ try {
   console.log(error);
 }
 
+function countWordsInString(inputString) {
+  // Split the string into words using a regular expression that matches spaces.
+  // This will effectively split the string at each space, newline, tab, etc.
+  const words = inputString.trim().split(/\s+/);
+
+  // Return the number of words, filtering out any empty strings that may result from leading/trailing spaces.
+  return words.filter((word) => word.length > 0).length;
+}
+
 export {
   checkURLAvailability,
   checkProfileLimit,
@@ -269,4 +278,5 @@ export {
   formatTimestamp,
   getWordCount,
   generateTags,
+  countWordsInString,
 };
