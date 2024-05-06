@@ -16,12 +16,14 @@ import {
 } from "@/utils/functions/functions";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { useProfile } from "@/utils/custom-hooks/useProfile";
+import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 
 const CreateStoryPage = () => {
   const { createDraft } = useDraft();
   const { createStory } = useStories();
   const { fetchAccount, updateAccount } = useAccount();
   const { fetchProfile, updateUserProfile } = useProfile();
+  const { createSummary } = useSummaries();
   const { user } = useContext(AuthContext);
   let defaultImage =
     "https://firebasestorage.googleapis.com/v0/b/librum-reader.appspot.com/o/images%2Fdefault.webp?alt=media&token=53d8a6e5-033e-4b18-af92-2ceb096f7e9d";
@@ -153,9 +155,27 @@ const CreateStoryPage = () => {
       };
       console.log(newStory);
       // upload story object
-      const createdStory = await createStory(newStory);
+      await createStory(newStory);
       // create summary for the story
-
+      const newSummary = {
+        authorName: story.authorName,
+        authorLink: story.authorLink,
+        stats: story.stats,
+        link: finalUrl,
+        promoted: false,
+        keywords: story.keywords,
+        tags: story.tags,
+        dateCreated: new Date(),
+        cover: story.cover,
+        synopsis: story.synopsis,
+        title: story.title,
+        views: story.views,
+        likes: story.likes,
+        comments: 0,
+        category: story.category,
+        wordCount: story.wordCount,
+      };
+      await createSummary(newSummary);
       // update user profile
       let updatedProfileStories = [
         ...userProfile.stories,
