@@ -10,13 +10,22 @@ export const SearchPage = () => {
   const { searchWord } = useParams();
 
   const { loading, summaries, total, fetchSummaries } = useSummaries();
+  // page index buttons
+  let pageButtons = [];
+
+  if (total && summaries) {
+    const totalPages = Math.ceil(total / summaries?.length);
+
+    for (var j = 1; j <= totalPages; j++) {
+      pageButtons.push({ id: j, page: j });
+    }
+  }
+
   useEffect(() => {
     if (searchWord === "all") {
       fetchSummaries(1, 8);
-      console.log(total);
     } else {
       fetchSummaries(1, 8, searchWord);
-      console.log(total);
     }
     // Example: Fetch first page with 6 stories containing 'fiction'
   }, [searchWord]);
@@ -56,7 +65,7 @@ export const SearchPage = () => {
           Showing {summaries.length} of {total} results
         </div>
 
-        {total > summaries.length && (
+        {/* {total > summaries.length && (
           <button
             className="btn"
             onClick={() => {
@@ -65,7 +74,31 @@ export const SearchPage = () => {
           >
             Show More
           </button>
-        )}
+        )} */}
+        <div className="page-button-container">
+          {" "}
+          {pageButtons.map((pageButton) => (
+            <div
+              key={pageButton.id}
+              className=" btn-pages"
+              onClick={() => {
+                console.log(
+                  "page",
+                  pageButton.page,
+                  "of a total of:",
+                  pageButtons.length,
+                  "with a total story count of ",
+                  total,
+                  ", search-term:",
+                  searchWord
+                );
+                fetchSummaries(pageButton.page, 8, searchWord);
+              }}
+            >
+              {pageButton.page}
+            </div>
+          ))}
+        </div>
 
         <div className="search-page-filter">
           <p>Categories:</p>

@@ -10,18 +10,16 @@ import { db } from "../../../firebase-config";
 export const Block4 = ({ summaries, showingAmount }) => {
   const dummyImageUrl =
     "https://images.pexels.com/photos/20197333/pexels-photo-20197333/free-photo-of-a-man-in-cowboy-hat-riding-a-horse-in-a-field.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-  const updateViews = async (id) => {
-    console.log(id);
-    const story = doc(db, "stories", id);
-    let storyInfo = await getDoc(story);
-    console.log(storyInfo.data());
-    let storyObject = storyInfo.data();
+  // const updateViews = async (id) => {
 
-    const newCount = Number(storyObject.views) + 1;
-    await updateDoc(story, { views: newCount });
-  };
+  //   const story = doc(db, "stories", id);
+  //   let storyInfo = await getDoc(story);
+  //   console.log(storyInfo.data());
+  //   let storyObject = storyInfo.data();
 
-  console.log(summaries);
+  //   const newCount = Number(storyObject.views) + 1;
+  //   await updateDoc(story, { views: newCount });
+  // };
 
   function processNumber(num) {
     if (num <= 200) {

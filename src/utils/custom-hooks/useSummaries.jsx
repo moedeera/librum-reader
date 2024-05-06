@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-
 import { db } from "../../../firebase-config";
 import {
   collection,
@@ -8,10 +7,7 @@ import {
   where,
   limit,
   startAfter,
-  addDoc,
-  updateDoc,
 } from "firebase/firestore";
-
 import { AuthContext } from "@/Context/AuthContext";
 
 export const useSummaries = () => {
@@ -19,38 +15,31 @@ export const useSummaries = () => {
   const [error, setError] = useState(null);
   const [summaries, setSummaries] = useState([]);
   const [total, setTotal] = useState(0);
-  const lastVisibleRef = useState(null);
-  const summariesCollection = collection(db, "summaries");
+  const [lastVisible, setLastVisible] = useState(null); // Corrected state for last visible reference
   const [suggestions, setSuggestions] = useState([]);
+  const summariesCollection = collection(db, "summaries");
 
   const { user } = useContext(AuthContext);
+
   // Fetch summaries by index and page number
   const fetchSummaries = async (pageIndex, numberOfStories, searchTerm) => {
-    console.log(lastVisibleRef);
     setLoading(true);
     setError(null);
-    console.log(numberOfStories);
 
     try {
-      let q;
-      const offset = pageIndex * numberOfStories;
-      const summariesRef = collection(db, "summaries");
-
+      let q = query(summariesCollection, limit(numberOfStories));
       if (searchTerm) {
         q = query(
-          summariesRef,
+          summariesCollection,
           where("keywords", "array-contains", searchTerm),
           limit(numberOfStories)
         );
-      } else {
-        q = query(summariesRef, limit(numberOfStories));
       }
 
       // Handle Pagination
-      console.log(pageIndex, lastVisibleRef.current);
-
-      if (pageIndex > 1 && lastVisibleRef.current) {
-        q = query(q, startAfter(lastVisibleRef.current));
+      if (pageIndex > 0 && lastVisible) {
+        // Using the state correctly for pagination
+        q = query(q, startAfter(lastVisible));
       }
 
       const snapshot = await getDocs(q);
@@ -58,27 +47,25 @@ export const useSummaries = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log(fetchedStories);
+
       if (snapshot.docs.length > 0) {
-        lastVisibleRef.current = snapshot.docs[snapshot.docs.length - 1];
+        setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Updating lastVisible state
       }
 
       setSummaries(fetchedStories);
       setLoading(false);
 
-      // Count total documents matching criteria (for pagination UI, not real-time)
+      // Count total documents matching criteria
       if (searchTerm) {
         const countQuery = query(
-          summariesRef,
+          summariesCollection,
           where("keywords", "array-contains", searchTerm)
         );
         const countSnapshot = await getDocs(countQuery);
-
         setTotal(countSnapshot.docs.length);
       } else {
-        const countQuery = query(summariesRef);
+        const countQuery = query(summariesCollection);
         const countSnapshot = await getDocs(countQuery);
-
         setTotal(countSnapshot.docs.length);
       }
     } catch (err) {

@@ -190,6 +190,19 @@ textarea {
   font-weight: 700;
 }
 
+.btn-pages {
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  padding: 5px 20px;
+  border-radius: 5px;
+  background-color: #ffcd6d;
+  margin-top: 10px;
+  transition: all 0.35s ease-in-out;
+}
+.page-button-container {
+  display: flex;
+  gap: 5px;
+}
+
 .white-overlay {
   position: absolute;
   top: 0;
@@ -226,7 +239,8 @@ textarea {
 }
 
 @media only screen and (min-width: 600px) {
-  .btn:hover {
+  .btn:hover,
+  .btn-pages:hover {
     transform: translateY(-5px);
   }
   h1 {
@@ -264,6 +278,10 @@ textarea {
 @media only screen and (min-width: 1100px) {
   .standard-page {
     padding-top: var(--padding-top-lg);
+  }
+
+  .btn-pages {
+    cursor: pointer;
   }
 }
 

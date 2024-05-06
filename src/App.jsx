@@ -22,7 +22,7 @@ import { MessagesPage } from "./Pages/MessagesPage/MessagesPage";
 import { ErrorPage } from "./Pages/ErrorPage/ErrorPage";
 import { AccountPage } from "./Pages/AccountPage/AccountPage";
 import { Testing } from "./Pages/Testing/Testing";
-import { WritePage } from "./Pages/WritePage/WritePage";
+
 import { StoryInfo } from "./Pages/StoryInfo/StoryInfo";
 import { HomeFeed } from "./Pages/HomeFeed/HomeFeed";
 import { CommunityPage } from "./Pages/CommunityPage/CommunityPage";
