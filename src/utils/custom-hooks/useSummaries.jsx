@@ -7,6 +7,7 @@ import {
   where,
   limit,
   startAfter,
+  updateDoc,
 } from "firebase/firestore";
 import { AuthContext } from "@/Context/AuthContext";
 
@@ -68,6 +69,7 @@ export const useSummaries = () => {
         const countSnapshot = await getDocs(countQuery);
         setTotal(countSnapshot.docs.length);
       }
+      console.log();
     } catch (err) {
       console.error("Error fetching stories:", err);
       setError(err.message);
@@ -106,11 +108,6 @@ export const useSummaries = () => {
       }
 
       // Handle Pagination
-      console.log(pageIndex, lastVisibleRef.current);
-
-      if (pageIndex > 1 && lastVisibleRef.current) {
-        q = query(q, startAfter(lastVisibleRef.current));
-      }
 
       const snapshot = await getDocs(q);
       const fetchedSummaries = snapshot.docs.map((doc) => ({

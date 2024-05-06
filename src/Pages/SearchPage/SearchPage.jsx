@@ -12,6 +12,9 @@ export const SearchPage = () => {
   const { loading, summaries, total, fetchSummaries } = useSummaries();
   // page index buttons
   let pageButtons = [];
+  useEffect(() => {
+    console.log(summaries);
+  }, [summaries]);
 
   if (total && summaries) {
     const totalPages = Math.ceil(total / summaries?.length);
