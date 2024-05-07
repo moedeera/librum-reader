@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./SearchPage.css";
 import { Loading } from "../../Components/Loading/Loading";
 
@@ -8,15 +8,22 @@ import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 
 export const SearchPage = () => {
   const { searchWord } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const { loading, summaries, total, fetchSummaries, fetchFilteredSummaries } =
+    useSummaries();
+  const [paginationData, setPaginationData] = useState({
+    total: null,
+    last: null,
+  });
 
-  const { loading, summaries, total, fetchSummaries } = useSummaries();
   // page index buttons
   let pageButtons = [];
-  useEffect(() => {
-    console.log(summaries);
-  }, [summaries]);
+  // useEffect(() => {
+  //   console.log(summaries);
+  // }, [summaries]);
 
   if (total && summaries) {
+    console.log(total, summaries.length);
     const totalPages = Math.ceil(total / summaries?.length);
 
     for (var j = 1; j <= totalPages; j++) {
@@ -25,11 +32,14 @@ export const SearchPage = () => {
   }
 
   useEffect(() => {
-    if (searchWord === "all") {
-      fetchSummaries(1, 8);
-    } else {
-      fetchSummaries(1, 8, searchWord);
-    }
+    const getSummaries = async () => {
+      if (searchWord === "all" || searchWord === "") {
+        fetchSummaries();
+      } else {
+        fetchFilteredSummaries(searchWord);
+      }
+    };
+    getSummaries();
     // Example: Fetch first page with 6 stories containing 'fiction'
   }, [searchWord]);
 
@@ -85,17 +95,21 @@ export const SearchPage = () => {
               key={pageButton.id}
               className=" btn-pages"
               onClick={() => {
+                if (pageButton.page === currentPage) {
+                  console.log("you are on tht page");
+                  return;
+                }
                 console.log(
                   "page",
                   pageButton.page,
-                  "of a total of:",
-                  pageButtons.length,
-                  "with a total story count of ",
-                  total,
                   ", search-term:",
                   searchWord
                 );
-                // fetchSummaries(pageButton.page, 8, searchWord);
+                fetchSummaries(
+                  pageButton.page,
+                  searchWord,
+                  paginationData.last
+                );
               }}
             >
               {pageButton.page}

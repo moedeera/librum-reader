@@ -8,6 +8,7 @@ import {
   limit,
   startAfter,
   updateDoc,
+  orderBy,
 } from "firebase/firestore";
 import { AuthContext } from "@/Context/AuthContext";
 
@@ -16,62 +17,109 @@ export const useSummaries = () => {
   const [error, setError] = useState(null);
   const [summaries, setSummaries] = useState([]);
   const [total, setTotal] = useState(0);
-  const [lastVisible, setLastVisible] = useState(null); // Corrected state for last visible reference
+  // Corrected state for last visible reference
   const [suggestions, setSuggestions] = useState([]);
+  const [lastVisibleSummary, setLastVisibleSummary] = useState(null);
+  const [filteredSummaries, setFilteredSummaries] = useState([]);
+  const [lastVisibleFilteredSummary, setLastVisibleFilteredSummary] =
+    useState(null);
+
   const summariesCollection = collection(db, "summaries");
 
   const { user } = useContext(AuthContext);
 
-  // Fetch summaries by index and page number
-  const fetchSummaries = async (pageIndex, numberOfStories, searchTerm) => {
+  // Fetch the top summaries based on views
+  const fetchSummaries = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      let q = query(summariesCollection, limit(numberOfStories));
-      if (searchTerm) {
-        q = query(
-          summariesCollection,
-          where("keywords", "array-contains", searchTerm),
-          limit(numberOfStories)
-        );
-      }
-
-      // Handle Pagination
-      if (pageIndex > 0 && lastVisible) {
-        // Using the state correctly for pagination
-        q = query(q, startAfter(lastVisible));
-      }
-
+      const summariesRef = collection(db, "summaries");
+      const q = query(summariesRef, orderBy("views", "desc"), limit(8));
       const snapshot = await getDocs(q);
-      const fetchedStories = snapshot.docs.map((doc) => ({
+
+      const fetchedSummaries = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      if (snapshot.docs.length > 0) {
-        setLastVisible(snapshot.docs[snapshot.docs.length - 1]); // Updating lastVisible state
+      if (fetchedSummaries.length > 0) {
+        setSummaries(fetchedSummaries);
+        setLastVisibleSummary(snapshot.docs[snapshot.docs.length - 1]);
+        setTotal(snapshot.docs.length);
       }
-
-      setSummaries(fetchedStories);
       setLoading(false);
-
-      // Count total documents matching criteria
-      if (searchTerm) {
-        const countQuery = query(
-          summariesCollection,
-          where("keywords", "array-contains", searchTerm)
-        );
-        const countSnapshot = await getDocs(countQuery);
-        setTotal(countSnapshot.docs.length);
-      } else {
-        const countQuery = query(summariesCollection);
-        const countSnapshot = await getDocs(countQuery);
-        setTotal(countSnapshot.docs.length);
-      }
-      console.log();
     } catch (err) {
-      console.error("Error fetching stories:", err);
+      console.error("Error fetching summaries:", err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+  //Fetch filtered summaries
+  const fetchFilteredSummaries = async (keyword) => {
+    setLoading(true);
+    setError(null);
+
+    const q = query(
+      summariesCollection,
+      where("keywords", "array-contains", keyword)
+    );
+    const snapshotTotal = await getDocs(q); // Query to fetch all for counting
+    // Set the total number of items matching the search
+    setTotal(snapshotTotal.docs.length);
+    try {
+      const summariesRef = collection(db, "summaries");
+
+      const q = query(
+        summariesRef,
+        where("keywords", "array-contains", keyword),
+        limit(8)
+      );
+      const snapshot = await getDocs(q);
+
+      const fetchedSummaries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      if (fetchedSummaries.length > 0) {
+        setSummaries(fetchedSummaries);
+        setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching filtered summaries:", err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+  // Fetch next page of filtered summaries
+  const fetchTheNextSetOfSummaries = async (searchWord, lastVisibleItem) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const summariesRef = collection(db, "summaries");
+      const q = query(
+        summariesRef,
+        where("keywords", "array-contains", searchWord),
+        startAfter(lastVisibleItem),
+        limit(8)
+      );
+      const snapshot = await getDocs(q);
+
+      const fetchedSummaries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      if (fetchedSummaries.length > 0) {
+        setSummaries(fetchedSummaries);
+        setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching next set of summaries:", err);
       setError(err.message);
       setLoading(false);
     }
@@ -158,5 +206,9 @@ export const useSummaries = () => {
     error,
     total,
     fetchSummaries,
+    fetchFilteredSummaries,
+    filteredSummaries,
+    fetchTheNextSetOfSummaries,
+    lastVisibleFilteredSummary,
   };
 };
