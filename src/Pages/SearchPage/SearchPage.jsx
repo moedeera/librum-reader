@@ -9,8 +9,14 @@ import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 export const SearchPage = () => {
   const { searchWord } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const { loading, summaries, total, fetchSummaries, fetchFilteredSummaries } =
-    useSummaries();
+  const {
+    loading,
+    summaries,
+    total,
+    fetchSummaries,
+    fetchFilteredSummaries,
+    fetchTheNextSetOfSummaries,
+  } = useSummaries();
   const [paginationData, setPaginationData] = useState({
     total: null,
     last: null,
