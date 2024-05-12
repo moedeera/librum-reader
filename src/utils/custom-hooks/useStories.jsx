@@ -12,6 +12,8 @@ import {
   addDoc,
   getDoc,
   updateDoc,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { useAccount } from "./useAccount";
 
@@ -32,7 +34,8 @@ export const useStories = () => {
   const createStory = async (newStory) => {
     try {
       const createdStoryRef = await addDoc(storiesCollection, newStory);
-      console.log("successfully created story");
+      console.log("successfully created story", createdStoryRef);
+      return createdStoryRef;
     } catch (error) {
       throw new Error("Failed to Create Document", error);
     }
@@ -77,9 +80,23 @@ export const useStories = () => {
     }
   };
 
+  // delete story
+  const deleteStory = async (storyId) => {
+    try {
+      const storyRef = doc(db, "stories", storyId);
+      await deleteDoc(storyRef);
+      console.log("Story deleted successfully!");
+      // Optionally, you can handle any post-deletion logic here (e.g., updating state or UI)
+    } catch (error) {
+      console.error("Error deleting story:", error);
+      // Optionally, handle errors in UI, such as displaying an error message
+    }
+  };
+
   return {
     fetchStory,
     quickStoryUpdate,
     createStory,
+    deleteStory,
   };
 };

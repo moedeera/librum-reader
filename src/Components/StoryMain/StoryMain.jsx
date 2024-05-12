@@ -19,7 +19,7 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
   const { createSummary } = useSummaries();
   const { updateUserProfile, fetchProfile } = useProfile();
   const { deleteDraft } = useDraft();
-  const { fetchAccount, updateAccount } = useAccount();
+  const { fetchAccount, updateAccount, updateAccount2 } = useAccount();
   const navigate = useNavigate();
 
   const [updateTime, setUpdateTime] = useState(null);
@@ -93,7 +93,21 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
           },
         ],
       };
-      await updateAccount(account.userId, "drafts", updatedAccount.drafts);
+
+      let updatedDrafts = account.drafts.filter(
+        (draft) => draft.draftId !== draftId && draft
+      );
+      let updatedStories = [
+        ...account.stories,
+        {
+          title: story?.title,
+          cover: story?.cover,
+          url: finalUrl,
+          id: publishedStory.id,
+        },
+      ];
+      await updateAccount(account.userId, "drafts", updatedDrafts);
+      await updateAccount(account.userId, "stories", updatedStories);
       await deleteDraft(draftId);
 
       navigate(`../../story/${finalUrl}`);

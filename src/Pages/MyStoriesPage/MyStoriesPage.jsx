@@ -6,6 +6,7 @@ import { AuthContext } from "@/Context/AuthContext";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { formatTimestamp } from "@/utils/functions/functions";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
+import { useStories } from "@/utils/custom-hooks/useStories";
 
 export const MyStoriesPage = () => {
   const { user } = useContext(AuthContext);
@@ -13,14 +14,28 @@ export const MyStoriesPage = () => {
 
   const navigate = useNavigate();
   const { updateAccount, fetchAccount } = useAccount();
+  const { deleteStory } = useStories();
   const { deleteDraft } = useDraft();
 
   //   const handleOnDeleteClick = async() => {
   //   alert
   // }
+  const handleStoryDelete = async (id) => {
+    try {
+      await deleteDraft(id);
+      let updatedAccount = {
+        ...account,
+        stories: account.stories.filter((story) => story.id !== id && story),
+      };
+      console.log(updatedAccount);
+      await updateAccount(account.userId, "stories", updatedAccount.stories);
+      setAccount(updateAccount);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleOnDelete = async (id) => {
-    console.log(id);
     try {
       await deleteDraft(id);
       let updatedAccount = {
@@ -76,22 +91,22 @@ export const MyStoriesPage = () => {
         </div>
         <h5>Stories</h5>
         <div className="my-stories-container">
-          {account?.stories?.map((draft, index) => (
+          {account?.stories?.map((story, index) => (
             <div key={index} className="my-stories-story">
               <div
                 className="ms-cover-image"
-                style={{ backgroundImage: `url(${draft.cover})` }}
+                style={{ backgroundImage: `url(${story.cover})` }}
               ></div>
-              {draft.title}
+              {story.title}
 
               <div className="button-container">
-                <Link className="btn" to={`${draft.draftId}`}>
+                <Link className="btn" to={`${story?.draftId}`}>
                   <small>Edit</small>
                 </Link>
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-                    handleOnDelete(draft.draftId);
+                    handleStoryDelete(story?.id);
                   }}
                 >
                   <small> Delete</small>
