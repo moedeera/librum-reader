@@ -202,15 +202,12 @@ export const SiteContextProvider = ({ children }) => {
       console.error("Error updating profile: ", error);
     }
   };
-  // Update story
-  // useEffect(() => {
-  //   console.log("updating value....");
-  //   localStorage.setItem("created-story-info", JSON.stringify(story));
-  // }, [story]);
-
-  // useEffect(() => {
-  //   console.log(storyImage);
-  // }, [storyImage]);
+  const [storySummaries, setStorySummaries] = useState([]);
+  const [paginationData, setPaginationData] = useState({
+    total: null,
+    last: null,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <SiteContext.Provider
@@ -235,6 +232,12 @@ export const SiteContextProvider = ({ children }) => {
         websiteTitle,
         storyImage,
         setStoryImage,
+        storySummaries,
+        setStorySummaries,
+        paginationData,
+        setPaginationData,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

@@ -4,34 +4,42 @@ import "./MyStoriesPage.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "@/Context/AuthContext";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
-import { formatTimestamp } from "@/utils/functions/functions";
 import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useStories } from "@/utils/custom-hooks/useStories";
+import { useSummaries } from "@/utils/custom-hooks/useSummaries";
+import { Loading } from "@/Components/Loading/Loading";
 
 export const MyStoriesPage = () => {
   const { user } = useContext(AuthContext);
   const [account, setAccount] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { updateAccount, fetchAccount } = useAccount();
   const { deleteStory } = useStories();
   const { deleteDraft } = useDraft();
+  const { deleteSummary } = useSummaries();
 
   //   const handleOnDeleteClick = async() => {
   //   alert
   // }
-  const handleStoryDelete = async (id) => {
+  const handleStoryDelete = async (id, url) => {
+    setLoading(true);
     try {
-      await deleteDraft(id);
+      await deleteStory(url);
+      await deleteSummary(url);
+
       let updatedAccount = {
         ...account,
         stories: account.stories.filter((story) => story.id !== id && story),
       };
       console.log(updatedAccount);
       await updateAccount(account.userId, "stories", updatedAccount.stories);
-      setAccount(updateAccount);
+      setAccount(updatedAccount);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -58,6 +66,10 @@ export const MyStoriesPage = () => {
 
     fetchUserAccount();
   }, [user]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="container standard-page">
@@ -106,7 +118,7 @@ export const MyStoriesPage = () => {
                 <button
                   className="btn btn-danger"
                   onClick={() => {
-                    handleStoryDelete(story?.id);
+                    handleStoryDelete(story?.id, story?.url);
                   }}
                 >
                   <small> Delete</small>

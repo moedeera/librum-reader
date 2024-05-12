@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
@@ -7,20 +7,16 @@ import {
   getDocs,
   query,
   where,
-  limit,
-  startAfter,
   addDoc,
-  getDoc,
   updateDoc,
-  doc,
   deleteDoc,
 } from "firebase/firestore";
-import { useAccount } from "./useAccount";
 
 export const useStories = () => {
   const storiesCollection = collection(db, "stories");
-  const auth = getAuth();
 
+  const auth = getAuth();
+  const { user } = useContext(AuthContext);
   const [stories, setStories] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [fetchingStories, setFetchingStories] = useState(false);
@@ -28,7 +24,6 @@ export const useStories = () => {
   const [error, setError] = useState("");
   const [pagination, setPagination] = useState(1);
   const [lastVisible, setLastVisible] = useState(null);
-  const { user } = useContext(AuthContext);
 
   // create a story
   const createStory = async (newStory) => {
@@ -79,17 +74,21 @@ export const useStories = () => {
       throw error; // Re-throw to allow further handling by the component
     }
   };
-
   // delete story
-  const deleteStory = async (storyId) => {
+  const deleteStory = async (url) => {
     try {
-      const storyRef = doc(db, "stories", storyId);
-      await deleteDoc(storyRef);
-      console.log("Story deleted successfully!");
-      // Optionally, you can handle any post-deletion logic here (e.g., updating state or UI)
+      const q = query(storiesCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such story exists");
+      } else {
+        const docRef = querySnapshot.docs[0].ref; // Get the DocumentReference
+        await deleteDoc(docRef); // Use DocumentReference with deleteDoc
+        console.log("Successfully deleted story");
+      }
     } catch (error) {
-      console.error("Error deleting story:", error);
-      // Optionally, handle errors in UI, such as displaying an error message
+      console.error("Error deleting story: ", error.message);
+      throw new Error(error.message); // Re-throw if necessary, otherwise handle it here
     }
   };
 

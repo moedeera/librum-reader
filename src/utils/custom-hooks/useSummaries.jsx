@@ -10,6 +10,8 @@ import {
   updateDoc,
   orderBy,
   addDoc,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { AuthContext } from "@/Context/AuthContext";
 
@@ -50,6 +52,7 @@ export const useSummaries = () => {
         setTotal(snapshot.docs.length);
       }
       setLoading(false);
+      return fetchedSummaries;
     } catch (err) {
       console.error("Error fetching summaries:", err);
       setError(err.message);
@@ -87,6 +90,7 @@ export const useSummaries = () => {
         setSummaries(fetchedSummaries);
         setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
       }
+      return fetchedSummaries;
       setLoading(false);
     } catch (err) {
       console.error("Error fetching filtered summaries:", err);
@@ -197,6 +201,23 @@ export const useSummaries = () => {
     }
   };
 
+  const deleteSummary = async (url) => {
+    try {
+      const q = query(summariesCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such story exists");
+      } else {
+        const docRef = querySnapshot.docs[0].ref; // Get the DocumentReference
+        await deleteDoc(docRef); // Use DocumentReference with deleteDoc
+        console.log("Successfully deleted story");
+      }
+    } catch (error) {
+      console.error("Error deleting story: ", error.message);
+      throw new Error(error.message); // Re-throw if necessary, otherwise handle it here
+    }
+  };
+
   return {
     suggestions,
     quickSummaryUpdate,
@@ -211,5 +232,6 @@ export const useSummaries = () => {
     filteredSummaries,
     fetchTheNextSetOfSummaries,
     lastVisibleFilteredSummary,
+    deleteSummary,
   };
 };

@@ -8,19 +8,6 @@ import { db } from "../../../firebase-config";
 
 // eslint-disable-next-line react/prop-types
 export const Block4 = ({ summaries, showingAmount }) => {
-  const dummyImageUrl =
-    "https://images.pexels.com/photos/20197333/pexels-photo-20197333/free-photo-of-a-man-in-cowboy-hat-riding-a-horse-in-a-field.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-  // const updateViews = async (id) => {
-
-  //   const story = doc(db, "stories", id);
-  //   let storyInfo = await getDoc(story);
-  //   console.log(storyInfo.data());
-  //   let storyObject = storyInfo.data();
-
-  //   const newCount = Number(storyObject.views) + 1;
-  //   await updateDoc(story, { views: newCount });
-  // };
-
   function processNumber(num) {
     if (num <= 200) {
       return 1;
@@ -59,11 +46,6 @@ export const Block4 = ({ summaries, showingAmount }) => {
   }, []);
 
   const { imagesSorted, findImageSet } = useContext(SiteContext);
-  // const [hover, setHover] = useState(
-  //   /* eslint-disable-next-line react/prop-types */
-  //   new Array(summaries.length).fill({ id: summaries.id, state: false })
-  // );
-  /* eslint-disable-next-line react/prop-types */
 
   return (
     <div className="block-4-container">
