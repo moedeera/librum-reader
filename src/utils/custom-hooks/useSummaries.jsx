@@ -35,7 +35,7 @@ export const useSummaries = () => {
 
     try {
       const summariesRef = collection(db, "summaries");
-      const q = query(summariesRef, orderBy("views", "desc"), limit(8));
+      const q = query(summariesRef, orderBy("views", "desc"), limit(16));
       const snapshot = await getDocs(q);
 
       const fetchedSummaries = snapshot.docs.map((doc) => ({
@@ -73,7 +73,7 @@ export const useSummaries = () => {
       const q = query(
         summariesRef,
         where("keywords", "array-contains", keyword),
-        limit(8)
+        limit(16)
       );
       const snapshot = await getDocs(q);
 
@@ -104,7 +104,7 @@ export const useSummaries = () => {
         summariesRef,
         where("keywords", "array-contains", searchWord),
         startAfter(lastVisibleItem),
-        limit(8)
+        limit(16)
       );
       const snapshot = await getDocs(q);
 
