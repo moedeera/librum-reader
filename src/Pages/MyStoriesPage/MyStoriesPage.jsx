@@ -74,6 +74,32 @@ export const MyStoriesPage = () => {
             </div>
           ))}
         </div>
+        <h5>Stories</h5>
+        <div className="my-stories-container">
+          {account?.stories?.map((draft, index) => (
+            <div key={index} className="my-stories-story">
+              <div
+                className="ms-cover-image"
+                style={{ backgroundImage: `url(${draft.cover})` }}
+              ></div>
+              {draft.title}
+
+              <div className="button-container">
+                <Link className="btn" to={`${draft.draftId}`}>
+                  <small>Edit</small>
+                </Link>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => {
+                    handleOnDelete(draft.draftId);
+                  }}
+                >
+                  <small> Delete</small>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

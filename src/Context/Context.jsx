@@ -80,7 +80,7 @@ export const SiteContextProvider = ({ children }) => {
   ];
 
   const dropDownLinks = [
-    { id: 1, name: "My Profile", to: "/profile" },
+    { id: 1, name: "Profile", to: "/profile" },
     { id: 2, name: "My Stories", to: "/mystories" },
     { id: 3, name: "Messages", to: "/messages" },
     { id: 4, name: "Settings", to: "/settings" },
