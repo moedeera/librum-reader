@@ -30,7 +30,9 @@ export const SearchPage = () => {
     const getSummaries = async () => {
       console.log("called");
       if (searchWord === "all" || searchWord === "") {
+        console.log("condition 1 ");
         try {
+          console.log("condition 1 attempt");
           const data = await fetchSummaries();
           console.log(data);
           setStorySummaries(data);
@@ -38,6 +40,7 @@ export const SearchPage = () => {
           console.log(error);
         }
       } else {
+        console.log("condition 2");
         const data = await fetchFilteredSummaries(searchWord);
         setStorySummaries(data);
       }

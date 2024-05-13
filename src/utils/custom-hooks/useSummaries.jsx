@@ -70,7 +70,8 @@ export const useSummaries = () => {
     );
     const snapshotTotal = await getDocs(q); // Query to fetch all for counting
     // Set the total number of items matching the search
-    setTotal(snapshotTotal.docs.length);
+
+    console.log(snapshotTotal.docs.length);
     try {
       const summariesRef = collection(db, "summaries");
 
@@ -91,10 +92,10 @@ export const useSummaries = () => {
         setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
       }
       return fetchedSummaries;
-      setLoading(false);
     } catch (err) {
       console.error("Error fetching filtered summaries:", err);
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
@@ -122,10 +123,10 @@ export const useSummaries = () => {
         setSummaries(fetchedSummaries);
         setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
       }
-      setLoading(false);
     } catch (err) {
       console.error("Error fetching next set of summaries:", err);
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
