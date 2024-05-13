@@ -9,6 +9,7 @@ import {
   b3content,
   block1HomePageContent,
   block1HomePageContent2,
+  block3HomePageContent1,
 } from "../../Context/Content";
 
 import { useContext, useEffect, useRef, useState } from "react";
@@ -96,7 +97,7 @@ export const Homepage = () => {
       <Block1 input={block1HomePageContent} />
       <div ref={blockRef4} data={b3content} className="animated-block">
         {" "}
-        <Block3 />
+        <Block3 data={block3HomePageContent1} />
       </div>
       <div ref={blockRef3} className="animated-block">
         <Block1 input={block1HomePageContent2} alt={2} />

@@ -33,7 +33,7 @@ export const Landing = () => {
           critique short stories with a vibrant community of like-minded
           individuals.
         </p>
-        <Link to={"/"} className="btn btn-primary">
+        <Link to={"/stories"} className="btn btn-primary">
           DISCOVER GREAT STORIES
         </Link>
       </div>

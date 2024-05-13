@@ -64,7 +64,7 @@ export const Block1 = ({ input, alt }) => {
       }
     >
       {info.map((item, index) => (
-        <Link
+        <div
           // onMouseEnter={(item) => {
           onMouseEnter={() => {
             console.log(item);
@@ -88,7 +88,6 @@ export const Block1 = ({ input, alt }) => {
               });
             });
           }}
-          to={`${item.ref}`}
           className="block-1-segment"
           key={item.id}
         >
@@ -117,7 +116,9 @@ export const Block1 = ({ input, alt }) => {
             <small>{item.cat}</small>
             <h4>{item.title}</h4>
             <p>{item.info}</p>
-            <div className="btn">Read More</div>
+            <Link to={`${item.ref}`} className="btn">
+              Read More
+            </Link>
             <p>
               {item.tag.length > 1 && "Tags:"}
               {item.tag.map((tagItem, index) => (
@@ -129,7 +130,7 @@ export const Block1 = ({ input, alt }) => {
               ))}
             </p>
           </div>
-        </Link>
+        </div>
       ))}
     </div>
   );
