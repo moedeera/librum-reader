@@ -35,10 +35,9 @@ export const useSummaries = () => {
   const fetchSummaries = async () => {
     setLoading(true);
     setError(null);
-
+    const q = query(summariesCollection);
     try {
-      const summariesRef = collection(db, "summaries");
-      const q = query(summariesRef, orderBy("views", "desc"), limit(16));
+      const q = query(summariesCollection, orderBy("views", "desc"), limit(8));
       const snapshot = await getDocs(q);
 
       const fetchedSummaries = snapshot.docs.map((doc) => ({
@@ -70,7 +69,7 @@ export const useSummaries = () => {
     );
     const snapshotTotal = await getDocs(q); // Query to fetch all for counting
     // Set the total number of items matching the search
-
+    setTotal(snapshotTotal.docs.length);
     console.log(snapshotTotal.docs.length);
     try {
       const summariesRef = collection(db, "summaries");
@@ -78,7 +77,7 @@ export const useSummaries = () => {
       const q = query(
         summariesRef,
         where("keywords", "array-contains", keyword),
-        limit(16)
+        limit(8)
       );
       const snapshot = await getDocs(q);
 
@@ -110,7 +109,7 @@ export const useSummaries = () => {
         summariesRef,
         where("keywords", "array-contains", searchWord),
         startAfter(lastVisibleItem),
-        limit(16)
+        limit(8)
       );
       const snapshot = await getDocs(q);
 
@@ -204,17 +203,17 @@ export const useSummaries = () => {
 
   const deleteSummary = async (url) => {
     try {
-      const q = query(summariesCollection, where("url", "==", url));
+      const q = query(summariesCollection, where("link", "==", url));
       const querySnapshot = await getDocs(q);
       if (querySnapshot.empty) {
-        throw new Error("No such story exists");
+        throw new Error("No such summary exists");
       } else {
         const docRef = querySnapshot.docs[0].ref; // Get the DocumentReference
         await deleteDoc(docRef); // Use DocumentReference with deleteDoc
-        console.log("Successfully deleted story");
+        console.log("Successfully deleted summary");
       }
     } catch (error) {
-      console.error("Error deleting story: ", error.message);
+      console.error("Error deleting summary: ", error.message);
       throw new Error(error.message); // Re-throw if necessary, otherwise handle it here
     }
   };

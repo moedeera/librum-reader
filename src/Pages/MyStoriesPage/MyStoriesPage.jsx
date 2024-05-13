@@ -8,23 +8,27 @@ import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useStories } from "@/utils/custom-hooks/useStories";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { Loading } from "@/Components/Loading/Loading";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
 
 export const MyStoriesPage = () => {
   const { user } = useContext(AuthContext);
   const [account, setAccount] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   const navigate = useNavigate();
   const { updateAccount, fetchAccount } = useAccount();
   const { deleteStory } = useStories();
   const { deleteDraft } = useDraft();
   const { deleteSummary } = useSummaries();
+  const { updateUserProfile, fetchProfile } = useProfile();
 
   //   const handleOnDeleteClick = async() => {
   //   alert
   // }
   const handleStoryDelete = async (id, url) => {
     setLoading(true);
+    console.log(url);
     try {
       await deleteStory(url);
       await deleteSummary(url);
@@ -33,8 +37,16 @@ export const MyStoriesPage = () => {
         ...account,
         stories: account.stories.filter((story) => story.id !== id && story),
       };
-      console.log(updatedAccount);
       await updateAccount(account.userId, "stories", updatedAccount.stories);
+      const userProfile = await fetchProfile();
+      let updatedUserProfileStories = userProfile.stories.filter(
+        (story) => story.url !== url && story
+      );
+      await updateUserProfile(
+        userProfile.userId,
+        "stories",
+        updatedUserProfileStories
+      );
       setAccount(updatedAccount);
     } catch (error) {
       console.log(error);
@@ -65,7 +77,7 @@ export const MyStoriesPage = () => {
     };
 
     fetchUserAccount();
-  }, [user]);
+  }, [user, isFetching]);
 
   if (loading) {
     return <Loading />;
@@ -112,7 +124,7 @@ export const MyStoriesPage = () => {
               {story.title}
 
               <div className="button-container">
-                <Link className="btn" to={`${story?.draftId}`}>
+                <Link className="btn" to={`../edit/story/${story?.url}`}>
                   <small>Edit</small>
                 </Link>
                 <button

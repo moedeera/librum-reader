@@ -10,6 +10,8 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
 export const useStories = () => {
@@ -49,6 +51,25 @@ export const useStories = () => {
       }
     } catch (error) {
       throw new Error(error.message);
+    }
+  };
+
+  // update story
+  const updateStory = async (url, updatedStory) => {
+    try {
+      // Set loading to true at the start of the operation
+      const storyRef = doc(storiesCollection, url); // Create a reference to the draft document
+      const storyDoc = await getDoc(storyRef); // Get the document snapshot
+
+      if (!storyDoc.exists()) {
+        throw new Error("No such story exists");
+      } else {
+        await updateDoc(storyRef, updatedStory); // Pass the updates object directly
+        console.log(`Story with url "${url}" was updated successfully.`);
+      }
+    } catch (error) {
+      // Update error state with the error message
+      throw new error("Error updating story:", error); // Re-throw the error for further handling
     }
   };
 
@@ -95,6 +116,7 @@ export const useStories = () => {
   return {
     fetchStory,
     quickStoryUpdate,
+    updateStory,
     createStory,
     deleteStory,
   };

@@ -53,11 +53,11 @@ export const HomeFeed = () => {
     }
   }, [account]);
 
-  if (loading || account === null) {
+  if (loading) {
     return <Loading />;
   }
 
-  if (!user) {
+  if ((!user && user === null) || account === null) {
     return <Homepage />;
   }
 

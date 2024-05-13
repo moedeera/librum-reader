@@ -8,7 +8,8 @@ import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { SiteContext } from "@/Context/Context";
 
 export const SearchPage = () => {
-  const { storySummaries, setStorySummaries } = useContext(SiteContext);
+  const { storySummaries, setStorySummaries, paginationData, currentPage } =
+    useContext(SiteContext);
   const { searchWord } = useParams();
 
   const { loading, total, fetchSummaries, fetchFilteredSummaries } =
@@ -18,7 +19,7 @@ export const SearchPage = () => {
   let pageButtons = [];
 
   if (total && storySummaries) {
-    // console.log(total, summaries.length);
+    console.log(total, storySummaries.length);
     const totalPages = Math.ceil(total / storySummaries?.length);
 
     for (var j = 1; j <= totalPages; j++) {
@@ -88,7 +89,7 @@ export const SearchPage = () => {
           Showing {storySummaries.length} of {total} results
         </div>
 
-        {/* <div className="page-button-container">
+        <div className="page-button-container">
           {" "}
           {pageButtons.map((pageButton) => (
             <div
@@ -115,7 +116,7 @@ export const SearchPage = () => {
               {pageButton.page}
             </div>
           ))}
-        </div> */}
+        </div>
 
         <div className="search-page-filter">
           <p>Categories:</p>

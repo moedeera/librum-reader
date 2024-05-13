@@ -36,6 +36,7 @@ import { AuthProvider } from "./Context/AuthContext";
 import { CreateStory } from "./Pages/CreateStory/CreateStory";
 import DraftPage from "./Pages/DraftPage/DraftPage";
 import CreateStoryPage from "./Pages/CreateStoryPage/CreateStoryPage";
+import EditStoryPage from "./Pages/EditStoryPage/EditStoryPage";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
                 <Route path="mystories" element={<MyStoriesPage />} />
                 <Route path="mystories/:draftid" element={<DraftPage />} />
                 <Route path="edit/:draftid" element={<DraftPage />} />
+                <Route path="edit/story/:url" element={<EditStoryPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<ProfilePage />} />
