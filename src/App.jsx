@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { Homepage } from "./Pages/Homepage/Homepage";
 import { Navbar } from "./Components/Navbar/Navbar";
@@ -37,8 +38,19 @@ import { CreateStory } from "./Pages/CreateStory/CreateStory";
 import DraftPage from "./Pages/DraftPage/DraftPage";
 import CreateStoryPage from "./Pages/CreateStoryPage/CreateStoryPage";
 import EditStoryPage from "./Pages/EditStoryPage/EditStoryPage";
+import { useEffect } from "react";
 
 function App() {
+  const ScrollToTop2 = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  };
+
   return (
     <SiteContextProvider>
       <AuthProvider>

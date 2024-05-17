@@ -10,7 +10,11 @@ export const ProfilePage = () => {
   const { user } = useContext(AuthContext);
 
   if (!user || user === null || user === undefined) {
-    return <Loading />;
+    return (
+      <div className="container">
+        <Loading />;
+      </div>
+    );
   }
 
   return (
