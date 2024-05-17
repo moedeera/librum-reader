@@ -80,7 +80,7 @@ export const SiteContextProvider = ({ children }) => {
   ];
 
   const dropDownLinks = [
-    { id: 1, name: "My Profile", to: "/profile" },
+    { id: 1, name: "Profile", to: "/profile" },
     { id: 2, name: "My Stories", to: "/mystories" },
     { id: 3, name: "Messages", to: "/messages" },
     { id: 4, name: "Settings", to: "/settings" },
@@ -202,15 +202,12 @@ export const SiteContextProvider = ({ children }) => {
       console.error("Error updating profile: ", error);
     }
   };
-  // Update story
-  // useEffect(() => {
-  //   console.log("updating value....");
-  //   localStorage.setItem("created-story-info", JSON.stringify(story));
-  // }, [story]);
-
-  // useEffect(() => {
-  //   console.log(storyImage);
-  // }, [storyImage]);
+  const [storySummaries, setStorySummaries] = useState([]);
+  const [paginationData, setPaginationData] = useState({
+    total: null,
+    last: null,
+  });
+  const [currentPage, setCurrentPage] = useState(1);
 
   return (
     <SiteContext.Provider
@@ -235,6 +232,12 @@ export const SiteContextProvider = ({ children }) => {
         websiteTitle,
         storyImage,
         setStoryImage,
+        storySummaries,
+        setStorySummaries,
+        paginationData,
+        setPaginationData,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

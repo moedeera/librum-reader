@@ -95,6 +95,7 @@ export const useAccount = () => {
   };
 
   const updateAccount2 = async (userId, updatedAccount) => {
+    console.log(userId, user);
     try {
       // Set loading to true at the start of the operation
       const accountRef = doc(accountsCollection, userId); // Create a reference to the draft document
@@ -107,8 +108,9 @@ export const useAccount = () => {
         console.log(`account for user ${userId} updated successfully.`);
       }
     } catch (error) {
+      console.log(error);
       // Update error state with the error message
-      throw error("Error updating draft:", error); // Re-throw the error for further handling
+      throw new Error("Error:", error); // Re-throw the error for further handling
     }
   };
 

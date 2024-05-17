@@ -1,7 +1,4 @@
-import {
-  checkURLAvailability,
-  formatTimestamp,
-} from "@/utils/functions/functions";
+import { formatTimestamp } from "@/utils/functions/functions";
 import "./StoryMain.css";
 import { useContext, useEffect, useState } from "react";
 import { Loading } from "../Loading/Loading";
@@ -13,12 +10,12 @@ import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { AuthContext } from "@/Context/AuthContext";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 
-const StoryMain = ({ story, setMode, onPublish, draftId }) => {
+const EditStoryMain = ({ story, setMode, url }) => {
   const [loading, setLoading] = useState(false);
-  const { createStory } = useStories();
-  const { createSummary } = useSummaries();
+  const { deleteStory } = useStories();
+  const { deleteSummary } = useSummaries();
   const { updateUserProfile, fetchProfile } = useProfile();
-  const { deleteDraft } = useDraft();
+
   const { fetchAccount, updateAccount, updateAccount2 } = useAccount();
   const navigate = useNavigate();
 
@@ -29,49 +26,16 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
     setUpdateTime(story?.lastEdited);
   }, [story]);
 
-  const handleClick = async () => {
+  const handleDelete = async () => {
     try {
       setLoading(true);
-      let finalUrl = await checkURLAvailability(story?.title);
-      let newStory = {
-        ...story,
-        authorAvatar: user.photoURL,
-        dateCreated: new Date(),
-        lastEdited: new Date(),
-        comments: [],
-        url: finalUrl,
-      };
 
-      const newSummary = {
-        authorName: story.authorName,
-        authorLink: story.authorLink,
-        stats: story.stats,
-        link: finalUrl,
-        promoted: false,
-        keywords: story.keywords,
-        tags: story.tags,
-        dateCreated: new Date(),
-        cover: story.cover,
-        synopsis: story.synopsis,
-        title: story.title,
-        views: story.views,
-        likes: story.likes,
-        comments: 0,
-        category: story.category,
-        wordCount: story.wordCount,
-      };
-      await createSummary(newSummary);
-      const publishedStory = await createStory(newStory);
+      await deleteSummary(url);
       let userProfile = await fetchProfile();
       console.log(userProfile.stories);
-      let updatedUserProfileStories = [
-        ...userProfile.stories,
-        {
-          title: newStory.title,
-          cover: newStory.cover,
-          url: newStory.url,
-        },
-      ];
+      let updatedUserProfileStories = userProfile.stories.filter(
+        (singleStory) => singleStory.url !== url && singleStory
+      );
 
       await updateUserProfile(
         story.userId,
@@ -79,38 +43,14 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         updatedUserProfileStories
       );
       const account = await fetchAccount();
-      let updatedAccount = {
-        ...account,
-        drafts: account.drafts.filter(
-          (draft) => draft.draftId !== draftId && draft
-        ),
-        stories: [
-          ...account.stories,
-          {
-            title: story?.title,
-            cover: story?.cover,
-            url: finalUrl,
-          },
-        ],
-      };
 
-      let updatedDrafts = account.drafts.filter(
-        (draft) => draft.draftId !== draftId && draft
+      let updatedStories = account.stories.filter(
+        (singleStory) => singleStory.url !== url && singleStory
       );
-      let updatedStories = [
-        ...account.stories,
-        {
-          title: story?.title,
-          cover: story?.cover,
-          url: finalUrl,
-          id: publishedStory.id,
-        },
-      ];
-      await updateAccount(account.userId, "drafts", updatedDrafts);
-      await updateAccount(account.userId, "stories", updatedStories);
-      await deleteDraft(draftId);
 
-      navigate(`../../story/${finalUrl}`);
+      await updateAccount(account.userId, "stories", updatedStories);
+
+      navigate(`../../mystories}`);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -155,15 +95,6 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
       </div>
       <div className="story-buttons-container">
         <button
-          className="btn btn-green"
-          onClick={() => {
-            handleClick("/");
-          }}
-        >
-          <small>Publish</small>
-        </button>
-
-        <button
           className="btn"
           onClick={() => {
             setMode("story");
@@ -171,9 +102,17 @@ const StoryMain = ({ story, setMode, onPublish, draftId }) => {
         >
           <small>Edit Story</small>
         </button>
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            handleDelete("/");
+          }}
+        >
+          <small>Delete</small>
+        </button>
       </div>
     </>
   );
 };
 
-export default StoryMain;
+export default EditStoryMain;

@@ -1,37 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./SearchPage.css";
 import { Loading } from "../../Components/Loading/Loading";
 
 import { Link, useParams } from "react-router-dom";
 import { Block4 } from "../../Components/Block4/Block4";
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
+import { SiteContext } from "@/Context/Context";
 
 export const SearchPage = () => {
+  const { storySummaries, setStorySummaries, paginationData, currentPage } =
+    useContext(SiteContext);
   const { searchWord } = useParams();
-  const [currentPage, setCurrentPage] = useState(1);
-  const {
-    loading,
-    summaries,
-    total,
-    lastVisibleFilteredSummary,
-    fetchSummaries,
-    fetchFilteredSummaries,
-    fetchTheNextSetOfSummaries,
-  } = useSummaries();
-  const [paginationData, setPaginationData] = useState({
-    total: null,
-    last: null,
-  });
+
+  const { loading, total, fetchSummaries, fetchFilteredSummaries } =
+    useSummaries();
 
   // page index buttons
   let pageButtons = [];
-  // useEffect(() => {
-  //   console.log(summaries);
-  // }, [summaries]);
 
-  if (total && summaries) {
-    console.log(total, summaries.length);
-    const totalPages = Math.ceil(total / summaries?.length);
+  if (total && storySummaries) {
+    console.log(total, storySummaries.length);
+    const totalPages = Math.ceil(total / storySummaries?.length);
 
     for (var j = 1; j <= totalPages; j++) {
       pageButtons.push({ id: j, page: j });
@@ -40,10 +29,21 @@ export const SearchPage = () => {
 
   useEffect(() => {
     const getSummaries = async () => {
+      console.log("called");
       if (searchWord === "all" || searchWord === "") {
-        fetchSummaries();
+        console.log("condition 1 ");
+        try {
+          console.log("condition 1 attempt");
+          const data = await fetchSummaries();
+          console.log(data);
+          setStorySummaries(data);
+        } catch (error) {
+          console.log(error);
+        }
       } else {
-        fetchFilteredSummaries(searchWord);
+        console.log("condition 2");
+        const data = await fetchFilteredSummaries(searchWord);
+        setStorySummaries(data);
       }
     };
     getSummaries();
@@ -60,7 +60,11 @@ export const SearchPage = () => {
     "adventure",
   ];
 
-  if (loading || summaries === null) {
+  if (
+    loading ||
+    storySummaries === null ||
+    !Array.isArray(storySummaries || storySummaries === undefined)
+  ) {
     return <Loading />;
   }
 
@@ -70,10 +74,10 @@ export const SearchPage = () => {
         <h3>Stories</h3>
       </div>
       <div className="search-page">
-        {summaries.length > 0 ? (
+        {storySummaries.length > 0 ? (
           <>
             {" "}
-            <Block4 summaries={summaries} loading={loading} />
+            <Block4 summaries={storySummaries} loading={loading} />
           </>
         ) : (
           <>
@@ -82,19 +86,9 @@ export const SearchPage = () => {
         )}
 
         <div>
-          Showing {summaries.length} of {total} results
+          Showing {storySummaries.length} of {total} results
         </div>
 
-        {/* {total > summaries.length && (
-          <button
-            className="btn"
-            onClick={() => {
-              fetchSummaries(1, 8, searchWord);
-            }}
-          >
-            Show More
-          </button>
-        )} */}
         <div className="page-button-container">
           {" "}
           {pageButtons.map((pageButton) => (

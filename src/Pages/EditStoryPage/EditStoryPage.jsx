@@ -1,24 +1,24 @@
 import { Editor } from "@/Components/Editor/Editor";
 import { Loading } from "@/Components/Loading/Loading";
-import { Previewer } from "@/Components/Previewer/Previewer";
 import { AuthContext } from "@/Context/AuthContext";
-import { useDraft } from "@/utils/custom-hooks/useDraft";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./DraftPage.css";
+import "../DraftPage/DraftPage.css";
 import { ErrorPage } from "../ErrorPage/ErrorPage";
-
 import StoryMain from "@/Components/StoryMain/StoryMain";
 import ImageBox from "../StoryInfo/ImageUploader";
-import {
-  formatTimestamp,
-  getCurrentDateFormatted,
-} from "@/utils/functions/functions";
+import { getCurrentDateFormatted } from "@/utils/functions/functions";
 import { useAccount } from "@/utils/custom-hooks/useAccount";
 import { StoryDetails } from "@/Components/StorytDetails/StoryDetails";
-const DraftPage = () => {
-  const { fetchDraftById, updateDraft } = useDraft();
-  const { fetchAccount, updateAccount, updateAccount2 } = useAccount();
+import { useStories } from "@/utils/custom-hooks/useStories";
+import EditStoryMain from "@/Components/StoryMain/EditStoryMain";
+import { useSummaries } from "@/utils/custom-hooks/useSummaries";
+import { useProfile } from "@/utils/custom-hooks/useProfile";
+const EditStoryPage = () => {
+  const { fetchAccount, updateAccount } = useAccount();
+  const { fetchStory, updateStory, quickStoryUpdate } = useStories();
+  const { quickSummaryUpdate } = useSummaries();
+  const { updateUserProfile } = useProfile();
   const { user } = useContext(AuthContext);
   const [story, setStory] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ const DraftPage = () => {
   const [updating, setUpdating] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  const { draftid } = useParams();
+  const { url } = useParams();
 
   const modes = [
     { id: 1, name: "Main", mode: "main" },
@@ -39,10 +39,13 @@ const DraftPage = () => {
 
   const handleUpdate = async (update) => {
     try {
-      await updateDraft(draftid, update);
+      setLoading(true);
+      await updateStory(url, update);
     } catch (error) {
       console.log("failed to update", error);
       throw new Error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,24 +53,24 @@ const DraftPage = () => {
     try {
       setUpdating(true);
       let currentDate = new Date();
-      let updatedDraft = {
+      let updatedStory = {
         ...story,
         title: storyTitle,
         lastEdited: currentDate,
       };
-      await updateDraft(draftid, updatedDraft);
-      setStory(updatedDraft);
+      await quickStoryUpdate(url, "title", storyTitle);
+      await setStory(updatedStory);
 
       setEditTitle(false);
       const userAccount = await fetchAccount();
       let updatedAccount = {
         ...userAccount,
-        drafts: userAccount.drafts.map((draft) =>
-          draft.draftId === draftid ? { ...draft, title: storyTitle } : draft
+        stories: userAccount.stories.map((story) =>
+          story.url === url ? { ...story, title: storyTitle } : story
         ),
       };
 
-      await updateAccount(userAccount.userId, "drafts", updatedAccount.drafts);
+      await updateAccount(userAccount.userId, "stories", updatedAccount.drafts);
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,10 +80,10 @@ const DraftPage = () => {
   };
 
   useEffect(() => {
-    const fetchThDraft = async (id) => {
+    const fetchTheStory = async () => {
       try {
         setLoading(true);
-        let res = await fetchDraftById(id);
+        let res = await fetchStory(url);
         // console.log(res);
         setStory(res);
         setStoryTitle(res.title);
@@ -93,7 +96,7 @@ const DraftPage = () => {
       }
     };
     if (user && user !== null) {
-      fetchThDraft(draftid);
+      fetchTheStory();
     }
   }, [user]);
 
@@ -200,7 +203,7 @@ const DraftPage = () => {
                 prevImage={story?.cover}
                 setStory={setStory}
                 story={story}
-                id={draftid}
+                id={url}
               />
             </div>
 
@@ -228,7 +231,7 @@ const DraftPage = () => {
                 ))}
               </div>
               {mode === "main" && (
-                <StoryMain story={story} setMode={setMode} draftId={draftid} />
+                <EditStoryMain story={story} setMode={setMode} url={url} />
               )}
               {mode === "details" && (
                 <StoryDetails
@@ -256,4 +259,4 @@ const DraftPage = () => {
   );
 };
 
-export default DraftPage;
+export default EditStoryPage;

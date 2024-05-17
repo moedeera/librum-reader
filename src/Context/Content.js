@@ -169,7 +169,7 @@ const block1HomePageContent = [
     link: "community/partners",
     tag: [],
     pic: "https://images.pexels.com/photos/3.jpg",
-    ref: "/",
+    ref: "/community",
   },
 ];
 
@@ -197,7 +197,7 @@ const block3Content = {
   title: "Where the power of words and the art of storytelling converge",
   text: `
  Librum Reader is not just a website; it's a literary haven that emphasizes the profound significance of reading, reviewing, and editing short stories. In a world brimming with narratives, we believe that each short story is a gem waiting to be discovered and polished. Our platform is dedicated to fostering a community of passionate readers, thoughtful reviewers, and meticulous editors who recognize the transformative potential of concise tales. Whether you're an avid reader seeking captivating narratives, an aspiring writer yearning for constructive feedback, or an editor with a keen eye for perfection, Librum Reader provides the space and tools for literary enthusiasts to connect, explore, and refine the art of short storytelling. Join us in celebrating the written word and let Librum Reader be your companion on a journey through the boundless realms of imagination.`,
-  button: { link: "/", text: "More" },
+  button: null,
 };
 
 const communityPageContent = {
@@ -205,6 +205,18 @@ const communityPageContent = {
   text: `Welcome to the Librum-Reader Community, a vibrant hub designed for both fiction and non-fiction enthusiasts eager to unleash their creativity and elevate their writing skills. Our community thrives on engagement and growth, offering monthly competitions that challenge and inspire, with winners enjoying special recognition and rewards. Dive into our free writing workshops, led by experienced authors and industry experts, to refine your craft, explore new genres, and unlock your full potential. Additionally, our live events provide a unique opportunity to connect, network, and share your passion with like-minded individuals. Whether you're a seasoned writer or just starting your journey, the Librum-Reader Community is your gateway to a world of endless possibilities and support. Join us, and let's create, learn, and grow together.
    `,
   button: { link: "/", text: "More" },
+};
+
+const block3HomePageContent1 = {
+  title: `Read, comment on, and rate daily short stories and articles to expand your knowledge`,
+  text: `
+  Join our vibrant community dedicated to the joy of reading and intellectual exchange.
+  Every day, we feature a curated selection of short stories and articles across various genres and topics.
+  By participating, you not only expand your own knowledge but also engage with diverse perspectives from around the world.
+  Our platform allows you to read, comment on, and rate each piece, fostering a dynamic environment where dialogue and learning flourish.
+  Whether you're looking to explore new literary styles, uncover insights in emerging fields, or simply enjoy thought-provoking content, our community is the perfect place. Your ratings and discussions help shape the conversation, bringing depth and multiple viewpoints to every discussion.
+  Dive into our daily offerings to challenge your understandings, broaden your horizons, and connect with fellow enthusiasts eager to learn and share.`,
+  button: { link: "/stories", text: "More" },
 };
 
 export {
@@ -215,4 +227,5 @@ export {
   block1HomePageContent2,
   block6HomeFeedContent,
   communityPageContent,
+  block3HomePageContent1,
 };

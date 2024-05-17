@@ -9,6 +9,9 @@ import {
   startAfter,
   updateDoc,
   orderBy,
+  addDoc,
+  doc,
+  deleteDoc,
 } from "firebase/firestore";
 import { AuthContext } from "@/Context/AuthContext";
 
@@ -32,10 +35,9 @@ export const useSummaries = () => {
   const fetchSummaries = async () => {
     setLoading(true);
     setError(null);
-
+    const q = query(summariesCollection);
     try {
-      const summariesRef = collection(db, "summaries");
-      const q = query(summariesRef, orderBy("views", "desc"), limit(8));
+      const q = query(summariesCollection, orderBy("views", "desc"), limit(8));
       const snapshot = await getDocs(q);
 
       const fetchedSummaries = snapshot.docs.map((doc) => ({
@@ -49,6 +51,7 @@ export const useSummaries = () => {
         setTotal(snapshot.docs.length);
       }
       setLoading(false);
+      return fetchedSummaries;
     } catch (err) {
       console.error("Error fetching summaries:", err);
       setError(err.message);
@@ -67,6 +70,7 @@ export const useSummaries = () => {
     const snapshotTotal = await getDocs(q); // Query to fetch all for counting
     // Set the total number of items matching the search
     setTotal(snapshotTotal.docs.length);
+    console.log(snapshotTotal.docs.length);
     try {
       const summariesRef = collection(db, "summaries");
 
@@ -86,10 +90,11 @@ export const useSummaries = () => {
         setSummaries(fetchedSummaries);
         setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
       }
-      setLoading(false);
+      return fetchedSummaries;
     } catch (err) {
       console.error("Error fetching filtered summaries:", err);
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
@@ -117,10 +122,10 @@ export const useSummaries = () => {
         setSummaries(fetchedSummaries);
         setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
       }
-      setLoading(false);
     } catch (err) {
       console.error("Error fetching next set of summaries:", err);
       setError(err.message);
+    } finally {
       setLoading(false);
     }
   };
@@ -196,6 +201,23 @@ export const useSummaries = () => {
     }
   };
 
+  const deleteSummary = async (url) => {
+    try {
+      const q = query(summariesCollection, where("link", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such summary exists");
+      } else {
+        const docRef = querySnapshot.docs[0].ref; // Get the DocumentReference
+        await deleteDoc(docRef); // Use DocumentReference with deleteDoc
+        console.log("Successfully deleted summary");
+      }
+    } catch (error) {
+      console.error("Error deleting summary: ", error.message);
+      throw new Error(error.message); // Re-throw if necessary, otherwise handle it here
+    }
+  };
+
   return {
     suggestions,
     quickSummaryUpdate,
@@ -210,5 +232,6 @@ export const useSummaries = () => {
     filteredSummaries,
     fetchTheNextSetOfSummaries,
     lastVisibleFilteredSummary,
+    deleteSummary,
   };
 };

@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState } from "react";
 import { getAuth } from "firebase/auth";
 import { AuthContext } from "@/Context/AuthContext";
 import { db } from "../../../firebase-config";
@@ -7,18 +7,18 @@ import {
   getDocs,
   query,
   where,
-  limit,
-  startAfter,
   addDoc,
-  getDoc,
   updateDoc,
+  deleteDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
-import { useAccount } from "./useAccount";
 
 export const useStories = () => {
   const storiesCollection = collection(db, "stories");
-  const auth = getAuth();
 
+  const auth = getAuth();
+  const { user } = useContext(AuthContext);
   const [stories, setStories] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [fetchingStories, setFetchingStories] = useState(false);
@@ -26,13 +26,13 @@ export const useStories = () => {
   const [error, setError] = useState("");
   const [pagination, setPagination] = useState(1);
   const [lastVisible, setLastVisible] = useState(null);
-  const { user } = useContext(AuthContext);
 
   // create a story
   const createStory = async (newStory) => {
     try {
       const createdStoryRef = await addDoc(storiesCollection, newStory);
-      console.log("successfully created story");
+      console.log("successfully created story", createdStoryRef);
+      return createdStoryRef;
     } catch (error) {
       throw new Error("Failed to Create Document", error);
     }
@@ -51,6 +51,25 @@ export const useStories = () => {
       }
     } catch (error) {
       throw new Error(error.message);
+    }
+  };
+
+  // update story
+  const updateStory = async (url, updatedStory) => {
+    try {
+      // Set loading to true at the start of the operation
+      const storyRef = doc(storiesCollection, url); // Create a reference to the draft document
+      const storyDoc = await getDoc(storyRef); // Get the document snapshot
+
+      if (!storyDoc.exists()) {
+        throw new Error("No such story exists");
+      } else {
+        await updateDoc(storyRef, updatedStory); // Pass the updates object directly
+        console.log(`Story with url "${url}" was updated successfully.`);
+      }
+    } catch (error) {
+      // Update error state with the error message
+      throw new error("Error updating story:", error); // Re-throw the error for further handling
     }
   };
 
@@ -76,10 +95,29 @@ export const useStories = () => {
       throw error; // Re-throw to allow further handling by the component
     }
   };
+  // delete story
+  const deleteStory = async (url) => {
+    try {
+      const q = query(storiesCollection, where("url", "==", url));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) {
+        throw new Error("No such story exists");
+      } else {
+        const docRef = querySnapshot.docs[0].ref; // Get the DocumentReference
+        await deleteDoc(docRef); // Use DocumentReference with deleteDoc
+        console.log("Successfully deleted story");
+      }
+    } catch (error) {
+      console.error("Error deleting story: ", error.message);
+      throw new Error(error.message); // Re-throw if necessary, otherwise handle it here
+    }
+  };
 
   return {
     fetchStory,
     quickStoryUpdate,
+    updateStory,
     createStory,
+    deleteStory,
   };
 };
