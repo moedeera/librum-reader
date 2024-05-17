@@ -1,22 +1,18 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./ProfilePage.css";
 
-import { SiteContext } from "../../Context/Context";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BasicInfo } from "./ProfilePageComp/BasicInfo";
+import { AuthContext } from "@/Context/AuthContext";
+import { Loading } from "@/Components/Loading/Loading";
 export const ProfilePage = () => {
-  const { userid } = useParams();
   //
-  const { user, profileInfo } = useContext(SiteContext);
+  const { user } = useContext(AuthContext);
 
-  const navigate = useNavigate();
-  useEffect(() => {
-    console.log(user, profileInfo);
-    if (!user || user === null) {
-      navigate("/login");
-      return;
-    }
-  }, [user, navigate]);
+  if (!user || user === null || user === undefined) {
+    return <Loading />;
+  }
+
   return (
     <div className="container">
       <div className="profile-page-container">
