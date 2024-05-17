@@ -13,6 +13,7 @@ export const SearchPage = () => {
     loading,
     summaries,
     total,
+    lastVisibleFilteredSummary,
     fetchSummaries,
     fetchFilteredSummaries,
     fetchTheNextSetOfSummaries,
@@ -111,10 +112,9 @@ export const SearchPage = () => {
                   ", search-term:",
                   searchWord
                 );
-                fetchSummaries(
-                  pageButton.page,
+                fetchTheNextSetOfSummaries(
                   searchWord,
-                  paginationData.last
+                  lastVisibleFilteredSummary
                 );
               }}
             >
