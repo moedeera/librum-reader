@@ -6,6 +6,7 @@ import googleIcon from "./google.svg";
 
 import { AuthContext } from "@/Context/AuthContext";
 import { useAuth } from "@/utils/custom-hooks/useAuth";
+import { sendResetEmail } from "../../../firebase-config";
 
 export const LoginPage = () => {
   const { handleLogin, signInWithGoogleFunction, loading, error, setError } =
@@ -17,7 +18,7 @@ export const LoginPage = () => {
     email: "",
     password: "",
   });
-
+  const [reset, setReset] = useState(false);
   const onChangeHandler = (e, type, userInfo, setUserInfo) => {
     if (type === "name") {
       setUserInfo({ ...userInfo, name: e.target.value });
@@ -61,36 +62,92 @@ export const LoginPage = () => {
               Create a new one
             </Link>
           </small>
-          <p>Email</p>
-          <input
-            name="email"
-            type="email"
-            value={logUser.email}
-            onChange={(e) => {
-              onChangeHandler(e, "email", logUser, setLogUser);
-            }}
-            placeholder="Enter your email"
-          />
-          <p>Password</p>
-          <input
-            name="password"
-            type="password"
-            value={logUser.password}
-            onChange={(e) => {
-              onChangeHandler(e, "password", logUser, setLogUser);
-            }}
-            placeholder="Enter Your password"
-          />
-          <p style={{ color: "crimson" }}>{error}</p>
-          <button
-            onClick={() => {
-              handleLogin(logUser.email, logUser.password);
-            }}
-            className="btn btn-primary btn-form"
-          >
-            Login
-          </button>
+          {!reset && (
+            <>
+              <p>Email</p>
+              <input
+                name="email"
+                type="email"
+                value={logUser.email}
+                onChange={(e) => {
+                  onChangeHandler(e, "email", logUser, setLogUser);
+                }}
+                placeholder="Enter your email"
+              />
+              <p>Password</p>
+              <input
+                name="password"
+                type="password"
+                value={logUser.password}
+                onChange={(e) => {
+                  onChangeHandler(e, "password", logUser, setLogUser);
+                }}
+                placeholder="Enter Your password"
+              />
+              <p style={{ color: "crimson" }}>{error}</p>
+              <button
+                onClick={() => {
+                  handleLogin(logUser.email, logUser.password);
+                }}
+                className="btn btn-primary btn-form"
+              >
+                Login
+              </button>
+            </>
+          )}
+          {reset && (
+            <>
+              {" "}
+              <form onSubmit={sendResetEmail(logUser.email)}>
+                <p>Email</p>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  value={logUser.email}
+                  onChange={(e) => {
+                    onChangeHandler(e, "email", logUser, setLogUser);
+                  }}
+                  placeholder="Enter your email"
+                />
+                <button type="submit" className="btn btn-primary btn-form">
+                  Send Reset Link
+                </button>
+              </form>
+            </>
+          )}
+          {reset ? (
+            <>
+              {" "}
+              <button
+                className="btn"
+                onClick={() => {
+                  setReset(false);
+                }}
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
+            <>
+              {" "}
+              <small>
+                {" "}
+                Forgot password? Click{" "}
+                <strong
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setReset(true);
+                    sendResetEmail(logUser.email);
+                  }}
+                >
+                  Here
+                </strong>
+              </small>
+            </>
+          )}
         </div>
+
         <div
           className="login-form-image"
           style={{

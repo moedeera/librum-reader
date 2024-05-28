@@ -39,6 +39,7 @@ import DraftPage from "./Pages/DraftPage/DraftPage";
 import CreateStoryPage from "./Pages/CreateStoryPage/CreateStoryPage";
 import EditStoryPage from "./Pages/EditStoryPage/EditStoryPage";
 import { useEffect } from "react";
+import { ResetPassword } from "./Pages/ResetPassword/ResetPassword";
 
 function App() {
   const ScrollToTop2 = () => {
@@ -106,6 +107,7 @@ function App() {
                 <Route path="/user/:userid" element={<UserPage />} />
                 <Route path="/messages" element={<MessagesPage />} />
                 <Route path="/testing" element={<Testing />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
               </Routes>
             </ScrollToTop>
             <Footer />

@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithPopup,
+} from "firebase/auth";
 
 import { getStorage, ref } from "firebase/storage";
 // Follow this pattern to import other Firebase services
@@ -57,4 +62,15 @@ const signInWithGoogle = async () => {
   }
 };
 
-export { app, db, signInWithGoogle, storage };
+// Reset password
+const sendResetEmail = (email) => {
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      console.log("Password reset email sent!");
+    })
+    .catch((error) => {
+      console.error("Error sending password reset email:", error);
+    });
+};
+
+export { app, db, signInWithGoogle, storage, sendResetEmail };
