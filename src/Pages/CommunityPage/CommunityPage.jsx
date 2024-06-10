@@ -3,7 +3,7 @@ import { Block3 } from "../../Components/Block3/Block3";
 import { b3content, communityPageContent } from "../../Context/Content";
 import "./CommunityPage.css";
 
-export const CommunityPage = () => {
+const CommunityPage = () => {
   return (
     <div className="container community-page">
       <div className="community-page">
@@ -15,3 +15,5 @@ export const CommunityPage = () => {
     </div>
   );
 };
+
+export default CommunityPage;
