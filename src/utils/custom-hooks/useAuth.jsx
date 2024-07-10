@@ -77,6 +77,8 @@ export const useAuth = () => {
       })
       .catch((error) => {
         console.log("error code:", error.code, "error message:", error.message);
+        setLoading(false);
+        setError(true);
       });
   };
   // login/register with google

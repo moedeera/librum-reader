@@ -7,6 +7,7 @@ import googleIcon from "./google.svg";
 import { AuthContext } from "@/Context/AuthContext";
 import { useAuth } from "@/utils/custom-hooks/useAuth";
 import { sendResetEmail } from "../../../firebase-config";
+import { Loading } from "@/Components/Loading/Loading";
 
 export const LoginPage = () => {
   const { handleLogin, signInWithGoogleFunction, loading, error, setError } =
@@ -62,7 +63,13 @@ export const LoginPage = () => {
               Create a new one
             </Link>
           </small>
-          {!reset && (
+          {loading && !error && <Loading mini={true} />}
+          {error && (
+            <>
+              <h3>Sorry There was an Error, Please try again later</h3>
+            </>
+          )}
+          {!reset && !loading && !error && (
             <>
               <p>Email</p>
               <input
