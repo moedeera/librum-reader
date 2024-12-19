@@ -8,7 +8,7 @@ import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { SiteContext } from "@/Context/Context";
 
 export const SearchPage = () => {
-  const { storySummaries, setStorySummaries, paginationData, currentPage } =
+  const { storySummaries, setStorySummaries, currentPage } =
     useContext(SiteContext);
   const { searchWord } = useParams();
 
@@ -29,7 +29,7 @@ export const SearchPage = () => {
 
   useEffect(() => {
     const getSummaries = async () => {
-      console.log("called");
+      // console.log("called");
       if (searchWord === "all" || searchWord === "") {
         console.log("condition 1 ");
         try {
@@ -71,7 +71,8 @@ export const SearchPage = () => {
   return (
     <div className="container standard-page">
       <div className="page-header">
-        <h3>Stories</h3>
+        <h3>Stories </h3>
+        {/* <div className="btn">Fetch More</div> */}
       </div>
       <div className="search-page">
         {storySummaries.length > 0 ? (
@@ -105,10 +106,6 @@ export const SearchPage = () => {
                   pageButton.page,
                   ", search-term:",
                   searchWord
-                );
-                fetchTheNextSetOfSummaries(
-                  searchWord,
-                  lastVisibleFilteredSummary
                 );
               }}
             >

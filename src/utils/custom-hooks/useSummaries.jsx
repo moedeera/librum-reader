@@ -35,7 +35,7 @@ export const useSummaries = () => {
   const fetchSummaries = async () => {
     setLoading(true);
     setError(null);
-    const q = query(summariesCollection);
+
     try {
       const q = query(summariesCollection, orderBy("views", "desc"), limit(8));
       const snapshot = await getDocs(q);
@@ -60,44 +60,45 @@ export const useSummaries = () => {
   };
   //Fetch filtered summaries
   const fetchFilteredSummaries = async (keyword) => {
+    console.log(keyword);
     setLoading(true);
     setError(null);
 
-    const q = query(
-      summariesCollection,
-      where("keywords", "array-contains", keyword)
-    );
-    const snapshotTotal = await getDocs(q); // Query to fetch all for counting
-    // Set the total number of items matching the search
-    setTotal(snapshotTotal.docs.length);
-    console.log(snapshotTotal.docs.length);
     try {
-      const summariesRef = collection(db, "summaries");
-
       const q = query(
-        summariesRef,
+        summariesCollection,
         where("keywords", "array-contains", keyword),
+        orderBy("dateCreated"), // Optional: Ensure consistent order
         limit(8)
       );
       const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        console.log("non matching");
+        setSummaries([]);
+        setLastVisibleFilteredSummary(null);
+        setTotal(0);
+        return [];
+      }
 
       const fetchedSummaries = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      if (fetchedSummaries.length > 0) {
-        setSummaries(fetchedSummaries);
-        setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
-      }
+      setSummaries(fetchedSummaries);
+      setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
+      setTotal(snapshot.size); // Update the total based on snapshot size
       return fetchedSummaries;
     } catch (err) {
       console.error("Error fetching filtered summaries:", err);
       setError(err.message);
+      return [];
     } finally {
       setLoading(false);
     }
   };
+
   // Fetch next page of filtered summaries
   const fetchTheNextSetOfSummaries = async (searchWord, lastVisibleItem) => {
     setLoading(true);

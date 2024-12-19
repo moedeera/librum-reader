@@ -113,7 +113,7 @@ export const Stories = () => {
           <h3>
             {" "}
             <span style={{ textTransform: "capitalize" }}>{search}</span>{" "}
-            Stories
+            Stories?
           </h3>
         ) : (
           <h3>
