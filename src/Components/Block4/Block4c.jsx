@@ -5,7 +5,7 @@ import { SiteContext } from "../../Context/Context";
 import { summarizeParagraph } from "../../assets/images/images";
 
 // eslint-disable-next-line react/prop-types
-export const Block4 = ({ summaries, showingAmount }) => {
+export const Block4c = ({ summaries, showingAmount }) => {
   function processNumber(num) {
     if (num <= 200) {
       return 1;
@@ -67,7 +67,7 @@ export const Block4 = ({ summaries, showingAmount }) => {
                   }}
                 ></Link>
 
-                <small>{item.category}</small>
+                <small className="block-4-tag">{item.category}</small>
 
                 <Link to={`/user/${item.authorLink}`}>
                   <small className="block-4-author-small">

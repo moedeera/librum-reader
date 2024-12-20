@@ -3,17 +3,23 @@ import "./SearchPage.css";
 import { Loading } from "../../Components/Loading/Loading";
 
 import { Link, useParams } from "react-router-dom";
-import { Block4 } from "../../Components/Block4/Block4";
+
 import { useSummaries } from "@/utils/custom-hooks/useSummaries";
 import { SiteContext } from "@/Context/Context";
+import { Block4c } from "@/Components/Block4/Block4c";
 
 export const SearchPage = () => {
   const { storySummaries, setStorySummaries, currentPage } =
     useContext(SiteContext);
   const { searchWord } = useParams();
 
-  const { loading, total, fetchSummaries, fetchFilteredSummaries } =
-    useSummaries();
+  const {
+    loading,
+    total,
+    fetchSummaries,
+    fetchFilteredSummaries,
+    fetchNextSetOfSummaries,
+  } = useSummaries();
 
   // page index buttons
   let pageButtons = [];
@@ -26,6 +32,16 @@ export const SearchPage = () => {
       pageButtons.push({ id: j, page: j });
     }
   }
+
+  const getNextSet = async () => {
+    try {
+      const newSummaries = await fetchNextSetOfSummaries();
+      setStorySummaries(newSummaries);
+      console.log(newSummaries);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const getSummaries = async () => {
@@ -72,13 +88,20 @@ export const SearchPage = () => {
     <div className="container standard-page">
       <div className="page-header">
         <h3>Stories </h3>
-        {/* <div className="btn">Fetch More</div> */}
+        <div
+          className="btn"
+          onClick={() => {
+            getNextSet();
+          }}
+        >
+          Fetch More
+        </div>
       </div>
       <div className="search-page">
         {storySummaries.length > 0 ? (
           <>
             {" "}
-            <Block4 summaries={storySummaries} loading={loading} />
+            <Block4c summaries={storySummaries} loading={loading} />
           </>
         ) : (
           <>

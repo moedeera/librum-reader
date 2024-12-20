@@ -58,6 +58,47 @@ export const useSummaries = () => {
       setLoading(false);
     }
   };
+  const fetchNextSetOfSummaries = async () => {
+    if (!lastVisibleSummary) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const q = query(
+        summariesCollection,
+        orderBy("views", "desc"),
+        startAfter(lastVisibleSummary),
+        limit(8)
+      );
+
+      const snapshot = await getDocs(q);
+
+      const fetchedSummaries = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      if (fetchedSummaries.length > 0) {
+        setSummaries((prevSummaries) => [
+          ...prevSummaries,
+          ...fetchedSummaries,
+        ]);
+        setLastVisibleSummary(snapshot.docs[snapshot.docs.length - 1]);
+        setTotal((prevTotal) => prevTotal + snapshot.docs.length);
+      }
+      setLoading(false);
+      let newSummaries = [...summaries, ...fetchedSummaries];
+      setSummaries(newSummaries);
+      console.log("next set of summaries :", newSummaries);
+      return newSummaries;
+    } catch (err) {
+      console.error("Error fetching next set of summaries:", err);
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
   //Fetch filtered summaries
   const fetchFilteredSummaries = async (keyword) => {
     console.log(keyword);
@@ -94,38 +135,6 @@ export const useSummaries = () => {
       console.error("Error fetching filtered summaries:", err);
       setError(err.message);
       return [];
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch next page of filtered summaries
-  const fetchTheNextSetOfSummaries = async (searchWord, lastVisibleItem) => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const summariesRef = collection(db, "summaries");
-      const q = query(
-        summariesRef,
-        where("keywords", "array-contains", searchWord),
-        startAfter(lastVisibleItem),
-        limit(8)
-      );
-      const snapshot = await getDocs(q);
-
-      const fetchedSummaries = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      if (fetchedSummaries.length > 0) {
-        setSummaries(fetchedSummaries);
-        setLastVisibleFilteredSummary(snapshot.docs[snapshot.docs.length - 1]);
-      }
-    } catch (err) {
-      console.error("Error fetching next set of summaries:", err);
-      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -231,7 +240,7 @@ export const useSummaries = () => {
     fetchSummaries,
     fetchFilteredSummaries,
     filteredSummaries,
-    fetchTheNextSetOfSummaries,
+    fetchNextSetOfSummaries,
     lastVisibleFilteredSummary,
     deleteSummary,
   };
