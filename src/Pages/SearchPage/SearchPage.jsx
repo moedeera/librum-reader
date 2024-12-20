@@ -88,13 +88,27 @@ export const SearchPage = () => {
     <div className="container standard-page">
       <div className="page-header">
         <h3>Stories </h3>
-        <div
-          className="btn"
-          onClick={() => {
-            getNextSet();
-          }}
-        >
-          Fetch More
+      </div>
+      {/* <div className="search-page-filter">
+        <p>Filter by Category:</p>
+        <div className="search-page-tags-container">
+          {" "}
+          {tags.map((tag, index) => (
+            <Link to={`/browse/${tag}`} key={index} className="search-page-tag">
+              {tag}
+            </Link>
+          ))}
+        </div>
+      </div> */}
+      <div className="search-page-filter">
+        <p>Filter by Category:</p>
+        <div className="search-page-tags-container">
+          {" "}
+          {tags.map((tag, index) => (
+            <div key={index} className="search-page-tag">
+              {tag}
+            </div>
+          ))}
         </div>
       </div>
       <div className="search-page">
@@ -108,12 +122,30 @@ export const SearchPage = () => {
             <h4>Sorry, No stories matching that keyword</h4>
           </>
         )}
-
-        <div>
-          Showing {storySummaries.length} of {total} results
+        <div className="load-more-container">
+          {" "}
+          {storySummaries.length === total ? (
+            "No more results"
+          ) : (
+            <>
+              {" "}
+              <div
+                className="btn"
+                onClick={() => {
+                  getNextSet();
+                }}
+              >
+                Load More {total}
+              </div>
+            </>
+          )}{" "}
         </div>
 
-        <div className="page-button-container">
+        {/* <div>
+          Showing {storySummaries.length} of {total} results
+        </div> */}
+
+        {/* <div className="page-button-container">
           {" "}
           {pageButtons.map((pageButton) => (
             <div
@@ -135,23 +167,7 @@ export const SearchPage = () => {
               {pageButton.page}
             </div>
           ))}
-        </div>
-
-        <div className="search-page-filter">
-          <p>Categories:</p>
-          <div className="search-page-tags-container">
-            {" "}
-            {tags.map((tag, index) => (
-              <Link
-                to={`/browse/${tag}`}
-                key={index}
-                className="search-page-tag"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
