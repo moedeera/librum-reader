@@ -95,7 +95,11 @@ export const SearchPage = () => {
           {topTags.map((tag, index) => (
             <div
               key={index}
-              className="search-page-tag"
+              className={
+                selectedTag === tag.name
+                  ? "search-page-tag search-page-tag-selected "
+                  : "search-page-tag"
+              }
               onClick={() => {
                 if (selectedTag !== tag.name) {
                   const filteredSummaries = filterObjectsByString(
@@ -128,7 +132,7 @@ export const SearchPage = () => {
         )}
         <div className="load-more-container">
           {" "}
-          {storySummaries.length === total ? (
+          {storySummaries.length === total || selectedTag ? (
             "No more results"
           ) : (
             <>

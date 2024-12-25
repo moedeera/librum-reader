@@ -36,6 +36,9 @@
 .search-page-filter {
   width: 100%;
 }
+.search-page-tag-selected {
+  background-color: gray;
+}
 
 @media only screen and (min-width: 600px) {
   .search-page-tag,
