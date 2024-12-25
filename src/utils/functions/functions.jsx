@@ -266,6 +266,44 @@ function countWordsInString(inputString) {
   // Return the number of words, filtering out any empty strings that may result from leading/trailing spaces.
   return words.filter((word) => word.length > 0).length;
 }
+function getTopTags(data) {
+  const tagCounts = {};
+
+  // Count occurrences of each tag (case-insensitive)
+  data.forEach((item) => {
+    item.tags.forEach((tag) => {
+      const lowerTag = tag.toLowerCase();
+      tagCounts[lowerTag] = (tagCounts[lowerTag] || 0) + 1;
+    });
+  });
+
+  // Convert the tag counts object into an array of objects
+  const sortedTags = Object.entries(tagCounts)
+    .map(([name, occurrence]) => ({ name, occurrence }))
+    .sort((a, b) => b.occurrence - a.occurrence)
+    .slice(0, 8);
+
+  return sortedTags;
+}
+
+function filterObjectsByString(data, searchString) {
+  const lowerSearch = searchString.toLowerCase();
+
+  return data.filter((item) =>
+    Object.values(item).some((value) => {
+      if (Array.isArray(value)) {
+        // Check if the array contains the search string (case-insensitive)
+        return value.some(
+          (v) => typeof v === "string" && v.toLowerCase().includes(lowerSearch)
+        );
+      } else if (typeof value === "string") {
+        // Check if the string contains the search string (case-insensitive)
+        return value.toLowerCase().includes(lowerSearch);
+      }
+      return false; // Ignore non-string values
+    })
+  );
+}
 
 export {
   checkURLAvailability,
@@ -279,4 +317,6 @@ export {
   getWordCount,
   generateTags,
   countWordsInString,
+  filterObjectsByString,
+  getTopTags,
 };

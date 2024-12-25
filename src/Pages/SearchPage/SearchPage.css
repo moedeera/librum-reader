@@ -23,6 +23,9 @@
   padding: 5px;
   border-radius: 3px;
   color: white !important;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-size: xx-small;
 }
 
 .load-more-container {
@@ -34,6 +37,13 @@
   width: 100%;
 }
 
+@media only screen and (min-width: 600px) {
+  .search-page-tag,
+  .search-page-tag a,
+  .search-page-tag a:visited {
+    font-size: small;
+  }
+}
 @media only screen and (min-width: 1100px) {
   .search-page-filter {
     width: 95%;
