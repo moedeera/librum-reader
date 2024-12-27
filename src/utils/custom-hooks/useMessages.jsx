@@ -23,7 +23,6 @@ export const useMessages = () => {
         name,
         email,
         message,
-
         timestamp: Date.now(),
       };
       await addDoc(messagesRef, newMessage);
